@@ -30,23 +30,23 @@ class App extends Component {
     } = this.state;
 
     return (
-      <div className="App">
-        <div className="row" style={{backgroundColor: 'yellow',margin:"1%",height:"15vh"}}>
+      <div className="App" style={{backgroundColor:"#eee"}}>
+        <div className="row" style={{backgroundColor: 'yellow',margin:"0.5%",height:"15vh"}}>
           {/* Control the column width, and how they should appear on different devices */}
 
             Quảng cáo 1
         </div>
 
-        <div className="row" style={{backgroundColor: 'red',marginTop:"1%",marginLeft:"1%",marginRight:"1%"}}>
-              <div className="col-sm-1" style={{backgroundColor: 'yellow',height:"100vh"}}>
+        <div className="row" style={{backgroundColor: 'red',marginTop:"0.5%",marginLeft:"0.5%",marginRight:"0.5%"}}>
+              <div className="col-sm-1" style={{backgroundColor: 'yellow',height:"120vh"}}>
                 Quảng cáo 2
               </div>
-              <div className="col-sm-10" style={{backgroundColor: 'blue',height:"100vh"}}>
-              <div className="row" style={{backgroundColor: 'red',height:"10vh"}}>
-                <div className="col-sm-2" style={{backgroundColor: 'yellow',height:"9vh"}}>
+              <div className="col-sm-10" style={{backgroundColor: 'blue',height:"120vh"}}>
+              <div className="row" style={{backgroundColor: 'rgba(63, 116, 191, 0.26)',height:"10vh"}}>
+                <div className="col-sm-2" style={{height:"10vh"}}>
                   <h3>SERVICY</h3>
                 </div>
-                <div className="col-sm-2" style={{backgroundColor: 'green',height:"9vh"}}>
+                <div className="col-sm-2" style={{height:"10vh"}}>
                   <div className="row-sm-4" style={{paddingTop:"2%"}}>
                     <label>Địa điểm </label> 
                   </div>
@@ -60,7 +60,7 @@ class App extends Component {
                   
                 
                 </div>
-                <div className="col-sm-2" style={{backgroundColor: 'yellow',height:"9vh"}}>
+                <div className="col-sm-2" style={{height:"10vh"}}>
                   <div className="row-sm-4" style={{paddingTop:"2%"}}>
                       <label> Loại dịch vụ </label> 
                     </div>
@@ -72,7 +72,7 @@ class App extends Component {
                       </Select>
                     </div>
                 </div>
-                <div className="col-sm-4" style={{backgroundColor: 'purple',height:"9vh",padding:"1%"}}>
+                <div className="col-sm-4" style={{height:"10vh",padding:"1%"}}>
                 <div className="search">
                   <input type="text" className="searchTerm" placeholder="bạn đang tìm gì " />
                   <button type="submit" className="searchButton">
@@ -81,16 +81,16 @@ class App extends Component {
                 </div>
 
                 </div>
-                <div className="col-sm-2" style={{backgroundColor: 'lavender',height:"9vh"}}>
-                  <div className="row-sm-6" style={{padding:"1%"}}>
-                    <Button variant="contained" color="primary" style={{width:"60%",height:"45%",fontSize:"12px"}}>
+                <div className="col-sm-2" style={{height:"10vh"}}>
+                  <div className="row-sm-6" style={{padding:"1%",height:"4.5vh"}}>
+                    <Button variant="contained" color="primary" style={{width:"60%",height:"80%",fontSize:"60%"}}>
                     ĐĂNG KÝ
                   </Button>
                   </div>
                 
-                  <div className="row-sm-6" style={{padding:"1%"}}>
-                    <Button variant="contained" color="primary" style={{width:"60%",height:"45%",fontSize:"12px"}}>
-                    ĐĂNG NHẬP 
+                  <div className="row-sm-6" style={{padding:"1%",height:"4.5vh"}}>
+                    <Button variant="contained" color="primary" style={{width:"60%",height:"80%",fontSize:"60%"}}>
+                    ĐĂNG NHẬP
                   </Button>
                   </div>
                 </div>
@@ -132,39 +132,43 @@ class App extends Component {
               <div className="row" style={{backgroundColor: 'blue',height:"7vh"}}>
                 <h3>TOP DỊCH VỤ TỐT NHẤT</h3>
               </div>
-              <div className="row" style={{backgroundColor: 'red',height:"33vh"}}>
+              <div className="row" style={{backgroundColor: 'red',height:"53vh",padding:"2vh"}}>
                     <div className="col-sm-1"></div>
-                    <div className="col-sm-3" style={{backgroundColor: 'green',marginLeft:"1%",marginRight:"1%",height:"32vh"}}>
-                      <article>
-                        <h1>Mì quảng Cô Ba</h1>
-                        <img src="img/tin3.jpg"style={{width:"100%",height:"100px"}} ></img>
-                        <p > <b>Địa chỉ</b>: 166 Trần Văn Quang, phường 10, Quận Tân Bình, TPHCM</p>
-                        <p > <b>Rating</b>: 3.5</p>
-                      </article>
+                    <div className="col-sm-3" style={{backgroundColor: 'green',marginLeft:"1%",marginRight:"1%",height:"40vh"}}>
+      
+                        <h1 style={{fontSize:"30px",whiteSpace:"nowrap",overflow:'hidden',textOverflow:"ellipsis"}}>Mì quảng Cô Ba jlkajsd;lkfjsad;lf </h1>
+                        <img src="img/tin3.jpg"style={{width:"100%",height:"40%"}} ></img>
+                          <p style={{whiteSpace:"nowrap",overflow:'hidden',textOverflow:"ellipsis"}}> 
+                            <b>Địa chỉ</b>: 166 Trần Văn Quang, phường 10, Quận Tân Bình, TPHCM <br></br>
+                            <b>Rating</b>: 3.5
+                          </p>
                     </div>
-                    <div className="col-sm-3" style={{backgroundColor: 'green',marginLeft:"1%",marginRight:"1%",height:"32vh"}}>
-                      <article>
-                        <h1>Mì quảng Cô Ba</h1>
-                        <img src="img/tin3.jpg"style={{width:"100%",height:"100px"}} ></img>
-                        <p > <b>Địa chỉ</b>: 166 Trần Văn Quang, phường 10, Quận Tân Bình, TPHCM</p>
-                        <p > <b>Rating</b>: 3.5</p>
-                      </article>
+                    <div className="col-sm-3" style={{backgroundColor: 'green',marginLeft:"1%",marginRight:"1%",height:"40vh"}}>
+      
+                        <h1 style={{fontSize:"30px",whiteSpace:"nowrap",overflow:'hidden',textOverflow:"ellipsis"}}>Mì quảng Cô Ba jlkajsd;lkfjsad;lf </h1>
+                        <img src="img/tin3.jpg"style={{width:"100%",height:"40%"}} ></img>
+                          <p style={{whiteSpace:"nowrap",overflow:'hidden',textOverflow:"ellipsis"}}> 
+                            <b>Địa chỉ</b>: 166 Trần Văn Quang, phường 10, Quận Tân Bình, TPHCM <br></br>
+                            <b>Rating</b>: 3.5
+                          </p>
                     </div>
-                    <div className="col-sm-3" style={{backgroundColor: 'green',marginLeft:"1%",marginRight:"1%",height:"32vh"}}>
-                      <article>
-                        <h1>Mì quảng Cô Ba</h1>
-                        <img src="img/tin3.jpg"style={{width:"100%",height:"100px"}} ></img>
-                        <p > <b>Địa chỉ</b>: 166 Trần Văn Quang, phường 10, Quận Tân Bình, TPHCM</p>
-                        <p > <b>Rating</b>: 3.5</p>
-                      </article>
+                    <div className="col-sm-3" style={{backgroundColor: 'gray',marginLeft:"1%",marginRight:"1%",height:"40vh",boxShadow:"5px 5px ",borderRadius:"5px"}}>
+      
+                        <h1 style={{fontSize:"30px",whiteSpace:"nowrap",overflow:'hidden',textOverflow:"ellipsis"}}>Mì quảng Cô Ba jlkajsd;lkfjsad;lf </h1>
+                        <img src="img/tin3.jpg"style={{width:"100%",height:"40%"}} ></img>
+                          <p style={{whiteSpace:"nowrap",overflow:'hidden',textOverflow:"ellipsis"}}> 
+                            <b>Địa chỉ</b>: 166 Trần Văn Quang, phường 10, Quận Tân Bình, TPHCM <br></br>
+                            <b>Rating</b>: 3.5
+                          </p>
                     </div>
+                    
                     <div className="col-sm-1"></div>
 
               </div>
 
               </div>
         
-              <div className="col-sm-1" style={{backgroundColor: 'green',height:"100vh"}}>
+              <div className="col-sm-1" style={{backgroundColor: 'green',height:"120vh"}}>
                     Quảng cáo 3
               </div>
         </div>
