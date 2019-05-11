@@ -17,9 +17,10 @@ router.get('/services/best', function(req, res, next) {
     });
 });
 router.get('/services', function(req, res , next) {
-    const {locationName, serviceType, filterText} = req.query;
+    const {locationName, serviceType, filterText,status} = req.query;
     ServiceModel.find({})
     .populate('category_id')
+    .populate('info.location_id')
     .exec((err, docs) =>{
         if (err){
             res.status(500).send("Internal server error " + err);
@@ -38,6 +39,10 @@ router.get('/services', function(req, res , next) {
 
                 if (service.category_id !== null && serviceType!==undefined){
                     filterCondition = filterCondition && matchName(service.category_id.name,serviceType) 
+                }
+                
+                if (status!==undefined){
+                    filterCondition=filterCondition&&(service.status==status)
                 }
 
                 if (filterCondition) {
