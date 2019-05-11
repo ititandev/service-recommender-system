@@ -4,6 +4,6 @@ const AdTypeSchema = new Schema({
     name: String,
     max_views: Number
 });
-const AdTypeModel = mongoose.model('ad_types', AdTypeSchema);
+const AdTypeModel = mongoose.model('adtypes', AdTypeSchema);
 
 module.exports = AdTypeModel
