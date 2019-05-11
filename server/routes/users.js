@@ -71,7 +71,8 @@ router.post('/signup', (req, res) => {
       "password": req.body.password,
       "firstname": req.body.firstname,
       "lastname": req.body.lastname,
-      "role": "user"
+      "role": "user",
+      "avatar": req.body.avatar
     })
 
     user.save(function (err, doc, numbersAffected) {
