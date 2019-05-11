@@ -141,6 +141,40 @@ router.get('/services/:id', function (req, res, next) {
     });
 });
 
+router.get('/servicetypes', function (req, res, next) {
+    ServiceTypeModel.find((err, data) => {
+        if (err) {
+            return res.json({ 
+                success: false, 
+                message: "error" });
+        }
+        return res.json({ 
+            success: true, 
+            message: "Find service Types", 
+            data: data.filter(item => item.name) 
+        })
+    })
+
+});
+
+mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
+router.get('/locations', function (req, res, next) {
+    LocationModel.find((err, data) => {
+        if (err) {
+            return res.json({ 
+                success: false, 
+                message: "error" 
+            });
+        }
+        return res.json({ 
+            success: true, 
+            message: "found locations", 
+            data: data.filter(item => item.name) 
+        })
+    })
+
+});
+
 router.post('/comments', (req, res) => {
     verifyJWTToken(req.header("Authorization")).then(
         (payload) => {

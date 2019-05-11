@@ -7,8 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var servicesRouter = require('./routes/services');
-var servicetypesRouter = require('./routes/servicetypes');
-var locationRouter=require('./routes/locations');
+var adsRouter = require('./routes/ads');
+
 var app = express();
 
 // view engine setup
@@ -24,15 +24,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/', servicesRouter);
-app.use('/', servicetypesRouter);
-app.use('/', locationRouter);
+app.use('/', adsRouter);
+
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
