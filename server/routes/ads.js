@@ -30,7 +30,20 @@ router.get('/ads', function (req, res, next) {
                 data: data
             })
         })
+});
 
+router.get('/adtypes', function (req, res, next) {
+    AdTypeModel.find((err, data) => {
+        if (err)
+            return res.json({
+                success: false,
+                message: "Some error happen"
+            });
+        return res.json({
+            success: true,
+            data: data
+        })
+    })
 });
 
 router.post('/ads', function (req, res, next) {
