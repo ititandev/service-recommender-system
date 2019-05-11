@@ -15,7 +15,7 @@ const ServiceSchema=new Schema({
             date_time: Date,
             replies:[
                 {
-                    user_id: Schema.Types.ObjectId,
+                    user_id: Schema.Types.ObjectId, // TODO: add ref
                     content: String,
                     date_time: Date
                 }
@@ -23,11 +23,18 @@ const ServiceSchema=new Schema({
         }
     ],
     info:{
-        location_id: Schema.Types.ObjectId
+        location_id: {type: Schema.Types.ObjectId, ref: 'locations'} ,
+        address: String,
+        price: String,
+        website: String,
+        content: String
     },
     images:[String],
-    provider_id: Schema.Types.ObjectId,
-    category_id: Schema.Types.ObjectId
+    provider_id: Schema.Types.ObjectId, // TODO: add ref
+    category_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'service_types'
+    } 
 });
 const ServiceModel = mongoose.model('services',ServiceSchema);
 
