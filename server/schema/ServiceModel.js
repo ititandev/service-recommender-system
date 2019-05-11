@@ -10,12 +10,12 @@ const ServiceSchema=new Schema({
     },
     comments:[
         {
-            user_id: Schema.Types.ObjectId,
+            user_id: {type:Schema.Types.ObjectId,ref:'users'},
             content: String,
             date_time: Date,
             replies:[
                 {
-                    user_id: Schema.Types.ObjectId, // TODO: add ref
+                    user_id: {type:Schema.Types.ObjectId,ref:'users'}, // TODO: add ref
                     content: String,
                     date_time: Date
                 }
@@ -30,7 +30,7 @@ const ServiceSchema=new Schema({
         content: String
     },
     images:[String],
-    provider_id: Schema.Types.ObjectId, // TODO: add ref
+    provider_id: {type:Schema.Types.ObjectId,ref:'users'}, // TODO: add ref
     category_id: {
         type: Schema.Types.ObjectId,
         ref: 'service_types'

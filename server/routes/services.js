@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const {matchName} = require('./utils');
 const ServiceModel = require('../schema/ServiceModel')
 const ServiceTypeModel =require('../schema/ServiceTypeModel');
-const LocationModel=require('../schema/LocationModel');
+// const LocationModel=require('../schema/LocationModel');
+const UserModel=require('../schema/UserModel');
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', {useNewUrlParser: true});
 
 router.get('/services/best', function(req, res, next) {
@@ -19,7 +20,6 @@ router.get('/services', function(req, res , next) {
     const {locationName, serviceType, filterText} = req.query;
     ServiceModel.find({})
     .populate('category_id')
-    .populate('info.location_id')
     .exec((err, docs) =>{
         if (err){
             res.status(500).send("Internal server error " + err);
@@ -60,6 +60,9 @@ router.get('/services/:id', function(req, res , next) {
     ServiceModel.find({})
     .populate('category_id')
     .populate('info.location_id')
+    .populate('provider_id')
+    .populate('comments.user_id')
+    .populate('comments.replies.user_id')
     .exec((err, docs) =>{
         if (err){
             res.status(500).send("Internal server error " + err);
