@@ -9,18 +9,7 @@ const ServiceSchema=new Schema({
         points: Number
     },
     comments:[
-        {
-            user_id: {type:Schema.Types.ObjectId,ref:'users'},
-            content: String,
-            date_time: Date,
-            replies:[
-                {
-                    user_id: {type:Schema.Types.ObjectId,ref:'users'}, 
-                    content: String,
-                    date_time: Date
-                }
-            ]
-        }
+        {type:Schema.Types.ObjectId,ref:'comments'}
     ],
     info:{
         location_id: {type: Schema.Types.ObjectId, ref: 'locations'} ,
