@@ -9,25 +9,23 @@ const ServiceSchema=new Schema({
         points: Number
     },
     comments:[
-        {
-            user_id: Schema.Types.ObjectId,
-            content: String,
-            date_time: Date,
-            replies:[
-                {
-                    user_id: Schema.Types.ObjectId,
-                    content: String,
-                    date_time: Date
-                }
-            ]
-        }
+        {type:Schema.Types.ObjectId,ref:'comments'}
     ],
     info:{
-        location_id: Schema.Types.ObjectId
+        location_id: {type: Schema.Types.ObjectId, ref: 'locations'} ,
+        address: String,
+        price: String,
+        website: String,
+        content: String
     },
     images:[String],
-    provider_id: Schema.Types.ObjectId,
-    category_id: Schema.Types.ObjectId
+    provider_id: {type:Schema.Types.ObjectId,ref:'users'}, 
+    category_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'service_types'
+    },
+    status: String
+
 });
 const ServiceModel = mongoose.model('services',ServiceSchema);
 
