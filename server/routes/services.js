@@ -27,7 +27,7 @@ router.get('/services', function (req, res, next) {
         .populate('info.location_id')
         .populate({
             path: 'provider_id',
-            select: 'firstname lastname avatar'
+            select: '_id firstname lastname avatar'
         })
         .populate({
             path: "comments",
@@ -38,7 +38,7 @@ router.get('/services', function (req, res, next) {
                 populate: {
                     path: "user_id",
                     model: "users",
-                    select: "firstname lastname avatar"
+                    select: "_id firstname lastname avatar"
                 }
             }
         })
@@ -48,7 +48,7 @@ router.get('/services', function (req, res, next) {
             populate: {
                 path: "user_id",
                 model: "users",
-                select: "firstname lastname avatar"
+                select: "_id firstname lastname avatar"
             }
         })
         .exec((err, docs) => {

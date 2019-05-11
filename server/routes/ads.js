@@ -17,7 +17,7 @@ router.get('/ads', function (req, res, next) {
     AdModel.find({ status: "running" })
         .limit(limit)
         .populate('adtype')
-        .populate('provider_id')
+        .populate('provider', '_id firstname lastname avatar')
         .exec((err, data) => {
             if (err) {
                 console.log(err)
