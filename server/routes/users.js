@@ -24,15 +24,15 @@ router.get('/users', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-  console.log({"email": req.body.email, "password": req.body.password})
-  UserModel.find({"email": req.body.email, "password": req.body.password},(err, data) => {
+  console.log({ "email": req.body.email, "password": req.body.password })
+  UserModel.find({ "email": req.body.email, "password": req.body.password }, (err, data) => {
     if (err) {
       return res.json({
         success: false,
         message: "Some error happen"
       });
     }
-    console.log(data)
+    // console.log(data)
     if (data.length != 1) {
       return res.json({
         success: false,
@@ -51,13 +51,42 @@ router.post('/login', function (req, res, next) {
     })
   })
 
-
-
 })
 
-router.get('/signup', function (req, res, next) {
+router.post('/signup', (req, res) => {
+  UserModel.find({ "email": req.body.email }, (err, data) => {
+    if (err) {
+      return res.json({
+        success: false,
+        message: "Some error happen"
+      });
+    }
+    if (data.length > 0)
+      return res.json({
+        success: false,
+        message: "User exists"
+      });
+    user = new UserModel({
+      "email": req.body.email,
+      "password": req.body.password,
+      "firstname": req.body.firstname,
+      "lastname": req.body.lastname,
+      "role": "user"
+    })
 
-
+    user.save(function (err, doc, numbersAffected) {
+      if (err)
+        return res.json({
+          success: false,
+          message: "Some error happen"
+        });
+      return res.json({
+        "success": true,
+        "message": "Create new user successfully",
+        "data": user
+      })
+    })
+  })
 })
 
 router.get('/checktoken/:token', function (req, res, next) {
