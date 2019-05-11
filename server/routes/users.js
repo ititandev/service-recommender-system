@@ -24,7 +24,6 @@ router.get('/users', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-  console.log({ "email": req.body.email, "password": req.body.password })
   UserModel.find({ "email": req.body.email, "password": req.body.password }, (err, data) => {
     if (err) {
       return res.json({
@@ -32,17 +31,18 @@ router.post('/login', function (req, res, next) {
         message: "Some error happen"
       });
     }
-    // console.log(data)
+
     if (data.length != 1) {
       return res.json({
         success: false,
         message: "Email or password is wrong"
       });
     }
+    
     token = createJWToken({
-      sessionData: 1,
-      maxAge: 604800
-    })
+      uid: data[0]._id,
+      role: data[0].role
+    }, 604800)
     res.set("Authorization", token)
     return res.json({
       "success": true,
@@ -93,7 +93,7 @@ router.post('/signup', (req, res) => {
 router.get('/checktoken/:token', function (req, res, next) {
   verifyJWTToken(req.param("token")).then(
     (any) => {
-      res.send("dung cmnr")
+      res.json(any)
     },
     (err) => {
       res.send("nhu cc")
