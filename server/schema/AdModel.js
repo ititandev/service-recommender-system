@@ -6,7 +6,7 @@ const AdvertisementSchema = new Schema({
     banner: String,
     url: String,
     name: String,
-    data_time: Date,
+    data_time: { type: Date, default: Date.now },
     adtype: { type: Schema.Types.ObjectId, ref: 'adtypes' },
     views: Number
 });

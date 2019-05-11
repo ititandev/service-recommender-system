@@ -55,9 +55,39 @@ router.get('/adtypes', function (req, res, next) {
 });
 
 router.post('/ads', function (req, res, next) {
-    new AdModel({
 
-    })
+    verifyJWTToken(req.header("Authorization")).then(
+        (payload) => {
+            uid = payload.uid;
+            role = payload.role;
+            if (role != "provider")
+                return res.json({
+                    success: false,
+                    message: "Authentication failed"
+                });
+
+            ad = new AdModel({
+                provider_id: uid,
+                status: "pending",
+                banner: req.body.banner,
+                url: req.body.url,
+                name: req.body.name,
+                adtype: req.body.adtype,
+                views: 0
+            })
+
+            ad.save()
+            return res.json({
+                success: true,
+                data: ad
+            })
+        },
+        (err) => {
+            return res.json({
+                success: false,
+                message: "Authentication failed"
+            });
+        })
 });
 
 
