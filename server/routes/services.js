@@ -1,19 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-const {matchName} = require('./utils');
+const { matchName } = require('./utils');
 const ServiceModel = require('../schema/ServiceModel')
-const ServiceTypeModel =require('../schema/ServiceTypeModel');
+const ServiceTypeModel = require('../schema/ServiceTypeModel');
 // const LocationModel=require('../schema/LocationModel');
-const UserModel=require('../schema/UserModel');
-mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', {useNewUrlParser: true});
+const UserModel = require('../schema/UserModel');
+const { createJWToken, verifyJWTToken } = require('../auth.js');
 
-router.get('/services/best', function(req, res, next) {
-    ServiceModel.find({},{rating: 1, avatar: 1, description: 1, name: 1}).then(services => {
-        services = services.sort((a, b) => a.rating.points/a.rating.total < b.rating.points/b.rating.total).slice(0, 3);
-        res.json({success: true,message:"Find best services",data:services});
+mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
+
+router.get('/services/best', function (req, res, next) {
+    ServiceModel.find({}, { rating: 1, avatar: 1, description: 1, name: 1 }).then(services => {
+        services = services.sort((a, b) => a.rating.points / a.rating.total < b.rating.points / b.rating.total).slice(0, 3);
+        res.json({ success: true, message: "Find best services", data: services });
     }).catch(err => {
-        res.json({success:false,message:"error"});
+        res.json({ success: false, message: "error" });
     });
 });
 router.get('/services', function(req, res , next) {
@@ -33,9 +35,9 @@ router.get('/services', function(req, res , next) {
                 matchName(service.info.website,filterText) ||
                 matchName(service.info.content,filterText);
 
-                if (service.info.location_id !== null && locationName!==undefined) {
-                    filterCondition = filterCondition && matchName(service.info.location_id.name,locationName) 
-                }
+                    if (service.info.location_id !== null && locationName !== undefined) {
+                        filterCondition = filterCondition && matchName(service.info.location_id.name, locationName)
+                    }
 
                 if (service.category_id !== null && serviceType!==undefined){
                     filterCondition = filterCondition && matchName(service.category_id.name,serviceType) 
@@ -45,50 +47,86 @@ router.get('/services', function(req, res , next) {
                     filterCondition=filterCondition&&(service.status==status)
                 }
 
-                if (filterCondition) {
-                    result.push(service);
+                    if (filterCondition) {
+                        result.push(service);
+                    }
+                }
+
+                if (result.length < 1) {
+                    res.json({ success: false, data: result, message: "Result not found" })
+                } else {
+                    res.json({ success: true, data: result, message: "Found result" });
                 }
             }
-
-            if (result.length < 1) {
-                res.json({success:false,data:result,message:"Result not found"})
-            } else {
-                res.json({success: true,data: result,message:"Found result"});
-            }
-        }
-    });
+        });
 });
 
-router.get('/services/:id', function(req, res , next) {
+router.get('/services/:id', function (req, res, next) {
     const serviceId = req.param("id");
     console.log(serviceId);
     ServiceModel.find({})
-    .populate('category_id')
-    .populate('info.location_id')
-    .populate('provider_id')
-    .populate('comments.user_id')
-    .populate('comments.replies.user_id')
-    .exec((err, docs) =>{
-        if (err){
-            res.status(500).send("Internal server error " + err);
-        } else {
-            let result = []
-            for (let service of docs) {
-                if (service._id==serviceId)
-                {
-                    result.push(service);
+        .populate('category_id')
+        .populate('info.location_id')
+        .populate('provider_id')
+        .populate('comments.user_id')
+        .populate('comments.replies.user_id')
+        .exec((err, docs) => {
+            if (err) {
+                res.status(500).send("Internal server error " + err);
+            } else {
+                let result = []
+                for (let service of docs) {
+                    if (service._id == serviceId) {
+                        result.push(service);
+                    }
+                }
+
+                if (result.length < 1) {
+                    res.json({ success: false, data: result, message: "Result not found" })
+                } else {
+                    res.json({ success: true, data: result, message: "Found service" });
                 }
             }
-
-            if (result.length < 1) {
-                res.json({success:false,data:result,message:"Result not found"})
-            } else {
-                res.json({success: true,data: result,message:"Found service"});
-            }
-        }
-    });
+        });
 });
 
+router.post('/comments', (req, res) => {
+    verifyJWTToken(req.header("Authorization")).then(
+        (payload) => {
+            uid = payload.uid;
+            role = payload.role;
+            // YOUR CODE HERE
+
+            res.send(payload) // Change this line by your code
+
+            // END YOUR CODE HERE
+        },
+        (err) => {
+            return res.json({
+                success: false,
+                message: "Authentication failed"
+              });
+        })
+})
+
+router.post('/replies', (req, res) => {
+    verifyJWTToken(req.header("Authorization")).then(
+        (payload) => {
+            uid = payload.uid;
+            role = payload.role;
+            // YOUR CODE HERE
+
+            res.send(payload) // Change this line by your code
+            
+            // END YOUR CODE HERE
+        },
+        (err) => {
+            return res.json({
+                success: false,
+                message: "Authentication failed"
+              });
+        })
+})
 
 
 module.exports = router;
