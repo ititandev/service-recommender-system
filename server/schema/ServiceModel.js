@@ -24,7 +24,8 @@ const ServiceSchema=new Schema({
         type: Schema.Types.ObjectId,
         ref: 'service_types'
     },
-    status: String
+    status: String,
+    ratings: [{type: Schema.Types.ObjectId, ref: 'ratings'}]
 
 });
 const ServiceModel = mongoose.model('services',ServiceSchema);

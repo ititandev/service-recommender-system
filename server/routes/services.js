@@ -4,11 +4,12 @@ const mongoose = require('mongoose');
 const { matchName } = require('./utils');
 const ServiceModel = require('../schema/ServiceModel')
 const ServiceTypeModel = require('../schema/ServiceTypeModel');
-// const LocationModel=require('../schema/LocationModel');
+const LocationModel=require('../schema/LocationModel');
 const UserModel = require('../schema/UserModel');
 const { createJWToken, verifyJWTToken } = require('../auth.js');
 const CommentModel = require('../schema/CommentModel');
 const ReplyModel = require('../schema/ReplyModel');
+const RatingModel = require('../schema/RatingModel');
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
 router.get('/services/best', function (req, res, next) {
@@ -221,6 +222,57 @@ router.post('/replies', (req, res) => {
             CommentModel.update({ _id: commentId }, { $push: { replies: reply._id } }, (err) => console.log(err));
 
             return res.json({ success: true, message: "success", data: reply })
+            // END YOUR CODE HERE
+        },
+        (err) => {
+            return res.json({
+                success: false,
+                message: "Authentication failed"
+            });
+        })
+})
+
+router.post('/ratings', (req, res) => {
+    verifyJWTToken(req.header("Authorization")).then(
+        (payload) => {
+            serviceId = req.body.serviceId;
+            points = req.body.points;
+            uid = payload.uid;
+            role = payload.role;
+            if (role!=="user")
+                return res.json({
+                success: false,
+                message: "Sorry! Provider is not allowed to rate."
+            });
+            RatingModel.findOne({
+                service_id: serviceId,
+                user_id:uid
+            }, function(err, rating) {
+               if (err)
+                   return res.send({success: false, message: err});
+                console.log(rating)
+               if (!rating)
+                {
+                    var rating = new RatingModel({
+                        "service_id":serviceId,
+                        "user_id": uid, 
+                        "points": points, 
+                        "date_time": Date.now()
+                    });
+                    rating.save(); 
+                    ServiceModel.update({ _id: serviceId }, { $push: 
+                        { 
+                            ratings: rating._id 
+                        } 
+                    }, (err) => console.log(err));
+                    return res.json({ success: true, message: "success", data: rating })
+
+                }
+
+           
+            });
+
+            
             // END YOUR CODE HERE
         },
         (err) => {
