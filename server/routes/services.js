@@ -259,8 +259,8 @@ router.post('/ratings', (req, res) => {
             }, function(err, rating) {
                if (err)
                    return res.send({success: false, message: err});
-                console.log(rating)
-               if (!rating)
+    
+               if (!rating)//not yet rated  
                 {
                     var rating = new RatingModel({
                         "service_id":serviceId,
@@ -269,13 +269,43 @@ router.post('/ratings', (req, res) => {
                         "date_time": Date.now()
                     });
                     rating.save(); 
-                    ServiceModel.update({ _id: serviceId }, { $push: 
+                    ServiceModel.update({ _id: serviceId }, {
+                        $inc: 
+                        {
+                            "rating.points":points,
+                            "rating.total":1 
+                        } ,
+                        $push: 
                         { 
                             ratings: rating._id 
                         } 
                     }, (err) => console.log(err));
-                    return res.json({ success: true, message: "success", data: rating })
+                    return res.json({ success: true, message: "success", data: rating });
 
+                }
+                else //rated
+                {
+                    var oldpoints=rating.points;
+                    var incrementPoints=points-oldpoints;
+                    var date_time=Date.now();
+                    var rating = new RatingModel({
+                        "service_id":serviceId,
+                        "user_id": uid, 
+                        "points": points, 
+                        "date_time": date_time
+                    });
+                    RatingModel.update({
+                        service_id:serviceId,
+                        user_id:uid
+                    },{
+                        points:points,
+                        date_time:date_time
+                    },(err)=>console.log(err));
+                    ServiceModel.update( {_id:serviceId}, {$inc: {"rating.points":incrementPoints }},(err)=>console.log(err));
+                    return res.json({ 
+                        success: true, 
+                        message: "success", 
+                        data: rating });
                 }
 
            
