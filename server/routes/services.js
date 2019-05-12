@@ -57,11 +57,16 @@ router.get('/services', function (req, res, next) {
             } else {
                 let result = []
                 for (let service of docs) {
-                    let filterCondition = matchName(service.description, filterText) ||
-                        matchName(service.info.address, filterText) ||
-                        matchName(service.info.price, filterText) ||
-                        matchName(service.info.website, filterText) ||
-                        matchName(service.info.content, filterText);
+                    
+                    let filterCondition=true;
+                    if (filterText!==undefined && filterText!=="")
+                        {
+                            filterCondition = matchName(service.description, filterText) ||
+                            matchName(service.info.address, filterText) ||
+                            matchName(service.info.price, filterText) ||
+                            matchName(service.info.website, filterText) ||
+                            matchName(service.info.content, filterText);
+                        }
 
                     if (service.info.location_id !== null && locationName !== undefined) {
                         filterCondition = filterCondition && matchName(service.info.location_id.name, locationName)
