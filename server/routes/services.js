@@ -154,6 +154,8 @@ router.get('/servicetypes', function (req, res, next) {
                 success: false, 
                 message: "error" });
         }
+        if (data.length <1 )
+            return res.json({ success: false, data: data, message: "Not have Service Types yet" })
         return res.json({ 
             success: true, 
             message: "Find service Types", 
@@ -172,6 +174,8 @@ router.get('/locations', function (req, res, next) {
                 message: "error" 
             });
         }
+        if (data.length<1)
+            return res.json({ success: false, data: data, message: "Not have locations yet" })
         return res.json({ 
             success: true, 
             message: "found locations", 
