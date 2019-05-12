@@ -13,7 +13,7 @@ const RatingModel = require('../schema/RatingModel');
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
 router.get('/services/best', function (req, res, next) {
-    ServiceModel.find({}, { rating: 1, avatar: 1, description: 1, name: 1 }).then(services => {
+    ServiceModel.find({status:'active'}, { rating: 1, avatar: 1, description: 1, name: 1 }).then(services => {
         services = services.sort((a, b) => a.rating.points / a.rating.total < b.rating.points / b.rating.total).slice(0, 3);
         res.json({ success: true, message: "Find best services", data: services });
     }).catch(err => {
