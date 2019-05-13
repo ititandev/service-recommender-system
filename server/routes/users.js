@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 const UserModel = require('../schema/UserModel');
+const bcrypt = require('bcrypt');
 const { createJWToken, verifyJWTToken } = require('../auth.js');
+const saltRounds = 10;
 
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
@@ -24,7 +26,9 @@ router.get('/users', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-  UserModel.find({ "email": req.body.email, "password": req.body.password }, (err, data) => {
+  UserModel.findOne({
+    "email": req.body.email
+  }, (err, user) => {
     if (err) {
       return res.json({
         success: false,
@@ -32,23 +36,33 @@ router.post('/login', function (req, res, next) {
       });
     }
 
-    if (data.length != 1) {
+    if (!user) {
       return res.json({
         success: false,
-        message: "Email or password is wrong"
+        message: "Account does not exist"
       });
     }
-    
-    token = createJWToken({
-      uid: data[0]._id,
-      role: data[0].role
-    }, 604800)
-    res.set("Authorization", token)
-    return res.json({
-      "success": true,
-      "message": "",
-      "data": token
+
+    bcrypt.compare(req.body.password, user.password, (err, result) => {
+      if (result) {
+        token = createJWToken({
+          uid: user._id,
+          role: user.role
+        }, 604800)
+        res.set("Authorization", token)
+        return res.json({
+          "success": true,
+          "data": { token: token, user: user }
+        })
+      }
+      else
+        return res.json({
+          success: false,
+          message: "Password is wrong"
+        });
     })
+
+
   })
 
 })
@@ -58,7 +72,7 @@ router.post('/signup', (req, res) => {
     if (err) {
       return res.json({
         success: false,
-        message: "Some error happen"
+        message: "Some error happen" + err
       });
     }
     if (data.length > 0)
@@ -66,27 +80,33 @@ router.post('/signup', (req, res) => {
         success: false,
         message: "User exists"
       });
-    user = new UserModel({
-      "email": req.body.email,
-      "password": req.body.password,
-      "firstname": req.body.firstname,
-      "lastname": req.body.lastname,
-      "role": "user",
-      "avatar": req.body.avatar
-    })
 
-    user.save(function (err, doc, numbersAffected) {
-      if (err)
+    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+      if (!req.body.avatar)
+        req.body.avatar = "https://us.v-cdn.net/6022045/uploads/defaultavatar.png"
+      user = new UserModel({
+        "email": req.body.email,
+        "password": hash,
+        "firstname": req.body.firstname,
+        "lastname": req.body.lastname,
+        "role": "user",
+        "avatar": req.body.avatar,
+        "phone": req.body.phone
+      })
+      user.save((err) => {
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen" + err
+          });
         return res.json({
-          success: false,
-          message: "Some error happen"
-        });
-      return res.json({
-        "success": true,
-        "message": "Create new user successfully",
-        "data": user
+          "success": true,
+          "message": "Create new user successfully",
+          "data": user
+        })
       })
     })
+
   })
 })
 
