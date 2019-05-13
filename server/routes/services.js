@@ -368,6 +368,46 @@ router.post("/requests", (req, res) => {
     })
 })
 
+router.get("/requests", (req, res) => {
+  verifyJWTToken(req.header("Authorization")).then(
+    (payload) => {
+      uid = payload.uid;
+      role = payload.role;
+      if (role !== "provider")
+        return res.json({
+          success: false,
+          message: "Please login as provider."
+        });
 
+      RequestModel.find({provider: uid})
+      .populate("user", "email firstname lastname phone avatar")
+      .exec((err, requests) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          })
+        }
+
+        return res.json({
+          success: true,
+          data: requests
+        })
+      })
+
+    },
+    (err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
+    .catch((err) => {
+      return res.json({
+        success: false,
+        message: "Some error happen " + err
+      })
+    })
+})
 
 module.exports = router;
