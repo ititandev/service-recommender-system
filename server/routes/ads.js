@@ -10,84 +10,84 @@ mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy',
 
 
 router.get('/ads', function (req, res, next) {
-    limit = parseInt(req.query.limit);
-    if (!limit)
-        limit = 2;
+  limit = parseInt(req.query.limit);
+  if (!limit)
+    limit = 2;
 
-    AdModel.find({ status: "running" })
-        .limit(limit)
-        .populate('adtype')
-        .populate('provider', '_id firstname lastname avatar')
-        .exec((err, data) => {
-            if (err) {
-                console.log(err)
-                return res.json({
-                    success: false,
-                    message: "Some error happen"
-                });
-            }
-            data.forEach((ad, ind) => {
-                ad.views += 1;
-                if (ad.views >= ad.adtype.max_views)
-                    ad.status = "done"
-                ad.save()
-            })
+  AdModel.find({ status: "running" })
+    .limit(limit)
+    .populate('adtype')
+    .populate('provider', '_id firstname lastname avatar')
+    .exec((err, data) => {
+      if (err) {
+        console.log(err)
+        return res.json({
+          success: false,
+          message: "Some error happen"
+        });
+      }
+      data.forEach((ad, ind) => {
+        ad.views += 1;
+        if (ad.views >= ad.adtype.max_views)
+          ad.status = "done"
+        ad.save()
+      })
 
-            return res.json({
-                success: true,
-                data: data
-            })
-        })
+      return res.json({
+        success: true,
+        data: data
+      })
+    })
 });
 
 router.get('/adtypes', function (req, res, next) {
-    AdTypeModel.find((err, data) => {
-        if (err)
-            return res.json({
-                success: false,
-                message: "Some error happen"
-            });
-        return res.json({
-            success: true,
-            data: data
-        })
+  AdTypeModel.find((err, data) => {
+    if (err)
+      return res.json({
+        success: false,
+        message: "Some error happen"
+      });
+    return res.json({
+      success: true,
+      data: data
     })
+  })
 });
 
 router.post('/ads', function (req, res, next) {
 
-    verifyJWTToken(req.header("Authorization")).then(
-        (payload) => {
-            uid = payload.uid;
-            role = payload.role;
-            if (role != "provider")
-                return res.json({
-                    success: false,
-                    message: "Authentication failed"
-                });
+  verifyJWTToken(req.header("Authorization")).then(
+    (payload) => {
+      uid = payload.uid;
+      role = payload.role;
+      if (role != "provider")
+        return res.json({
+          success: false,
+          message: "Authentication failed"
+        });
 
-            ad = new AdModel({
-                provider_id: uid,
-                status: "pending",
-                banner: req.body.banner,
-                url: req.body.url,
-                name: req.body.name,
-                adtype: req.body.adtype,
-                views: 0
-            })
+      ad = new AdModel({
+        provider_id: uid,
+        status: "pending",
+        banner: req.body.banner,
+        url: req.body.url,
+        name: req.body.name,
+        adtype: req.body.adtype,
+        views: 0
+      })
 
-            ad.save()
-            return res.json({
-                success: true,
-                data: ad
-            })
-        },
-        (err) => {
-            return res.json({
-                success: false,
-                message: "Authentication failed"
-            });
-        })
+      ad.save()
+      return res.json({
+        success: true,
+        data: ad
+      })
+    },
+    (err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
 });
 
 
