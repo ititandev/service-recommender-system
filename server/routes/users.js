@@ -52,7 +52,7 @@ router.post('/login', function (req, res, next) {
         res.set("Authorization", token)
         return res.json({
           "success": true,
-          "data": token
+          "data": { token: token, user: user }
         })
       }
       else
