@@ -9,41 +9,40 @@ const saltRounds = 10;
 
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
-router.delete('/users/:id',function (req, res, next) {
+router.delete('/users/:id', function (req, res, next) {
   const userId = req.param("id");
-  UserModel.find({_id:userId},(err,data)=>{
-    if (data.role=="user" || data.role=="admin"){ 
+  UserModel.find({ _id: userId }, (err, data) => {
+    if (data.role == "user" || data.role == "admin") {
       UserModel.remove({
-        _id:userId
-      },(err)=>console.log(err));
+        _id: userId
+      }, (err) => console.log(err));
 
       return res.json({
-        success:true,
-        message:"Remove success",
-        data:userId
+        success: true,
+        message: "Remove success",
+        data: userId
       })
     }
     else //provider
     {
       ServiceModel.remove({
-        provider_id:userId
-      },(err)=>console.log(err));
+        provider_id: userId
+      }, (err) => console.log(err));
 
       UserModel.remove({
-        _id:userId
-      },(err)=>console.log(err));
+        _id: userId
+      }, (err) => console.log(err));
 
       return res.json({
-        success:true,
-        message:"Remove success",
-        data:userId
+        success: true,
+        message: "Remove success",
+        data: userId
       })
 
     }
 
   })
 });
-
 
 router.get('/users', function (req, res, next) {
   UserModel.find((err, data) => {
@@ -68,22 +67,22 @@ router.put('/users', (req, res) => {
       newRole = req.body.role;
       uid = payload.uid;
       role = payload.role;
-      if (role!=="admin"){
+      if (role !== "admin") {
         return res.json({
-          success:false,
-          message:"Only admin is allowed to update user"
+          success: false,
+          message: "Only admin is allowed to update user"
         })
       }
 
-      UserModel.update({ 
-        _id: userId 
+      UserModel.update({
+        _id: userId
       }, { role: newRole }, (err) => {
         console.log(err);
       });
       return res.json({
-        success:true,
-        message:"Update success",
-        data:userId
+        success: true,
+        message: "Update success",
+        data: userId
       })
 
     },
@@ -94,7 +93,6 @@ router.put('/users', (req, res) => {
       });
     })
 });
-
 
 router.post('/login', function (req, res, next) {
   UserModel.findOne({
@@ -182,13 +180,15 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/checktoken/:token', function (req, res, next) {
-  verifyJWTToken(req.param("token")).then(
-    (any) => {
-      res.json(any)
-    },
-    (err) => {
-      res.send("nhu cc")
-    })
+  verifyJWTToken(req.param("token"))
+    .then(
+      (any) => {
+        res.json(any)
+      })
+    .catch(
+      (err) => {
+        res.send("nhu cc")
+      })
 })
 
 module.exports = router;

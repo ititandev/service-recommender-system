@@ -5,21 +5,20 @@ const { matchName } = require('./utils');
 const ServiceModel = require('../schema/ServiceModel')
 const ServiceTypeModel = require('../schema/ServiceTypeModel');
 const LocationModel = require('../schema/LocationModel');
-const { createJWToken, verifyJWTToken } = require('../auth.js');
+const { verifyJWTToken } = require('../auth.js');
 const CommentModel = require('../schema/CommentModel');
 const ReplyModel = require('../schema/ReplyModel');
 const RatingModel = require('../schema/RatingModel');
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
 router.get('/services/best', function (req, res, next) {
-    ServiceModel.find({ status: 'active' }, { rating: 1, avatar: 1, description: 1, name: 1 }).then(services => {
-        services = services.sort((a, b) => a.rating.points / a.rating.total < b.rating.points / b.rating.total).slice(0, 3);
-        res.json({ success: true, message: "Find best services", data: services });
-    }).catch(err => {
-        res.json({ success: false, message: "error" });
-    });
+  ServiceModel.find({ status: 'active' }, { rating: 1, avatar: 1, description: 1, name: 1 }).then(services => {
+    services = services.sort((a, b) => a.rating.points / a.rating.total < b.rating.points / b.rating.total).slice(0, 3);
+    res.json({ success: true, message: "Find best services", data: services });
+  }).catch(err => {
+    res.json({ success: false, message: "error" });
+  });
 });
-
 
 router.get('/services', (req, res) => {
   const { locationName, serviceType, filterText, status } = req.query;
@@ -95,227 +94,226 @@ router.get('/services', (req, res) => {
     });
 });
 
-router.get('/services/:id', function (req, res, next) {
-    const serviceId = req.param("id");
-    console.log(serviceId);
-    ServiceModel.find({})
-        .populate('category_id')
-        .populate('info.location_id')
-        .populate({
-            path: 'provider_id',
-            select: 'firstname lastname avatar'
-        })
-        .populate({
-            path: "comments",
-            model: "comments",
-            populate: {
-                path: "replies",
-                model: "replies",
-                populate: {
-                    path: "user_id",
-                    model: "users",
-                    select: "firstname lastname avatar"
-                }
-            }
-        })
-        .populate({
-            path: "comments",
-            model: "comments",
-            populate: {
-                path: "user_id",
-                model: "users",
-                select: "firstname lastname avatar"
-            }
-        })
-        .exec((err, docs) => {
-            if (err) {
-                res.status(500).send("Internal server error " + err);
-            } else {
-                let result = []
-                for (let service of docs) {
-                    if (service._id == serviceId) {
-                        result.push(service);
-                    }
-                }
+router.post('/services', (req, res) => {
+  
+})
 
-                if (result.length < 1) {
-                    res.json({ success: false, data: result, message: "Result not found" })
-                } else {
-                    res.json({ success: true, data: result, message: "Found service" });
-                }
-            }
-        });
+router.get('/services/:id', function (req, res, next) {
+  const serviceId = req.param("id");
+  console.log(serviceId);
+  ServiceModel.find({})
+    .populate('category_id')
+    .populate('info.location_id')
+    .populate({
+      path: 'provider_id',
+      select: 'firstname lastname avatar'
+    })
+    .populate({
+      path: "comments",
+      model: "comments",
+      populate: {
+        path: "replies",
+        model: "replies",
+        populate: {
+          path: "user_id",
+          model: "users",
+          select: "firstname lastname avatar"
+        }
+      }
+    })
+    .populate({
+      path: "comments",
+      model: "comments",
+      populate: {
+        path: "user_id",
+        model: "users",
+        select: "firstname lastname avatar"
+      }
+    })
+    .exec((err, docs) => {
+      if (err) {
+        res.status(500).send("Internal server error " + err);
+      } else {
+        let result = []
+        for (let service of docs) {
+          if (service._id == serviceId) {
+            result.push(service);
+          }
+        }
+
+        if (result.length < 1) {
+          res.json({ success: false, data: result, message: "Result not found" })
+        } else {
+          res.json({ success: true, data: result, message: "Found service" });
+        }
+      }
+    });
 });
 
 router.delete('/services/:id', function (req, res, next) {
-    verifyJWTToken(req.header("Authorization")).then(
-        (payload) => {
-          serviceId = req.param("id");
-          uid = payload.uid;
-          role = payload.role;
-          if (role !== "admin")
-            return res.json({
-              success: false,
-              message: "Sorry! Only admin is allowed to delete the service"
-            });
-  
-          ServiceModel.findOne({_id:serviceId},(err,data)=>{
-              if (!data){  
-                  return res.json({
-                      success:false,
-                      message:"the service is not existed",
-                      data:serviceId
-                  })
-              }
-              else 
-              {
-                  ServiceModel.remove({
-                      _id:serviceId
-                  },(err)=>console.log(err));
-                  return res.json({
-                    success:false,
-                    message:"Delete Success",
-                    data:serviceId
-                })
-              }
-          })
-        },
-        (err) => {
+  verifyJWTToken(req.header("Authorization")).then(
+    (payload) => {
+      serviceId = req.param("id");
+      uid = payload.uid;
+      role = payload.role;
+      if (role !== "admin")
+        return res.json({
+          success: false,
+          message: "Sorry! Only admin is allowed to delete the service"
+        });
+
+      ServiceModel.findOne({ _id: serviceId }, (err, data) => {
+        if (!data) {
           return res.json({
             success: false,
-            message: "Authentication failed"
-          });
-        })
+            message: "the service is not existed",
+            data: serviceId
+          })
+        }
+        else {
+          ServiceModel.remove({
+            _id: serviceId
+          }, (err) => console.log(err));
+          return res.json({
+            success: false,
+            message: "Delete Success",
+            data: serviceId
+          })
+        }
+      })
+    },
+    (err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
 });
 
 router.get('/servicetypes', function (req, res, next) {
-    var { status } = req.query;
-    var query = {}
-    if (status) {
-        query.status = status
+  var { status } = req.query;
+  var query = {}
+  if (status) {
+    query.status = status
+  }
+  ServiceTypeModel.find(query, { name: 1 }, (err, data) => {
+    if (err) {
+      return res.json({
+        success: false,
+        message: "error"
+      });
     }
-    ServiceTypeModel.find(query, { name: 1 }, (err, data) => {
-        if (err) {
-            return res.json({
-                success: false,
-                message: "error"
-            });
-        }
-        if (data.length < 1)
-            return res.json({ success: false, data: data, message: "Not have Service Types yet" })
-        return res.json({
-            success: true,
-            message: "Find service Types",
-            data: data
-        })
+    if (data.length < 1)
+      return res.json({ success: false, data: data, message: "Not have Service Types yet" })
+    return res.json({
+      success: true,
+      message: "Find service Types",
+      data: data
     })
   })
+})
 
-  router.post('/servicetypes', (req, res) => {
-    verifyJWTToken(req.header("Authorization")).then(
-      (payload) => {
-        serviceTypeName = req.body.serviceTypeName;
-        uid = payload.uid;
-        role = payload.role;
-        if (role !== "user")
-          return res.json({
-            success: false,
-            message: "Sorry! Only user is allowed to request new type of service"
-          });
-
-        ServiceTypeModel.findOne({name:serviceTypeName},(err,data)=>{
-            if (!data){
-                var serviceType=new ServiceTypeModel({
-                    name:serviceTypeName,
-                    status:"pending"
-                });            
-                serviceType.save();  
-                return res.json({
-                    success:true,
-                    message:"new service type is added, please wait for the admin to accept",
-                    data:serviceType
-                })
-            }
-            else if (data.status=="pending")
-            {
-                return res.json({
-                    success:false,
-                    message:"The service type is already added, but is waiting for admin to accept",
-                    data:[]
-                })
-            }
-            else if (data.status=="active")
-            {
-                return res.json({
-                    success:false,
-                    message:"The service type is already in our system",
-                    data:[]
-                })
-            }
-            else //inactive
-            {
-                return res.json({
-                    success:false,
-                    message:"The service type is already rejected by the admin. You can't request it",
-                    data:[]
-                })
-            }
-        })
-      },
-      (err) => {
+router.post('/servicetypes', (req, res) => {
+  verifyJWTToken(req.header("Authorization")).then(
+    (payload) => {
+      serviceTypeName = req.body.serviceTypeName;
+      uid = payload.uid;
+      role = payload.role;
+      if (role !== "user")
         return res.json({
           success: false,
-          message: "Authentication failed"
+          message: "Sorry! Only user is allowed to request new type of service"
         });
-      })
-  })
 
-  router.put('/servicetypes', (req, res) => {
-    verifyJWTToken(req.header("Authorization")).then(
-      (payload) => {
-        serviceTypeId = req.body.serviceTypeId;
-        status=req.body.status;
-        uid = payload.uid;
-        role = payload.role;
-        if (role !== "admin")
+      ServiceTypeModel.findOne({ name: serviceTypeName }, (err, data) => {
+        if (!data) {
+          var serviceType = new ServiceTypeModel({
+            name: serviceTypeName,
+            status: "pending"
+          });
+          serviceType.save();
+          return res.json({
+            success: true,
+            message: "new service type is added, please wait for the admin to accept",
+            data: serviceType
+          })
+        }
+        else if (data.status == "pending") {
           return res.json({
             success: false,
-            message: "Sorry! Only admin is allowed to update the service type"
-          });
+            message: "The service type is already added, but is waiting for admin to accept",
+            data: []
+          })
+        }
+        else if (data.status == "active") {
+          return res.json({
+            success: false,
+            message: "The service type is already in our system",
+            data: []
+          })
+        }
+        else //inactive
+        {
+          return res.json({
+            success: false,
+            message: "The service type is already rejected by the admin. You can't request it",
+            data: []
+          })
+        }
+      })
+    },
+    (err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
+})
 
-        ServiceTypeModel.findOne({_id:id},(err,data)=>{
-            if (!data){
-                
-                return res.json({
-                    success:false,
-                    message:"not found the service type to update",
-                    data:serviceTypeName
-                })
-            }
+router.put('/servicetypes', (req, res) => {
+  verifyJWTToken(req.header("Authorization")).then(
+    (payload) => {
+      serviceTypeId = req.body.serviceTypeId;
+      status = req.body.status;
+      uid = payload.uid;
+      role = payload.role;
+      if (role !== "admin")
+        return res.json({
+          success: false,
+          message: "Sorry! Only admin is allowed to update the service type"
+        });
+
+      ServiceTypeModel.findOne({ _id: id }, (err, data) => {
+        if (!data) {
+
+          return res.json({
+            success: false,
+            message: "not found the service type to update",
+            data: serviceTypeName
+          })
+        }
 
         ServiceTypeModel.update({
-            _id:serviceTypeId
-            },{
-                status:status
-            });
-            return res.json({
-                success:true,
-                message:"service is update",
-                data:status
-            })
-    
-            
-        })
-      },
-      (err) => {
+          _id: serviceTypeId
+        }, {
+            status: status
+          });
         return res.json({
-          success: false,
-          message: "Authentication failed"
-        });
+          success: true,
+          message: "service is update",
+          data: status
+        })
+
+
       })
-  })
-
-
+    },
+    (err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
+})
 
 router.get('/locations', (req, res) => {
   LocationModel.find((err, data) => {
