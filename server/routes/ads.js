@@ -14,30 +14,58 @@ router.get('/ads', (req, res) => {
   if (!limit)
     limit = 2;
 
-  AdModel.find({ status: "running" })
-    .limit(limit)
-    .populate('adtype')
-    .populate('provider', '_id firstname lastname avatar')
-    .exec((err, data) => {
-      if (err) {
-        console.log(err)
-        return res.json({
-          success: false,
-          message: "Some error happen"
-        });
-      }
-      data.forEach((ad, ind) => {
-        ad.views += 1;
-        if (ad.views >= ad.adtype.max_views)
-          ad.status = "done"
-        ad.save()
-      })
+  verifyJWTToken(req.header("Authorization"))
+    .then((payload) => {
+      if (payload.role == 'user')
+        throw 'user'
 
-      return res.json({
-        success: true,
-        data: data
-      })
+      AdModel.find({ status: "running" })
+        .limit(limit)
+        .populate('adtype')
+        .populate('provider', '_id firstname lastname avatar')
+        .exec((err, data) => {
+          if (err) {
+            console.log(err)
+            return res.json({
+              success: false,
+              message: "Some error happen"
+            });
+          }
+
+          return res.json({
+            success: true,
+            data: data
+          })
+        })
     })
+    .catch((err) => {
+      AdModel.find({ status: "running" })
+        .limit(limit)
+        .populate('adtype')
+        .populate('provider', '_id firstname lastname avatar')
+        .exec((err, data) => {
+          if (err) {
+            console.log(err)
+            return res.json({
+              success: false,
+              message: "Some error happen"
+            });
+          }
+          data.forEach((ad, ind) => {
+            ad.views += 1;
+            if (ad.views >= ad.adtype.max_views)
+              ad.status = "done"
+            ad.save()
+          })
+
+          return res.json({
+            success: true,
+            data: data
+          })
+        })
+    })
+
+
 });
 
 router.get('/adtypes', (req, res) => {
