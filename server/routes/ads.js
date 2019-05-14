@@ -9,7 +9,7 @@ const { createJWToken, verifyJWTToken } = require('../auth.js');
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
 
-router.get('/ads', function (req, res, next) {
+router.get('/ads', (req, res) => {
   limit = parseInt(req.query.limit);
   if (!limit)
     limit = 2;
@@ -40,7 +40,7 @@ router.get('/ads', function (req, res, next) {
     })
 });
 
-router.get('/adtypes', function (req, res, next) {
+router.get('/adtypes', (req, res) => {
   AdTypeModel.find((err, data) => {
     if (err)
       return res.json({
@@ -54,7 +54,7 @@ router.get('/adtypes', function (req, res, next) {
   })
 });
 
-router.post('/ads', function (req, res, next) {
+router.post('/ads', (req, res) => {
 
   verifyJWTToken(req.header("Authorization")).then(
     (payload) => {
@@ -90,5 +90,47 @@ router.post('/ads', function (req, res, next) {
     })
 });
 
+router.delete('/ads/:id', (req, res) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then((payload) => {
+      if (payload.role == "user")
+        return res.json({
+          success: false,
+          messsage: "Only Provider or Admin"
+        })
+      AdModel.findById(req.param('id'), (err, ad) => {
+        if (!ad)
+          return res.json({
+            success: false,
+            mesesage: "Advertisement not found"
+          })
+        console.log(payload.role)
+        if (payload.role == "provider")
+          if (ad.provider != payload.uid)
+            return res.json({
+              success: false,
+              message: "Only owner of the advertisement"
+            })
 
+        ad.remove((err) => {
+          if (err)
+            res.json({
+              success: false,
+              message: "Some error happen " + err
+            })
+          return res.json({
+            success: true,
+            data: ad
+          })
+        })
+      })
+
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        message: "Authentication failed"
+      })
+    })
+})
 module.exports = router;
