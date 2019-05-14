@@ -4,6 +4,6 @@ const ServiceTypeSchema=new Schema({
     name: String,
     status:String
 });
-const ServiceTypeModel = mongoose.model('service_types',ServiceTypeSchema);
+const ServiceTypeModel = mongoose.model('servicetypes',ServiceTypeSchema);
 
 module.exports=ServiceTypeModel

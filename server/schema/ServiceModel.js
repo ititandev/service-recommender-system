@@ -21,7 +21,7 @@ const ServiceSchema=new Schema({
     provider_id: {type:Schema.Types.ObjectId,ref:'users'}, 
     servicetype: {
         type: Schema.Types.ObjectId,
-        ref: 'service_types'
+        ref: 'servicetypes'
     },
     status: String,
     ratings: [{type: Schema.Types.ObjectId, ref: 'ratings'}]
