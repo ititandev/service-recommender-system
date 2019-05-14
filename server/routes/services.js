@@ -240,7 +240,7 @@ router.get('/servicetypes', function (req, res, next) {
 router.post('/servicetypes', (req, res) => {
   verifyJWTToken(req.header("Authorization")).then(
     (payload) => {
-      serviceTypeName = req.body.serviceTypeName;
+      serviceTypeName = req.body.name;
       uid = payload.uid;
       role = payload.role;
       if (role !== "user")
