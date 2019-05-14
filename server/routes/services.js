@@ -95,7 +95,30 @@ router.get('/services', (req, res) => {
 });
 
 router.post('/services', (req, res) => {
-  
+  verifyJWTToken(req.header("Authorization"))
+    .then((payload) => {
+      model = req.body
+      if (payload.role == "user")
+        model.user_id = payload.uid
+      else if (payload.role == "provider")
+        model.provider_id = payload.uid
+      model.rating = { total: 1, points: 5 }
+      model.status = "inactive"
+
+      service = new ServiceModel(model)
+      service.save((err) => {
+        if (err)
+          return res.json("Some error happen " + err)
+        return res.json(service)
+      })
+    })
+    .catch((err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
+
 })
 
 router.get('/services/:id', function (req, res, next) {
