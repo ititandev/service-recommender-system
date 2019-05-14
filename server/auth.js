@@ -23,7 +23,7 @@ function createJWToken(details, maxAge) {
     }
 
     let token = jwt.sign(details,
-        process.env.JWT_SECRET,
+        "ititan",
         {
             expiresIn: maxAge,
             algorithm: 'HS256'
