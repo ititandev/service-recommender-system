@@ -187,7 +187,7 @@ router.get('/checktoken/:token', function (req, res, next) {
       })
     .catch(
       (err) => {
-        res.send("nhu cc")
+        res.send("nat")
       })
 })
 

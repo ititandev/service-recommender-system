@@ -23,7 +23,7 @@ router.get('/services/best', function (req, res, next) {
 router.get('/services', (req, res) => {
   const { locationName, serviceType, filterText, status } = req.query;
   ServiceModel.find({})
-    .populate('category_id')
+    .populate('servicetype')
     .populate('info.location_id')
     .populate({
       path: 'provider_id',
@@ -71,8 +71,8 @@ router.get('/services', (req, res) => {
             filterCondition = filterCondition && matchName(service.info.location_id.name, locationName)
           }
 
-          if (service.category_id !== null && serviceType !== undefined) {
-            filterCondition = filterCondition && matchName(service.category_id.name, serviceType)
+          if (service.servicetype !== null && serviceType !== undefined) {
+            filterCondition = filterCondition && matchName(service.servicetype.name, serviceType)
           }
 
           if (status !== undefined) {
@@ -102,7 +102,7 @@ router.get('/services/:id', function (req, res, next) {
   const serviceId = req.param("id");
   console.log(serviceId);
   ServiceModel.find({})
-    .populate('category_id')
+    .populate('servicetype')
     .populate('info.location_id')
     .populate({
       path: 'provider_id',

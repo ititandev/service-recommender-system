@@ -15,12 +15,11 @@ const ServiceSchema=new Schema({
         location_id: {type: Schema.Types.ObjectId, ref: 'locations'} ,
         address: String,
         price: String,
-        website: String,
-        content: String
+        website: String
     },
     images:[String],
     provider_id: {type:Schema.Types.ObjectId,ref:'users'}, 
-    category_id: {
+    servicetype: {
         type: Schema.Types.ObjectId,
         ref: 'service_types'
     },
