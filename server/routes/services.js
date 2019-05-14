@@ -98,6 +98,7 @@ router.post('/services', (req, res) => {
   verifyJWTToken(req.header("Authorization"))
     .then((payload) => {
       model = req.body
+
       if (payload.role == "user")
         model.user_id = payload.uid
       else if (payload.role == "provider")
@@ -293,10 +294,10 @@ router.post('/servicetypes', (req, res) => {
     })
 })
 
-router.put('/servicetypes', (req, res) => {
+router.put('/servicetypes/:id', (req, res) => {
   verifyJWTToken(req.header("Authorization")).then(
     (payload) => {
-      serviceTypeId = req.body.serviceTypeId;
+      serviceTypeId = req.params.id;
       status = req.body.status;
       uid = payload.uid;
       role = payload.role;
