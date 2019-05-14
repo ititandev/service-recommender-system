@@ -243,11 +243,6 @@ router.post('/servicetypes', (req, res) => {
       serviceTypeName = req.body.name;
       uid = payload.uid;
       role = payload.role;
-      if (role !== "user")
-        return res.json({
-          success: false,
-          message: "Sorry! Only user is allowed to request new type of service"
-        });
 
       ServiceTypeModel.findOne({ name: serviceTypeName }, (err, data) => {
         if (!data) {
