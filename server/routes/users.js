@@ -9,39 +9,57 @@ const saltRounds = 10;
 
 mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
 
+
 router.delete('/users/:id', function (req, res, next) {
-  const userId = req.param("id");
-  UserModel.find({ _id: userId }, (err, data) => {
-    if (data.role == "user" || data.role == "admin") {
-      UserModel.remove({
-        _id: userId
-      }, (err) => console.log(err));
+  verifyJWTToken(req.header("Authorization")).then(
+    (payload) => {
+      userId = req.param("id");
+      uid = payload.uid;
+      role = payload.role;
+      if (role !== "admin")
+        return res.json({
+          success: false,
+          message: "Sorry! Only admin is allowed to delete the user"
+        });
 
-      return res.json({
-        success: true,
-        message: "Remove success",
-        data: userId
+      UserModel.findOne({ _id: userId }, (err, data) => {
+        if (!data) {
+          return res.json({
+            success: false,
+            message: "the user is not existed",
+            data: userId
+          })
+        }
+        else {
+
+          if (data.role!="provider")//user or admin
+          {
+            UserModel.remove({_id:userId},(err)=>console.log(err));
+            return res.json({
+              success: true,
+              message: "the user is deleted",
+              data: userId
+            })
+          }
+          else //provider
+          {
+            ServiceModel.remove({provider_id:userId},(err)=>console.log(err));
+            UserModel.remove({_id:userId},(err)=>console.log(err));
+            return res.json({
+              success: true,
+              message: "the user is deleted",
+              data: userId
+            })
+          }
+        }
       })
-    }
-    else //provider
-    {
-      ServiceModel.remove({
-        provider_id: userId
-      }, (err) => console.log(err));
-
-      UserModel.remove({
-        _id: userId
-      }, (err) => console.log(err));
-
+    },
+    (err) => {
       return res.json({
-        success: true,
-        message: "Remove success",
-        data: userId
-      })
-
-    }
-
-  })
+        success: false,
+        message: "Authentication failed"
+      });
+    })
 });
 
 router.get('/users', function (req, res, next) {
