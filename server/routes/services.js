@@ -283,13 +283,13 @@ router.put('/servicetypes', (req, res) => {
           message: "Sorry! Only admin is allowed to update the service type"
         });
 
-      ServiceTypeModel.findOne({ _id: id }, (err, data) => {
+      ServiceTypeModel.findOne({ _id: serviceTypeId }, (err, data) => {
         if (!data) {
 
           return res.json({
             success: false,
             message: "not found the service type to update",
-            data: serviceTypeName
+            data: serviceTypeId
           })
         }
 
