@@ -95,7 +95,31 @@ router.get('/services', (req, res) => {
 });
 
 router.post('/services', (req, res) => {
-  
+  verifyJWTToken(req.header("Authorization"))
+    .then((payload) => {
+      model = req.body
+
+      if (payload.role == "user")
+        model.user_id = payload.uid
+      else if (payload.role == "provider")
+        model.provider_id = payload.uid
+      model.rating = { total: 1, points: 5 }
+      model.status = "inactive"
+
+      service = new ServiceModel(model)
+      service.save((err) => {
+        if (err)
+          return res.json("Some error happen " + err)
+        return res.json(service)
+      })
+    })
+    .catch((err) => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    })
+
 })
 
 router.get('/services/:id', function (req, res, next) {
@@ -216,14 +240,9 @@ router.get('/servicetypes', function (req, res, next) {
 router.post('/servicetypes', (req, res) => {
   verifyJWTToken(req.header("Authorization")).then(
     (payload) => {
-      serviceTypeName = req.body.serviceTypeName;
+      serviceTypeName = req.body.name;
       uid = payload.uid;
       role = payload.role;
-      if (role !== "user")
-        return res.json({
-          success: false,
-          message: "Sorry! Only user is allowed to request new type of service"
-        });
 
       ServiceTypeModel.findOne({ name: serviceTypeName }, (err, data) => {
         if (!data) {
@@ -270,10 +289,10 @@ router.post('/servicetypes', (req, res) => {
     })
 })
 
-router.put('/servicetypes', (req, res) => {
+router.put('/servicetypes/:id', (req, res) => {
   verifyJWTToken(req.header("Authorization")).then(
     (payload) => {
-      serviceTypeId = req.body.serviceTypeId;
+      serviceTypeId = req.params.id;
       status = req.body.status;
       uid = payload.uid;
       role = payload.role;

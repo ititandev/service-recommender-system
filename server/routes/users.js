@@ -60,38 +60,76 @@ router.get('/users', function (req, res, next) {
   })
 });
 
-router.put('/users', (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    (payload) => {
-      userId = req.body.userId;
-      newRole = req.body.role;
-      uid = payload.uid;
-      role = payload.role;
-      if (role !== "admin") {
+router.put('/users/:id', (req, res) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(
+      (payload) => {
+
+        UserModel.findById(req.params.id, (err, user) => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            })
+          if (!user)
+            return res.json({
+              success: false,
+              message: "User not found"
+            })
+          if (req.body.role && payload.role != "admin")
+            return res.json({
+              success: false,
+              message: "Only admin can modify role of user"
+            })
+          if (payload.uid != req.params.id && payload.role != 'admin')
+            return res.json({
+              success: false,
+              message: "Only admin can modify other user"
+            })
+          delete req.body._id
+          delete req.body.email
+
+          bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+            if (req.body.password) {
+              if (err)
+                return res.json({
+                  success: false,
+                  message: "Some error happen " + err
+                })
+              user.password = hash
+              delete req.body.password
+            }
+
+            for (var prop in req.body)
+              user[prop] = req.body[prop]
+
+            user.save((err) => {
+              if (err)
+                return res.json({
+                  success: false,
+                  message: "Some error happen " + err
+                })
+              return res.json({
+                success: true,
+                data: user
+              })
+            })
+          })
+
+
+
+
+
+        })
+
+      })
+    .catch(
+      (err) => {
         return res.json({
           success: false,
-          message: "Only admin is allowed to update user"
-        })
-      }
-
-      UserModel.update({
-        _id: userId
-      }, { role: newRole }, (err) => {
-        console.log(err);
-      });
-      return res.json({
-        success: true,
-        message: "Update success",
-        data: userId
+          message: "Authentication failed"
+        });
       })
-
-    },
-    (err) => {
-      return res.json({
-        success: false,
-        message: "Authentication failed"
-      });
-    })
 });
 
 router.post('/login', function (req, res, next) {

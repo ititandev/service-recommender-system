@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const _ = require("lodash");
 
-function verifyJWTToken(token, role) {
+function verifyJWTToken(token) {
     return new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if (err || !decodedToken) {
@@ -23,7 +23,7 @@ function createJWToken(details, maxAge) {
     }
 
     let token = jwt.sign(details,
-        process.env.JWT_SECRET,
+        "ititan",
         {
             expiresIn: maxAge,
             algorithm: 'HS256'
