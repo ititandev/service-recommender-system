@@ -243,7 +243,7 @@ router.get('/checktoken/:token', function (req, res, next) {
       })
     .catch(
       (err) => {
-        res.send("nat")
+        res.send(err)
       })
 })
 
