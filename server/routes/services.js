@@ -128,15 +128,15 @@ router.get('/services/:id', function (req, res, next) {
   verifyJWTToken(req.header("Authorization")).then(
     (payload) => {
       const serviceId = req.param("id");
-      console.log(serviceId);
       uid = payload.uid;
-      ServiceModel.find({_id:serviceId})
+      ServiceModel.findOne({_id:serviceId})
         .populate('servicetype')
         .populate('info.location_id')
-        .populate('ratings', {
-          select: 'user_id',
-          match: uid
-      })
+      //   .populate({
+      //     path:'ratings',
+      //     select: 'user_id',
+      //     match: uid
+      // })
         .populate('ratings')
         .populate({
           path: 'provider_id',
@@ -167,8 +167,13 @@ router.get('/services/:id', function (req, res, next) {
         .exec((err, docs) => {
           if (err) {
             res.status(500).send("Internal server error " + err);
-          } else {
+          } else 
+          {
             let result = []
+            let ratingUser=docs.ratings;
+            
+            ratingUser=ratingUser.filter((item)=>item.user_id==uid);
+            docs.ratings=ratingUser;
             result.push(docs);
     
             if (result.length < 1) {
@@ -178,14 +183,63 @@ router.get('/services/:id', function (req, res, next) {
             }
           }
         });
-    },
-    (err) => {
-      return res.json({
-        success: false,
-        message: "Authentication failed"
-      });
     })
-  
+    .catch(
+      (err) => {
+        const serviceId = req.param("id");
+        ServiceModel.findOne({_id:serviceId})
+          .populate('servicetype')
+          .populate('info.location_id')
+        //   .populate({
+        //     path:'ratings',
+        //     select: 'user_id',
+        //     match: uid
+        // })
+          .populate('ratings')
+          .populate({
+            path: 'provider_id',
+            select: 'firstname lastname avatar'
+          })
+          .populate({
+            path: "comments",
+            model: "comments",
+            populate: {
+              path: "replies",
+              model: "replies",
+              populate: {
+                path: "user_id",
+                model: "users",
+                select: "firstname lastname avatar"
+              }
+            }
+          })
+          .populate({
+            path: "comments",
+            model: "comments",
+            populate: {
+              path: "user_id",
+              model: "users",
+              select: "firstname lastname avatar"
+            }
+          })
+          .exec((err, docs) => {
+            if (err) {
+              res.status(500).send("Internal server error " + err);
+            } else 
+            {
+              console.log(docs);
+              let result = []
+              docs.ratings=[];
+              result.push(docs);
+      
+              if (result.length < 1) {
+                res.json({ success: false, data: result, message: "Result not found" })
+              } else {
+                res.json({ success: true, data: result, message: "Found service" });
+              }
+            }
+          });
+      })
 });
 router.delete('/services/:id', function (req, res, next) {
   verifyJWTToken(req.header("Authorization")).then(
