@@ -347,8 +347,8 @@ router.get("/servicetypes", function(req, res, next) {
 });
 
 router.post("/servicetypes", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    payload => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       serviceTypeName = req.body.name;
       uid = payload.uid;
       role = payload.role;
@@ -389,19 +389,18 @@ router.post("/servicetypes", (req, res) => {
           });
         }
       });
-    },
-    err => {
+    })
+    .catch(err => {
       return res.json({
         success: false,
         message: "Authentication failed"
       });
-    }
-  );
+    });
 });
 
 router.put("/servicetypes/:id", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    payload => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       serviceTypeId = req.params.id;
       status = req.body.status;
       uid = payload.uid;
@@ -435,14 +434,67 @@ router.put("/servicetypes/:id", (req, res) => {
           data: status
         });
       });
-    },
-    err => {
+    })
+    .catch(err => {
       return res.json({
         success: false,
         message: "Authentication failed"
       });
-    }
-  );
+    });
+});
+
+router.put("/services/:id", (req, res) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      if (payload.role == "user")
+        return res.json({
+          success: false,
+          message: "User cannot modify service"
+        });
+      ServiceModel.findById(req.params.id, (err, service) => {
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          });
+        if (!service)
+          return res.json({
+            success: false,
+            message: "Sevice not found"
+          });
+        if (req.body.status && payload.role != "admin")
+          return res.json({
+            success: false,
+            message: "Only admin can modify status of service"
+          });
+        if (payload.uid != service.provider_id && payload.role != "admin")
+          return res.json({
+            success: false,
+            message: "Only admin can modify other service"
+          });
+        delete req.body._id;
+
+        for (var prop in req.body) service[prop] = req.body[prop];
+
+        service.save(err => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
+          return res.json({
+            success: true,
+            data: service
+          });
+        });
+      });
+    })
+    .catch(err => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    });
 });
 
 router.get("/locations", (req, res) => {
@@ -468,8 +520,8 @@ router.get("/locations", (req, res) => {
 });
 
 router.post("/comments", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    payload => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       serviceId = req.body.serviceId;
       content = req.body.content;
       uid = payload.uid;
@@ -489,19 +541,18 @@ router.post("/comments", (req, res) => {
       );
 
       return res.json({ success: true, message: "success", data: comment });
-    },
-    err => {
+    })
+    .catch(err => {
       return res.json({
         success: false,
         message: "Authentication failed"
       });
-    }
-  );
+    });
 });
 
 router.post("/replies", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    payload => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       commentId = req.body.commentId;
       content = req.body.content;
       uid = payload.uid;
@@ -521,19 +572,18 @@ router.post("/replies", (req, res) => {
 
       return res.json({ success: true, message: "success", data: reply });
       // END YOUR CODE HERE
-    },
-    err => {
+    })
+    .catch(err => {
       return res.json({
         success: false,
         message: "Authentication failed"
       });
-    }
-  );
+    });
 });
 
 router.post("/ratings", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    payload => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       serviceId = req.body.serviceId;
       points = req.body.points;
       uid = payload.uid;
@@ -613,14 +663,13 @@ router.post("/ratings", (req, res) => {
           }
         }
       );
-    },
-    err => {
+    })
+    .catch(err => {
       return res.json({
         success: false,
         message: "Authentication failed"
       });
-    }
-  );
+    });
 });
 
 module.exports = router;
