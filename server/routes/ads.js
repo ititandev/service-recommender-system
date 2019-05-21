@@ -57,27 +57,30 @@ router.get("/ads", (req, res) => {
               ad_id: ad._id,
               user_id: uid
             });
-            view.save();
-
-            ad.views += 1;
-            if (ad.views >= ad.adtype.max_views) ad.status = "done";
-            ad.save();
-
-            url = ad.url;
-            ad.url =
-              req.protocol +
-              "://" +
-              req.get("host") +
-              "/api/tracking/" +
-              ad._id +
-              "?url=" +
-              encodeURI(url);
-          });
-        
-
-          return res.json({
-            success: true,
-            data: data
+            view.save(err => {
+              ad.views += 1;
+              if (ad.views >= ad.adtype.max_views) ad.status = "done";
+              ad.save(err => {
+                if (err)
+                  return res.json({
+                    success: false,
+                    message: "Some error happen " + err
+                  });
+                url = ad.url;
+                ad.url =
+                  req.protocol +
+                  "://" +
+                  req.get("host") +
+                  "/api/tracking/" +
+                  ad._id +
+                  "?url=" +
+                  encodeURI(url);
+                return res.json({
+                  success: true,
+                  data: data
+                });
+              });
+            });
           });
         });
     });
@@ -124,11 +127,11 @@ router.post("/ads", (req, res) => {
       if (role != "provider")
         return res.json({
           success: false,
-          message: "Authentication failed"
+          message: "Only provider can create advertisement"
         });
 
       ad = new AdModel({
-        provider_id: uid,
+        provider: uid,
         status: "pending",
         banner: req.body.banner,
         url: req.body.url,
