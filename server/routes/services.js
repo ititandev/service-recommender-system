@@ -283,10 +283,10 @@ router.delete("/services/:id", function(req, res, next) {
       serviceId = req.param("id");
       uid = payload.uid;
       role = payload.role;
-      if (role !== "admin")
+      if (role == "user")
         return res.json({
           success: false,
-          message: "Sorry! Only admin is allowed to delete the service"
+          message: "Sorry! Only admin/provider is allowed to delete the service"
         });
 
       ServiceModel.findOne({ _id: serviceId }, (err, data) => {
@@ -296,18 +296,27 @@ router.delete("/services/:id", function(req, res, next) {
             message: "the service is not existed",
             data: serviceId
           });
-        } else {
-          ServiceModel.remove(
-            {
-              _id: serviceId
-            },
-            err => console.log(err)
+        } 
+        else {
+          if (role == "provider" && data.provider_id != uid)
+            return res.json({
+              success: false,
+              message: "Only own service is allowed to delete"
+            })
+          ServiceModel.remove({_id: serviceId},
+            err => {
+              if (err)
+              return res.json({
+                success: false,
+                message: "Some error happen " + err
+              })
+              return res.json({
+                success: true,
+                data: serviceId
+              });
+            }
           );
-          return res.json({
-            success: false,
-            message: "Delete Success",
-            data: serviceId
-          });
+          
         }
       });
     })
