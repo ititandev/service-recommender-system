@@ -1,0 +1,394 @@
+
+{
+  "header": {
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20190513.191731.16873.0.001.json",
+    "dumpEventTime": "2019-05-13T19:17:31Z",
+    "dumpEventTimeStamp": "1557749851485",
+    "processId": 16873,
+    "commandLine": [
+      "/home/tdtai/.nvm/versions/node/v11.13.0/bin/node",
+      "/home/tdtai/Desktop/service-recommender-system/UI/material-dashboard-react/node_modules/react-scripts/scripts/start.js"
+    ],
+    "nodejsVersion": "v11.13.0",
+    "glibcVersionRuntime": "2.27",
+    "glibcVersionCompiler": "2.12",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "linux",
+    "componentVersions": {
+      "node": "11.13.0",
+      "v8": "7.0.276.38-node.18",
+      "uv": "1.27.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "67",
+      "nghttp2": "1.34.0",
+      "napi": "4",
+      "llhttp": "1.1.1",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1b",
+      "cldr": "34.0",
+      "icu": "63.1",
+      "tz": "2018e",
+      "unicode": "11.0"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v11.13.0/node-v11.13.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v11.13.0/node-v11.13.0.tar.gz"
+    },
+    "osName": "Linux",
+    "osRelease": "4.15.0-48-generic",
+    "osVersion": "#51-Ubuntu SMP Wed Apr 3 08:28:49 UTC 2019",
+    "osMachine": "x86_64",
+    "host": "MGT"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x0000000000a6dd6d",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::string const&, v8::Local<v8::String>) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x000000000095b483",
+      "symbol": "node::OnFatalError(char const*, char const*) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b3b32e",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b3b564",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f3abb2",
+      "symbol": " [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f3acb8",
+      "symbol": "v8::internal::Heap::CheckIneffectiveMarkCompact(unsigned long, double) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f473d8",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f47eeb",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f4ac21",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationSpace, v8::internal::AllocationAlignment) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f14e54",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationSpace) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x00000000011cb15e",
+      "symbol": "v8::internal::Runtime_AllocateInNewSpace(int, v8::internal::Object**, v8::internal::Isolate*) [/home/tdtai/.nvm/versions/node/v11.13.0/bin/node]"
+    },
+    {
+      "pc": "0x00000d8382f4fc5d",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 1480286208,
+    "totalCommittedMemory": 1478536184,
+    "usedMemory": 1430238568,
+    "availableMemory": 47587656,
+    "memoryLimit": 1526909922,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 524288,
+        "committedMemory": 42224,
+        "capacity": 515584,
+        "used": 33520,
+        "available": 482064
+      },
+      "new_space": {
+        "memorySize": 2097152,
+        "committedMemory": 1525640,
+        "capacity": 1031168,
+        "used": 459776,
+        "available": 571392
+      },
+      "old_space": {
+        "memorySize": 711659520,
+        "committedMemory": 711353712,
+        "capacity": 668655384,
+        "used": 668552928,
+        "available": 102456
+      },
+      "code_space": {
+        "memorySize": 5767168,
+        "committedMemory": 5715520,
+        "capacity": 4756032,
+        "used": 4756032,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 6303744,
+        "committedMemory": 5964752,
+        "capacity": 4358800,
+        "used": 4358800,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 753934336,
+        "committedMemory": 753934336,
+        "capacity": 798509256,
+        "used": 752077512,
+        "available": 46431744
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 0,
+        "used": 0,
+        "available": 0
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 687.541,
+    "kernelCpuSeconds": 18.6883,
+    "cpuConsumptionPercent": 6.35441,
+    "maxRss": 1679761408,
+    "pageFaults": {
+      "IORequired": 46,
+      "IONotRequired": 4957922
+    },
+    "fsActivity": {
+      "reads": 211168,
+      "writes": 7472
+    }
+  },
+  "uvthreadResourceUsage": {
+    "userCpuSeconds": 347.541,
+    "kernelCpuSeconds": 10.0423,
+    "cpuConsumptionPercent": 3.21742,
+    "fsActivity": {
+      "reads": 87288,
+      "writes": 0
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "LESSOPEN": "| /usr/bin/lesspipe %s",
+    "npm_package_dependencies_prettier": "1.16.4",
+    "npm_package_dependencies__material_ui_icons": "3.0.2",
+    "UNITY_DEFAULT_PROFILE": "unity",
+    "GTK_CSD": "0",
+    "USER": "tdtai",
+    "UNITY_HAS_3D_SUPPORT": "true",
+    "LC_TIME": "en_GB.UTF-8",
+    "npm_config_version_commit_hooks": "true",
+    "npm_config_user_agent": "yarn/1.13.0 npm/? node/v11.13.0 linux x64",
+    "TEXTDOMAIN": "im-config",
+    "npm_package_bugs_url": "https://github.com/creativetimofficial/material-dashboard-react/issues",
+    "npm_package_dependencies__material_ui_core": "3.9.2",
+    "npm_config_bin_links": "true",
+    "COMPIZ_CONFIG_PROFILE": "ubuntu",
+    "XDG_SESSION_TYPE": "x11",
+    "GNOME_SESSION_XDG_SESSION_PATH": "",
+    "npm_node_execpath": "/home/tdtai/.nvm/versions/node/v11.13.0/bin/node",
+    "npm_config_init_version": "1.0.0",
+    "SHLVL": "2",
+    "QT4_IM_MODULE": "xim",
+    "HOME": "/home/tdtai",
+    "OLDPWD": "/home/tdtai/Desktop/service-recommender-system/UI",
+    "DESKTOP_SESSION": "unity",
+    "NVM_BIN": "/home/tdtai/.nvm/versions/node/v11.13.0/bin",
+    "npm_package_devDependencies_eslint_config_prettier": "4.0.0",
+    "npm_package_optionalDependencies_ajv": "6.9.1",
+    "npm_config_init_license": "MIT",
+    "GTK_MODULES": "gail:atk-bridge:unity-gtk-module",
+    "YARN_WRAP_OUTPUT": "false",
+    "npm_config_version_tag_prefix": "v",
+    "LC_MONETARY": "en_GB.UTF-8",
+    "MANAGERPID": "1838",
+    "npm_package_scripts_lint_fix": "eslint . --ext=js,jsx --fix;  exit 0",
+    "DBUS_STARTER_BUS_TYPE": "session",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus,guid=67b35c6df5e7c2f9f5c3cd345cd8cd1a",
+    "npm_package_scripts_install_clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "npm_package_dependencies_react_google_maps": "9.4.5",
+    "COLORTERM": "truecolor",
+    "LIBVIRT_DEFAULT_URI": "qemu:///system",
+    "npm_package_dependencies_react_scripts": "2.1.5",
+    "npm_package_dependencies_react_router_dom": "4.3.1",
+    "npm_package_description": "Material Dashboard React. Coded by Creative Tim",
+    "NVM_DIR": "/home/tdtai/.nvm",
+    "npm_package_readmeFilename": "README.md",
+    "npm_package_homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
+    "MANDATORY_PATH": "/usr/share/gconf/unity.mandatory.path",
+    "IM_CONFIG_PHASE": "2",
+    "LOGNAME": "tdtai",
+    "GTK_IM_MODULE": "ibus",
+    "npm_package_scripts_build_package_css": "cp src/assets/css/material-dashboard-react.css dist/material-dashboard-react.css",
+    "JOURNAL_STREAM": "9:37136",
+    "_": "/usr/local/bin/yarn",
+    "npm_package_private": "false",
+    "DEFAULTS_PATH": "/usr/share/gconf/unity.default.path",
+    "npm_config_registry": "https://registry.yarnpkg.com",
+    "USERNAME": "tdtai",
+    "TERM": "xterm-256color",
+    "GNOME_DESKTOP_SESSION_ID": "this-is-deprecated",
+    "npm_package_scripts_start": "react-scripts start",
+    "npm_config_ignore_scripts": "",
+    "WINDOWPATH": "2",
+    "npm_package_author_email": "hello@creative-tim.com",
+    "npm_package_scripts_build_package": "npm run build-package-css && babel src --out-dir dist",
+    "PATH": "/tmp/yarn--1557738348607-0.019981908157681083:/home/tdtai/Desktop/service-recommender-system/UI/material-dashboard-react/node_modules/.bin:/home/tdtai/.config/yarn/link/node_modules/.bin:/home/tdtai/Desktop/service-recommender-system/UI/material-dashboard-react/node_modules/.bin:/home/tdtai/.config/yarn/link/node_modules/.bin:/home/tdtai/.yarn/bin:/home/tdtai/.nvm/versions/node/v11.13.0/libexec/lib/node_modules/npm/bin/node-gyp-bin:/home/tdtai/.nvm/versions/node/v11.13.0/lib/node_modules/npm/bin/node-gyp-bin:/home/tdtai/.nvm/versions/node/v11.13.0/bin/node_modules/npm/bin/node-gyp-bin:/home/tdtai/.nvm/versions/node/v11.13.0/bin:/home/tdtai/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/tdtai/Android/Sdk/:~/Android/Sdk/platform-tools/",
+    "NODE": "/home/tdtai/.nvm/versions/node/v11.13.0/bin/node",
+    "INVOCATION_ID": "a92685e56bbe43b896cd265346989a02",
+    "PAPERSIZE": "a4",
+    "SESSION_MANAGER": "local/MGT:@/tmp/.ICE-unix/2095,unix/MGT:/tmp/.ICE-unix/2095",
+    "npm_package_repository_type": "git",
+    "npm_package_name": "material-dashboard-react",
+    "XDG_MENU_PREFIX": "gnome-",
+    "GNOME_TERMINAL_SCREEN": "/org/gnome/Terminal/screen/b40c34b8_b6f2_4306_8999_6e65bcdaa9e4",
+    "LC_ADDRESS": "en_GB.UTF-8",
+    "XDG_RUNTIME_DIR": "/run/user/1000",
+    "DISPLAY": ":0",
+    "ZEITGEIST_DATA_PATH": "/home/tdtai/.local/share/zeitgeist",
+    "npm_package_scripts_eject": "react-scripts eject",
+    "LANG": "en_US.UTF-8",
+    "XDG_CURRENT_DESKTOP": "Unity:Unity7:ubuntu",
+    "LC_TELEPHONE": "en_GB.UTF-8",
+    "LD_PRELOAD": "libgtk3-nocsd.so.0",
+    "npm_package_optionalDependencies__types_markerclustererplus": "2.1.33",
+    "npm_package_dependencies_redux": "^4.0.1",
+    "npm_package_dependencies_react_dom": "16.8.1",
+    "npm_package_dependencies_react_chartist": "0.13.3",
+    "npm_package_dependencies_history": "4.7.2",
+    "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:",
+    "XDG_SESSION_DESKTOP": "unity",
+    "XMODIFIERS": "@im=ibus",
+    "GNOME_TERMINAL_SERVICE": ":1.198",
+    "XAUTHORITY": "/run/user/1000/gdm/Xauthority",
+    "npm_lifecycle_script": "react-scripts start",
+    "npm_package_browserslist_0": ">0.2%",
+    "npm_package_main": "dist/index.js",
+    "SSH_AUTH_SOCK": "/run/user/1000/keyring/ssh",
+    "SSH_AGENT_LAUNCHER": "gnome-keyring",
+    "npm_package_browserslist_1": "not dead",
+    "npm_package_scripts_test": "react-scripts test --env=jsdom",
+    "npm_package_dependencies_react_swipeable_views": "0.13.1",
+    "npm_package_dependencies_chartist": "0.10.1",
+    "npm_config_version_git_message": "v%s",
+    "LC_NAME": "en_GB.UTF-8",
+    "SHELL": "/bin/bash",
+    "npm_lifecycle_event": "start",
+    "npm_package_browserslist_2": "not ie <= 11",
+    "npm_package_repository_url": "git+https://github.com/creativetimofficial/material-dashboard-react.git",
+    "npm_package_version": "1.6.0",
+    "QT_ACCESSIBILITY": "1",
+    "GDMSESSION": "unity",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"run\",\"start\"],\"original\":[\"start\"]}",
+    "npm_package_browserslist_3": "not op_mini all",
+    "npm_package_scripts_build": "react-scripts build",
+    "npm_package_dependencies_perfect_scrollbar": "1.4.0",
+    "LESSCLOSE": "/usr/bin/lesspipe %s %s",
+    "npm_package_optionalDependencies__types_googlemaps": "3.30.16",
+    "LC_MEASUREMENT": "en_GB.UTF-8",
+    "npm_config_version_git_tag": "true",
+    "npm_config_version_git_sign": "",
+    "TEXTDOMAINDIR": "/usr/share/locale/",
+    "GPG_AGENT_INFO": "/run/user/1000/gnupg/S.gpg-agent:0:1",
+    "LC_IDENTIFICATION": "en_GB.UTF-8",
+    "npm_package_license": "MIT",
+    "npm_package_dependencies_classnames": "2.2.6",
+    "npm_config_strict_ssl": "true",
+    "QT_IM_MODULE": "ibus",
+    "npm_package_devDependencies_eslint_plugin_prettier": "3.0.1",
+    "PWD": "/home/tdtai/Desktop/service-recommender-system/UI/material-dashboard-react",
+    "npm_execpath": "/usr/local/lib/node_modules/yarn/bin/yarn.js",
+    "CLUTTER_IM_MODULE": "xim",
+    "ANDROID_HOME": "/home/tdtai/Android/Sdk/",
+    "NVM_CD_FLAGS": "",
+    "XDG_DATA_DIRS": "/usr/share/unity:/usr/local/share:/usr/share:/var/lib/snapd/desktop",
+    "DBUS_STARTER_ADDRESS": "unix:path=/run/user/1000/bus,guid=67b35c6df5e7c2f9f5c3cd345cd8cd1a",
+    "XDG_CONFIG_DIRS": "/etc/xdg/xdg-unity:/etc/xdg",
+    "npm_package_author_url": "https://www.creative-tim.com/",
+    "npm_package_author_name": "Creative Tim",
+    "LC_NUMERIC": "en_GB.UTF-8",
+    "npm_package_dependencies_prop_types": "15.7.1",
+    "npm_config_save_prefix": "^",
+    "npm_config_ignore_optional": "",
+    "LC_PAPER": "en_GB.UTF-8",
+    "VTE_VERSION": "5202",
+    "npm_package_scripts_lint_check": "eslint . --ext=js,jsx;  exit 0",
+    "INIT_CWD": "/home/tdtai/Desktop/service-recommender-system/UI/material-dashboard-react",
+    "npm_package_dependencies_react": "16.8.1",
+    "BABEL_ENV": "development",
+    "NODE_ENV": "development",
+    "NODE_PATH": "/home/tdtai/Desktop/service-recommender-system/UI/material-dashboard-react/src"
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": 16777216,
+      "hard": 16777216
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 4096,
+      "hard": 4096
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": "unlimited"
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 31082,
+      "hard": 31082
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "linux-vdso.so.1",
+    "/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0",
+    "/lib/x86_64-linux-gnu/libdl.so.2",
+    "/lib/x86_64-linux-gnu/librt.so.1",
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libpthread.so.0",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "/lib64/ld-linux-x86-64.so.2",
+    "/lib/x86_64-linux-gnu/libnss_files.so.2"
+  ]
+}
