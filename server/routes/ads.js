@@ -13,16 +13,6 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
-function callback(ad_id, uid) {
-  view = new ViewModel({
-    ad_id: ad_id,
-    user_id: uid
-  });
-  view.save(err => {
-    if (err) throw "Some error happen " + err;
-  });
-}
-
 router.get("/ads", (req, res) => {
   limit = parseInt(req.query.limit);
   if (!limit) limit = 2;
@@ -66,8 +56,29 @@ router.get("/ads", (req, res) => {
 
           as.each(
             data,
-            (ad, callback) => {
-              callback(ad._id, uid);
+            (ad, cb) => {
+              view = new ViewModel({
+                ad_id: ad._id,
+                user_id: uid
+              });
+              view.save(err => {
+                if (err) return cb(err);
+                ad.views += 1;
+                if (ad.views >= ad.adtype.max_views) ad.status = "done";
+                ad.save(err => {
+                  if (err) return cb(err);
+                  url = ad.url;
+                  ad.url =
+                    req.protocol +
+                    "://" +
+                    req.get("host") +
+                    "/api/tracking/" +
+                    ad._id +
+                    "?url=" +
+                    encodeURI(url);
+                  return cb();
+                });
+              });
             },
             err => {
               if (err) {
@@ -82,37 +93,6 @@ router.get("/ads", (req, res) => {
               });
             }
           );
-          // async.each(
-          //   data,
-          //   (ad, callback) => {
-          //     ad.views += 1;
-          //     if (ad.views >= ad.adtype.max_views) ad.status = "done";
-          //     ad.save(err => {
-          //       url = ad.url;
-          //       ad.url =
-          //         req.protocol +
-          //         "://" +
-          //         req.get("host") +
-          //         "/api/tracking/" +
-          //         ad._id +
-          //         "?url=" +
-          //         encodeURI(url);
-          //     });
-          //   },
-          //   (err) => {
-          //     if (err) {
-          //       return res.json({
-          //         success: false,
-          //         message: "Some error happen " + err
-          //       });
-          //     } else {
-          //       return res.json({
-          //         success: true,
-          //         data: data
-          //       });
-          //     }
-          //   }
-          // );
         });
     });
 });
