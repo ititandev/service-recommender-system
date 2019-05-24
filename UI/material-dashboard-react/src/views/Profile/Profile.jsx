@@ -38,7 +38,7 @@ const styles = {
 
 class Profile extends React.Component {
   state = {
-    ...Utils.state.user,
+    ...Utils.state.user ,
     disabled: true,
     openUpdateDialog: false,
     openLogoutDialog: false,
@@ -168,7 +168,7 @@ class Profile extends React.Component {
                         () => {
                           this.setState({
                             ...this.state,
-                            disabled: !this.state.disabled
+                            disabled: false,
                           })
                         }
                       }>Chỉnh sửa</Button>
@@ -214,7 +214,7 @@ class Profile extends React.Component {
                     }} onClick={() => {
                       this.setState({
                         ...this.state,
-                        openLogoutDialog:true,
+                        openLogoutDialog: true,
                       })
                     }} />
                   </a>
@@ -283,7 +283,7 @@ class Profile extends React.Component {
   }
 
   logout = () => {
-    Utils.cookies.set('isLogin',"false",{path: '/'})
+    Utils.cookies.set('isLogin', "false", { path: '/' })
     Utils.state = {}
     this.setState({
       ...this.state,

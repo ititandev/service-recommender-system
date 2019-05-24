@@ -13,8 +13,8 @@ import Check from "@material-ui/icons/Check";
 import customInputStyle from "assets/jss/material-dashboard-react/components/customInputStyle.jsx";
 
 class CustomInput extends React.Component {
-  state={
-    value:this.props.value,
+  state = {
+    value: this.props.value,
   }
   render() {
     const {
@@ -56,9 +56,8 @@ class CustomInput extends React.Component {
         ) : null}
         <Input
           value={this.state.value}
-          onChange={event =>{
+          onChange={event => {
             this.setState({
-              ...this.state,
               value: event.target.value,
             })
             this.props.onChange(event)
