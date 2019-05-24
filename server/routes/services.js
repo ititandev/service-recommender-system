@@ -254,7 +254,6 @@ router.get("/services/:id", function(req, res, next) {
           if (err) {
             res.status(500).send("Internal server error " + err);
           } else {
-            console.log(docs);
             let result = [];
             docs.ratings = [];
             result.push(docs);
@@ -296,27 +295,23 @@ router.delete("/services/:id", function(req, res, next) {
             message: "the service is not existed",
             data: serviceId
           });
-        } 
-        else {
+        } else {
           if (role == "provider" && data.provider_id != uid)
             return res.json({
               success: false,
               message: "Only own service is allowed to delete"
-            })
-          ServiceModel.remove({_id: serviceId},
-            err => {
-              if (err)
+            });
+          ServiceModel.remove({ _id: serviceId }, err => {
+            if (err)
               return res.json({
                 success: false,
                 message: "Some error happen " + err
-              })
-              return res.json({
-                success: true,
-                data: serviceId
               });
-            }
-          );
-          
+            return res.json({
+              success: true,
+              data: serviceId
+            });
+          });
         }
       });
     })
@@ -546,7 +541,13 @@ router.post("/comments", (req, res) => {
       ServiceModel.update(
         { _id: serviceId },
         { $push: { comments: comment._id } },
-        err => console.log(err)
+        err => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
+        }
       );
 
       return res.json({ success: true, message: "success", data: comment });
@@ -576,7 +577,13 @@ router.post("/replies", (req, res) => {
       CommentModel.update(
         { _id: commentId },
         { $push: { replies: reply._id } },
-        err => console.log(err)
+        err => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
+        }
       );
 
       return res.json({ success: true, message: "success", data: reply });
@@ -630,7 +637,13 @@ router.post("/ratings", (req, res) => {
                   ratings: rating._id
                 }
               },
-              err => console.log(err)
+              err => {
+                if (err)
+                  return res.json({
+                    success: false,
+                    message: "Some error happen " + err
+                  });
+              }
             );
             return res.json({
               success: true,
@@ -657,12 +670,24 @@ router.post("/ratings", (req, res) => {
                 points: points,
                 date_time: date_time
               },
-              err => console.log(err)
+              err => {
+                if (err)
+                  return res.json({
+                    success: false,
+                    message: "Some error happen " + err
+                  });
+              }
             );
             ServiceModel.update(
               { _id: serviceId },
               { $inc: { "rating.points": incrementPoints } },
-              err => console.log(err)
+              err => {
+                if (err)
+                  return res.json({
+                    success: false,
+                    message: "Some error happen " + err
+                  });
+              }
             );
             return res.json({
               success: true,
