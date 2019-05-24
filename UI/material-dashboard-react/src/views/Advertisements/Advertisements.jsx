@@ -60,7 +60,7 @@ const styles = theme => ({
 
 class Advertisements extends React.Component {
   state = {
-    tableData: [],
+    tableData: [...Utils.adTestData],
     openDeleteDialog: false,
     alertIndex: null
   }
@@ -140,7 +140,7 @@ class Advertisements extends React.Component {
             const index = this.state.alertIndex
             const deletedCateId = this.state.tableData.splice(index, 1)[0]._id
             this.setState({
-              tableData: this.state.tableData,
+              ...this.state,
               openDeleteDialog: false
             })
             this.deleteAd(deletedCateId)
@@ -150,7 +150,7 @@ class Advertisements extends React.Component {
   }
 
   initData() {
-    axios.get('https://servicy.herokuapp.com/ads'
+    axios.get(`${Utils.BASE_URL}/ads?status=running|status=done`
       // , {
       //     headers: {
       //         Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
@@ -186,10 +186,10 @@ class Advertisements extends React.Component {
   }
 
   deleteAd(AdId) {
-    axios.delete(`https://servicy.herokuapp.com/ads/${AdId}`
+    axios.delete(`${Utils.BASE_URL}/ads/${AdId}`
       , {
         headers: {
-          Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2NDJlYTE0MjYwZDU1NDgzZDczMTciLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1NTc4MTYwNzksImV4cCI6MTU1ODQyMDg3OX0.lCm1wazaKq4XGElj3lQecUBxu1fNxYLRcohYoH_7SoE'
+          Authorization: Utils.state.token
         }
       }
     )

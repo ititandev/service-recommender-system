@@ -69,7 +69,7 @@ const styles = theme => ({
 
 class TableList extends React.Component {
     state = {
-        tableData: [],
+        tableData: [...Utils.userTestData],
         openEditDialog: false,
         openDeleteDialog: false,
         alertIndex: null
@@ -234,10 +234,10 @@ class TableList extends React.Component {
     }
 
     initData() {
-        axios.get('https://servicy.herokuapp.com/users?role=user|provider'
+        axios.get(`${Utils.BASE_URL}/users?role=user|provider`
             , {
                 headers: {
-                    Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
+                    Authorization: Utils.state.token
                 }
             }
         )
@@ -270,7 +270,7 @@ class TableList extends React.Component {
     }
 
     updateUser(userId, newUserData) {
-        axios.put(`https://servicy.herokuapp.com/users/${userId}`, newUserData
+        axios.put(`${Utils.BASE_URL}/users/${userId}`, newUserData
             , {
                 headers: {
                     Authorization: Utils.state.token,
@@ -290,7 +290,7 @@ class TableList extends React.Component {
     }
 
     deleteUser(userId) {
-        axios.delete(`https://servicy.herokuapp.com/users/${userId}`
+        axios.delete(`${Utils.BASE_URL}/users/${userId}`
             , {
                 headers: {
                     Authorization: Utils.state.token,

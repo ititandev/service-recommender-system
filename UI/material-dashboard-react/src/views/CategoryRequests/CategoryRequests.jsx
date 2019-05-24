@@ -67,7 +67,7 @@ class TableList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableData: [],
+      tableData: [...Utils.cateTestData],
       openAcceptDialog: false,
       openDeleteDialog: false,
       alertIndex: null
@@ -155,7 +155,7 @@ class TableList extends React.Component {
   }
 
   initData() {
-    axios.get('https://servicy.herokuapp.com/servicetypes?status=pending'
+    axios.get(`${Utils.BASE_URL}/servicetypes?status=pending`
       // , {
       //     headers: {
       //         Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
@@ -195,7 +195,7 @@ class TableList extends React.Component {
       headers: {
         Authorization: Utils.state.token,
       },
-      url: `https://servicy.herokuapp.com/servicetypes/${deletedCateId}`,
+      url: `${Utils.BASE_URL}/servicetypes/${deletedCateId}`,
       data: {
         status: newStatus
       }

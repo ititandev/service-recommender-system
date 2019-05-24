@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import axios from 'axios';
 import Redirect from 'react-router-dom/Redirect';
 import Utils from '../Utils';
+
 const styles = theme => ({
     progress: {
         margin: 1
@@ -60,24 +61,28 @@ class SignIn extends React.Component {
         } else {
             axios({
                 method: 'post',
-                url: 'https://servicy.herokuapp.com/api/login',
+                url: `${Utils.BASE_URL}/api/login`,
                 data: {
                     email: this.state.email, // This is the body part
                     password: this.state.padding,
                 }
             }).then(response => {
+                Utils.cookies.set('isLogin', "true", { path: '/' });
                 if (response.data.success) {
                     Utils.state = {
                         token: response.data.data.token,
                         user: response.data.data.user,
                     }
                 } else {
+                    Utils.state = Utils.defaultState
                     console.log(`login fail with error msg: ${response.data.message}`);
                 }
+
                 this.setState({
                     ...this.state,
                     loginSuccess: true,
                 })
+
             }).catch(function (error) {
                 console.log(error);
             });
@@ -85,7 +90,11 @@ class SignIn extends React.Component {
     }
     render() {
         const { classes } = this.props;
-        return !this.state.loginSuccess ?
+        return (Utils.cookies.get('isLogin') === "true" || this.state.loginSuccess)?
+            <Redirect to={{
+                pathname: "/admin/profile",
+            }} />
+            :
             (
                 <main className={classes.main}>
                     <CssBaseline />
@@ -144,13 +153,7 @@ class SignIn extends React.Component {
                         </form>
                     </Paper>
                 </main>
-            ) : <Redirect from="/admin/login" to={{
-                pathname: "/admin/profile",
-                // state: {
-                //     token: this.state.token,
-                //     user: this.state.user,
-                // }
-            }} />
+            )
     }
 }
 

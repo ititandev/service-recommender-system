@@ -9,6 +9,7 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Check from "@material-ui/icons/Check";
 import IconButton from "@material-ui/core/Button";
 
 import TableBody from '@material-ui/core/TableBody';
@@ -18,7 +19,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
-import Utils from "../../Utils";
+import Utils from "../../Utils.jsx";
 
 const styles = theme => ({
     cardCategoryWhite: {
@@ -58,15 +59,14 @@ const styles = theme => ({
     }
 });
 
-class TableList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tableData: [...Utils.cateTestData],
-            openDeleteDialog: false,
-            alertIndex: null
-        }
+class AdRequests extends React.Component {
+    state = {
+        tableData: [...Utils.adTestData],
+        openDeleteDialog: false,
+        openAcceptDialog: false,
+        alertIndex: null
     }
+
     componentWillMount() {
         this.initData()
     }
@@ -77,9 +77,9 @@ class TableList extends React.Component {
                 <GridItem xs={12} sm={12} md={12}>
                     <Card plain>
                         <CardHeader plain color="primary">
-                            <h4 className={classes.cardTitleWhite}>Danh sách loại dịch vụ</h4>
+                            <h4 className={classes.cardTitleWhite}>Danh sách yêu cầu thêm quảng cáo</h4>
                             <p className={classes.cardCategoryWhite}>
-                                Danh sách các loại dịch vụ đang có trên hệ thống
+                                Danh sách tất các yêu cầu thêm quảng cáo đang chờ duyệt trên hệ thống
                                 </p>
                         </CardHeader>
                         <CardBody>
@@ -87,6 +87,10 @@ class TableList extends React.Component {
                                 <TableHead >
                                     <TableRow>
                                         <TableCell>Tên</TableCell>
+                                        <TableCell>Nhà cung cấp</TableCell>
+                                        <TableCell>URL</TableCell>
+                                        <TableCell>Loại</TableCell>
+                                        <TableCell>Thời gian</TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -94,8 +98,25 @@ class TableList extends React.Component {
                                     {this.state.tableData.map((row, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{row.name}</TableCell>
+                                            <TableCell>{`${row.provider.firstname} ${row.provider.lastname}`}</TableCell>
+                                            <TableCell>
+                                                <a target='_blank' href={row.url}>
+                                                    {row.url}
+                                                </a>
+                                            </TableCell>
+                                            <TableCell>{Utils.getFormatAdtype(row.adtype.name)}</TableCell>
+                                            <TableCell>{Utils.getFormatDate(row.date_time)}</TableCell>
                                             <TableCell >
                                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                    <IconButton color='primary' aria-label="Check" onClick={() => {
+                                                        this.setState({
+                                                            ...this.state,
+                                                            openAcceptDialog: true,
+                                                            alertIndex: index
+                                                        })
+                                                    }}>
+                                                        <Check />
+                                                    </IconButton>
                                                     <IconButton color='secondary' aria-label="Delete" onClick={() => {
                                                         this.setState({
                                                             ...this.state,
@@ -124,24 +145,42 @@ class TableList extends React.Component {
                         })
                     }} handleConfirm={() => {
                         const index = this.state.alertIndex
-                        const deletedCateId = this.state.tableData.splice(index, 1)[0]._id
+                        const updatedAd = this.state.tableData.splice(index, 1)[0]._id
                         this.setState({
-                            tableData: this.state.tableData,
+                            ...this.state,
                             openDeleteDialog: false
                         })
-                        this.deleteCategory(deletedCateId)
+                        this.deleteAd(updatedAd)
+                    }} /> : null}
+
+                {this.state.openAcceptDialog ? <AlertDialog
+                    title={"Xác nhận thêm quảng cáo?"}
+                    description={"Bạn đang thực hiện thêm quảng cáo được chọn vào hệ thống, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
+                    handleCancel={() => {
+                        this.setState({
+                            ...this.state,
+                            openAcceptDialog: false
+                        })
+                    }} handleConfirm={() => {
+                        const index = this.state.alertIndex
+                        const {open, expectedValue, ...updatedAd} = this.state.tableData.splice(index, 1)[0]
+                        this.setState({
+                            ...this.state,
+                            openAcceptDialog: false
+                        })
+                        this.updateAd(updatedAd)
                     }} /> : null}
             </GridContainer>
         );
     }
 
     initData() {
-        axios.get(`${Utils.BASE_URL}/servicetypes?status=active`
-            // , {
-            //     headers: {
-            //         Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
-            //     }
-            // }
+        axios.get(`${Utils.BASE_URL}/ads?status=pending`
+            , {
+                headers: {
+                    Authorization: Utils.state.token
+                }
+            }
         )
             .then(response => {
                 if (response.data.success) {
@@ -149,6 +188,12 @@ class TableList extends React.Component {
                         return {
                             _id: item._id,
                             name: item.name,
+                            provider: item.provider,
+                            url: item.url,
+                            adtype: item.adtype,
+                            date_time: item.date_time,
+                            views: item.views,
+                            status: item.status,
                             open: false,
                             expectedValue: null
                         }
@@ -165,25 +210,45 @@ class TableList extends React.Component {
             });
     }
 
-    deleteCategory(cateId) {
-        axios.delete(`${Utils.BASE_URL}/servicetypes/${cateId}`
+    deleteAd(AdId) {
+        axios.delete(`${Utils.BASE_URL}/ads/${AdId}`
             , {
                 headers: {
-                    Authorization: Utils.state.token,
+                    Authorization: Utils.state.token
                 }
             }
         )
             .then(response => {
                 if (response.data.success) {
-                    console.log(`successful delete Category: ${cateId}`)
+                    console.log(`successful delete Ad: ${AdId}`)
                 } else {
-                    console.log(`fail delete Category ${cateId} with message: ${response.data.message}`)
+                    console.log(`fail delete Ad ${AdId} with message: ${response.data.message}`)
                 }
             })
             .catch(function (error) {
                 console.log(`delete fail with error: ${error}`);
             });
     }
+
+    updateAd(ad) {
+        console.log(ad)
+        axios({
+          method: 'put',
+          url: `${Utils.BASE_URL}/ads/${ad._id}`,
+          headers: {
+            Authorization: Utils.state.token,
+          },
+          data: ad
+        }).then(function (response) {
+            if (response.data.success) {
+              console.log('update ad successfully !')
+            } else {
+              console.log(`update ad fail with error msg: ${response.data.message}`);
+            }
+          }).catch(function (error) {
+            console.log(error);
+          });
+      }
 }
 
-export default withStyles(styles)(TableList);
+export default withStyles(styles)(AdRequests);

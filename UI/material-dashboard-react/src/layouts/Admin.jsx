@@ -9,9 +9,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Navbar from "components/Navbars/Navbar.jsx";
-import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from "routes.js";
 
@@ -19,7 +17,7 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
-import SignIn from "../views/SignIn";
+import Utils from "../Utils";
 
 const switchRoutes = (
   <Switch>
@@ -64,9 +62,6 @@ class Dashboard extends React.Component {
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
-  getRoute() {
-    return this.props.location.pathname !== "/admin/login";
-  }
   resizeFunction = () => {
     if (window.innerWidth >= 960) {
       this.setState({ mobileOpen: false });
@@ -91,46 +86,33 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    return (
-      this.getRoute() ? (
-      <div className={classes.wrapper}>
-        <Sidebar
-          routes={routes}
-          logoText={"Quản trị viên"}
-          logo={logo}
-          image={this.state.image}
-          handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color={this.state.color}
-          {...rest}
-        />
-        <div className={classes.mainPanel} ref="mainPanel">
-          <Navbar
+    return Utils.cookies.get("isLogin") === "false" ?
+      <Redirect to="/login" />
+      : (
+        <div className={classes.wrapper}>
+          <Sidebar
             routes={routes}
+            logoText={"Quản trị viên"}
+            logo={logo}
+            image={this.state.image}
             handleDrawerToggle={this.handleDrawerToggle}
+            open={this.state.mobileOpen}
+            color={this.state.color}
             {...rest}
           />
-          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-          {this.getRoute() ? (
-            <div className={classes.content}>
+          <div className={classes.mainPanel} ref="mainPanel">
+            <Navbar
+              routes={routes}
+              handleDrawerToggle={this.handleDrawerToggle}
+              {...rest}
+            />
+            {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+            {<div className={classes.content}>
               <div className={classes.container}>{switchRoutes}</div>
-            </div>
-          ) : (
-            <div className={classes.map}>{switchRoutes}</div>
-          )}
-          {this.getRoute() ? <Footer /> : null}
-          {/*<FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            bgColor={this.state["color"]}
-            bgImage={this.state["image"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-          />*/ }
+            </div>}
+          </div>
         </div>
-      </div>
-      ) : <SignIn/>
-    );
+      )
   }
 }
 
