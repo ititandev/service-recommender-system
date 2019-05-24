@@ -27,6 +27,7 @@ router.get("/ads", (req, res) => {
         .limit(limit)
         .populate("adtype")
         .populate("provider", "_id firstname lastname avatar")
+        .sort()
         .exec((err, data) => {
           if (err) {
             return res.json({
@@ -131,8 +132,8 @@ router.get("/adtypes", (req, res) => {
 });
 
 router.post("/ads", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    payload => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       uid = payload.uid;
       role = payload.role;
       if (role != "provider")
@@ -156,14 +157,13 @@ router.post("/ads", (req, res) => {
         success: true,
         data: ad
       });
-    },
-    err => {
+    })
+    .catch(err => {
       return res.json({
         success: false,
-        message: "Authentication failed"
+        message: "Authentication failed " + err
       });
-    }
-  );
+    });
 });
 
 router.delete("/ads/:id", (req, res) => {
@@ -180,7 +180,6 @@ router.delete("/ads/:id", (req, res) => {
             success: false,
             mesesage: "Advertisement not found"
           });
-        console.log(payload.role);
         if (payload.role == "provider")
           if (ad.provider != payload.uid)
             return res.json({
@@ -204,7 +203,67 @@ router.delete("/ads/:id", (req, res) => {
     .catch(err => {
       res.json({
         success: false,
-        message: "Authentication failed"
+        message: "Authentication failed " + err
+      });
+    });
+});
+
+router.put("/ads/:id", (req, res) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      AdModel.findById(req.params.id, (err, ad) => {
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          });
+        if (!ad)
+          return res.json({
+            success: false,
+            message: "Advertisement not found"
+          });
+        if (payload.uid != ad.provider && payload.role != "admin")
+          return res.json({
+            success: false,
+            message: "Only admin can modify other advertisement"
+          });
+        if (req.body.status && payload.role != "admin")
+          return res.json({
+            success: false,
+            message: "Only admin can modify status of advertisement"
+          });
+        delete req.body._id;
+
+        for (var prop in req.body) ad[prop] = req.body[prop];
+
+        ad.save(err => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
+          return res.json({
+            success: true,
+            data: ad
+          });
+        });
+      });
+    })
+    .catch(err => {
+      return res.json({
+        success: false,
+        message: "Authentication failed " + err
+      });
+    });
+});
+
+router.get("/views/:id", (req, res) => {
+  verifyJWTToken(req.headers("Authorization"))
+    .then(payload => {})
+    .catch(err => {
+      res.json({
+        success: false,
+        message: "Authentication failed " + err
       });
     });
 });
