@@ -1,17 +1,18 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const { createJWToken, verifyJWTToken } = require('../auth.js');
+const { createJWToken, verifyJWTToken } = require("../auth.js");
 
-const RequestModel = require('../schema/RequestModel');
-mongoose.connect('mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy', { useNewUrlParser: true });
-
-
+const RequestModel = require("../schema/RequestModel");
+mongoose.connect(
+  "mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy",
+  { useNewUrlParser: true }
+);
 
 router.post("/requests", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    (payload) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
       uid = payload.uid;
       role = payload.role;
       if (role !== "user")
@@ -23,11 +24,12 @@ router.post("/requests", (req, res) => {
       request = new RequestModel({
         user: uid,
         provider: req.body.provider_id,
+        service: req.body.service,
         message: req.body.message,
-        status: "new",
-      })
+        status: "new"
+      });
 
-      request.save((err) => {
+      request.save(err => {
         if (err)
           return res.json({
             success: false,
@@ -36,110 +38,102 @@ router.post("/requests", (req, res) => {
         return res.json({
           success: true,
           message: request
-        })
-      })
-
-    },
-    (err) => {
-      return res.json({
-        success: false,
-        message: "Authentication failed"
+        });
       });
     })
-    .catch((err) => {
+    .catch(err => {
       return res.json({
         success: false,
         message: "Some error happen " + err
-      })
-    })
-})
+      });
+    });
+});
 
 router.get("/requests", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    (payload) => {
-      uid = payload.uid;
-      role = payload.role;
-      if (role !== "provider")
+  verifyJWTToken(req.header("Authorization"))
+    .then(
+      payload => {
+        uid = payload.uid;
+        role = payload.role;
+        if (role !== "provider")
+          return res.json({
+            success: false,
+            message: "Please login as provider."
+          });
+
+        RequestModel.find({ provider: uid })
+          .populate("user", "email firstname lastname phone avatar")
+          .populate("service", "_id name avatar")
+          .exec((err, requests) => {
+            if (err) {
+              return res.json({
+                success: false,
+                message: "Some error happen " + err
+              });
+            }
+
+            return res.json({
+              success: true,
+              data: requests
+            });
+          });
+      },
+      err => {
         return res.json({
           success: false,
-          message: "Please login as provider."
+          message: "Authentication failed"
         });
-
-      RequestModel.find({ provider: uid })
-        .populate("user", "email firstname lastname phone avatar")
-        .exec((err, requests) => {
-          if (err) {
-            return res.json({
-              success: false,
-              message: "Some error happen " + err
-            })
-          }
-
-          return res.json({
-            success: true,
-            data: requests
-          })
-        })
-
-    },
-    (err) => {
-      return res.json({
-        success: false,
-        message: "Authentication failed"
-      });
-    })
-    .catch((err) => {
+      }
+    )
+    .catch(err => {
       return res.json({
         success: false,
         message: "Some error happen " + err
-      })
-    })
-})
+      });
+    });
+});
 
 router.put("/requests", (req, res) => {
-  verifyJWTToken(req.header("Authorization")).then(
-    (payload) => {
-      uid = payload.uid;
-      role = payload.role;
-      if (role !== "provider")
-        return res.json({
-          success: false,
-          message: "Please login as provider."
-        });
+  verifyJWTToken(req.header("Authorization"))
+    .then(
+      payload => {
+        uid = payload.uid;
+        role = payload.role;
+        if (role !== "provider")
+          return res.json({
+            success: false,
+            message: "Please login as provider."
+          });
 
-      RequestModel.findById(req.body.request_id,
-        (err, request) => {
-          if (err) 
+        RequestModel.findById(req.body.request_id, (err, request) => {
+          if (err)
             return res.json({
               success: false,
               message: "Some error happen " + err
-            })
-          request.status = "seen"
-          
-          request.save((err) => {
+            });
+          request.status = "seen";
+
+          request.save(err => {
             return res.json({
               success: true,
               data: request
-            })
-          })
-          
-
-        })
-
-
-    },
-    (err) => {
-      return res.json({
-        success: false,
-        message: "Authentication failed"
-      });
-    })
-    .catch((err) => {
+            });
+          });
+        });
+      },
+      err => {
+        return res.json({
+          success: false,
+          message: "Authentication failed"
+        });
+      }
+    )
+    .catch(err => {
       return res.json({
         success: false,
         message: "Some error happen " + err
-      })
-    })
-})
+      });
+    });
+});
 
 module.exports = router;
