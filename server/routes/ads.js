@@ -15,7 +15,7 @@ mongoose.connect(
 
 router.get("/ads", (req, res) => {
   limit = parseInt(req.query.limit);
-  if (!limit) limit = 2;
+  if (!limit) limit = 5;
   uid = null;
 
   verifyJWTToken(req.header("Authorization"))
@@ -24,7 +24,6 @@ router.get("/ads", (req, res) => {
       if (payload.role == "user") throw "user";
 
       AdModel.find({ status: "running" })
-        .limit(limit)
         .populate("adtype")
         .populate("provider", "_id firstname lastname avatar")
         .sort()
@@ -232,7 +231,7 @@ router.put("/ads/:id", (req, res) => {
             success: false,
             message: "Only admin can modify status of advertisement"
           });
-        delete req.body._id;
+        delete req.body._id;  
 
         for (var prop in req.body) ad[prop] = req.body[prop];
 

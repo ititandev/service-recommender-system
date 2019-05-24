@@ -65,18 +65,32 @@ router.delete("/users/:id", function(req, res, next) {
 });
 
 router.get("/users", function(req, res, next) {
-  UserModel.find((err, data) => {
-    if (err) {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      if (payload.role != "admin")
+        return res.json({
+          success: false,
+          message: "Only admin can get all users"
+        });
+      UserModel.find((err, data) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: "Some error happen"
+          });
+        } else
+          res.json({
+            success: true,
+            data: data
+          });
+      });
+    })
+    .catch(err => {
       return res.json({
         success: false,
-        message: "Some error happen"
+        message: "Authentication failed " + err
       });
-    } else
-      res.json({
-        success: true,
-        data: data
-      });
-  });
+    });
 });
 
 router.put("/users/:id", (req, res) => {
