@@ -11,7 +11,7 @@ class  PageNotFound extends React.Component{
   return(
     <React.Fragment>
       <MyAppBar />
-      <h2 style={{textAlign: 'center',marginTop: 100}}>The page you requested not found!</h2>
+      <h2 style={{textAlign: 'center',marginTop: 100}}>Page Not Found!</h2>
       <div style={{
         position: 'absolute',
         bottom: 0,

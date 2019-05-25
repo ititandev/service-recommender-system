@@ -8,7 +8,7 @@ import LayoutBody from "../modules/components/LayoutBody";
 
 import Typography from "../modules/components/Typography";
 import axios from "axios";
-
+import MyFooter from './MyFooter'
 
 import Avatar from "@material-ui/core/Avatar";
 
@@ -35,7 +35,7 @@ import {
 import Rating from 'material-ui-rating'
 import MyAppBar from '../components/MyAppBar'
 import {connect} from 'react-redux'
-
+import AdvertisementList from "../modules/views/AdvertisementList";
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom'
 const styles = theme => ({
@@ -200,18 +200,21 @@ class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      all_services: [],
+      all_services: props.services,
     };
   }
   componentWillMount(){
-    axios.get(`${root}/services`)
-    .then(response=>{
-      const {data}=response.data;
-      this.setState({
-        all_services:data
+    if(this.props.services.length===0){
+      axios.get(`${root}/services?status=active`)
+      .then(response=>{
+        const {data}=response.data;
+        this.setState({
+          all_services:data
+        })
       })
-    })
-    .catch(err=>console.log(err))
+      .catch(err=>console.log(err))
+    }
+
 
   }
   renderGridService(_filter){
@@ -265,7 +268,8 @@ class SearchResult extends React.Component {
     const values = queryString.parse(this.props.location.search)
     const _filter=services.filter(
       item=>{
-        return item.info.location_id.name.indexOf(values.location)>=0
+        console.log(item)
+        return item.info.address.indexOf(values.location)>=0
         &&
         item.servicetype.name.indexOf(values.type)>=0
         &&
@@ -297,6 +301,8 @@ class SearchResult extends React.Component {
       }
       </LayoutBody>
       </section>
+      <AdvertisementList />
+      <MyFooter />
       </React.Fragment>
     );
   }
@@ -305,5 +311,10 @@ class SearchResult extends React.Component {
 SearchResult.propTypes = {
   classes: PropTypes.object.isRequired
 };
+const mapStateToProps=state=>{
+  return{
+    services: state.services.all
+  }
+}
 
-export default connect(null,{})(withRouter(withStyles(styles)(SearchResult)));
+export default connect(mapStateToProps,{})(withRouter(withStyles(styles)(SearchResult)));

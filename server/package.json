@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "update": "cd .. && cd homepage && git pull && npm run-script build && cp build/* -rf ../server/public/ && cd ../server"
+    "update": "cd .. && cd homepage && npm run-script build && rm -rf ../server/public/* && cp build/* -rf ../server/public/ && cd ../server"
   },
   "dependencies": {
     "async": "^3.0.0",
