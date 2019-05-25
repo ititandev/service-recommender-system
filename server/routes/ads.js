@@ -15,7 +15,7 @@ mongoose.connect(
 
 router.get("/ads", (req, res) => {
   limit = parseInt(req.query.limit);
-  if (!limit) limit = 4;
+  if (!limit) limit = 3;
   uid = null;
 
   verifyJWTToken(req.header("Authorization"))
