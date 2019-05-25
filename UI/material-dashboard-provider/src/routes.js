@@ -17,6 +17,7 @@ import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.jsx";
+import SignIn from 'views/SignIn/SignIn.js'
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.jsx";
 
@@ -27,16 +28,17 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
+    props :true,
     layout: "/admin"
   },
-  {
-    path: "/user",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/user",
+  //   name: "User Profile",
+  //   rtlName: "ملف تعريفي للمستخدم",
+  //   icon: Person,
+  //   component: UserProfile,
+  //   layout: "/admin"
+  // },
   {
     path: "/table",
     name: "Services",
@@ -53,14 +55,7 @@ const dashboardRoutes = [
     component:TableList,
     layout:"/admin"
   },
-  // {
-  //   path:"/icons",
-  //   name:"Services",
-  //   icon:LibraryBooks,
-  //   rtlName:'asdoag',
-  //   component:ServiceList,
-  //   layout:"/admin"
-  // },
+
   // {
   //   path: "/typography",
   //   name: "Advertisements",

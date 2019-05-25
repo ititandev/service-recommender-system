@@ -8,6 +8,16 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
+import Card from "components/Card/Card.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardAvatar from "components/Card/CardAvatar.jsx";
+import CardBody from "components/Card/CardBody.jsx";
+import AddAlert from "@material-ui/icons/AddAlert";
+import Snackbar from "components/Snackbar/Snackbar.jsx";
+import axios from 'axios';
+import Table from "components/Table/Table.jsx";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/Button";
 import {
   FormLabel,
   InputLabel,
@@ -16,6 +26,7 @@ import {
   MenuItem,
   Button
 } from "@material-ui/core";
+import { contains } from "@material-ui/core/utils/helpers";
 const styles = theme => ({
   root: {
     display: "flex"
@@ -36,10 +47,31 @@ const styles = theme => ({
   }
 });
 
+const BtnAdd = props => {
+
+  return (
+    <div>
+      {/* <IconButton color='primary' aria-label="Delete" className={props.className}>
+        <CheckIcon />
+      </IconButton> */}
+      
+      <IconButton aria-label="Delete" className={props.className}>
+        <DeleteIcon onClick={props.onClick}/>
+      </IconButton>
+    </div>
+  );
+};
+
 class TableList extends React.Component {
   state = {
-    value: "female",
-    name: ""
+    value: {},
+    name: "",
+    avatar:"",
+    link:"",
+    locData:[],
+    adsData:[],
+    age:"",
+    message:""
   };
 
   handleChange = event => {
@@ -49,14 +81,185 @@ class TableList extends React.Component {
     this.setState({ [name]: event.target.value });
   };
   handleChangeSelect = event => {
+    console.log(event.target.name,event.target.value)
     this.setState({ [event.target.name]: event.target.value });
   };
+  componentWillMount() {
+    axios.get(`https://servicy.herokuapp.com/api/adtypes`)
+      .then(res => {
+        const locData = res.data.data
+        this.setState({ locData });
+      })
+      axios({
+        method:'GET',
+        url:`https://servicy.herokuapp.com/api/ads`,
+        headers:{
+          Authorization:this.props.user.token,
+        }
+        })
+        .then(res=>{
 
+          const adsData = res.data.data
+          console.log("Đasada",adsData)
+        this.setState({ adsData });
+        })
+  }
+  handleDelete(id){
+    console.log(id);
+    axios({
+      method:'DELETE',
+      url:`https://servicy.herokuapp.com/api/ads/${id}`,
+      headers:{
+        Authorization:this.props.user.token,
+      }
+      })
+      .then(response=>{
+
+        this.setState({message:"Delete Success"})
+      })
+      .catch(err=>this.setState({message:'Unexpected Error was happend! Please Try Again!'}))
+      this.setState(state=>{
+          const ads=state.adsData.filter(i=>i._id!=id)
+          return{
+            ...state,
+            adsData:ads
+          }
+      })      
+
+      var x = [];
+      x["tc1"] = true;
+      this.setState(x);
+      this.alertTimeout = setTimeout(
+        function() {
+          x["tc1"] = false;
+          this.setState(x);
+        }.bind(this),
+        6000
+        );
+    
+  }
+
+  handleBuy(){
+    const banner=this.state.avatar;
+    const name=this.state.name;
+    const url=this.state.link;
+    const adtype=this.state.age;
+    console.log(this.props.user.token)
+    axios({
+      method:'POST',
+      url:`https://servicy.herokuapp.com/api/ads`,
+      headers:{
+        Authorization:this.props.user.token,
+      },
+      data:{
+        banner:banner,
+        url:url,
+        name:name,
+        adtype:adtype
+      }
+      })
+      .then(response=>{
+        console.log("message",response)
+        if (response.data.success) {this.setState({message:"Success"})}
+        
+        else {this.setState({message:"Fail"})}
+      })
+      .catch(err=>this.setState({message:'Unexpected Error was happend! Please Try Again!'}))
+      axios({
+        method:'GET',
+        url:`https://servicy.herokuapp.com/api/ads`,
+        headers:{
+          Authorization:this.props.user.token,
+        }
+        })
+        .then(res=>{
+
+          const adsData = res.data.data
+        this.setState({ adsData });
+        })
+      this.setState({
+        avatar:"",
+        name:"",
+        link:"",
+        age:""
+      })     
+
+      var x = [];
+      x["tc"] = true;
+      this.setState(x);
+      this.alertTimeout = setTimeout(
+        function() {
+          x["tc"] = false;
+          this.setState(x);
+        }.bind(this),
+        6000
+        );
+    
+  }
   render() {
     const { classes } = this.props;
-
+    const options = this.state.locData.map(item=>{return{'value': item, 'label': item.name}})
+    console.log("option",options)
     return (
       <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Advertisement List</h4>
+              
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Name", "Type", "Status", "Views", "Time"]}
+                tableData={
+                  this.state.adsData.map((item,index) => {
+                    return [
+                      item.name, item.adtype.name, item.status,
+                      item.views, item.datetime , <BtnAdd   className={classes.margin} onClick={()=>this.handleDelete(item._id)}/>
+                    ]
+                  }).sort(function(a, b) {
+                    var nameA = a[4]//.toUpperCase(); // bỏ qua hoa thường
+                    var nameB = b[4]//.toUpperCase(); // bỏ qua hoa thường
+                    if (nameA < nameB) {
+                      return 1;
+                    }
+                    if (nameA > nameB) {
+                      return -1;
+                    }
+                  
+                    // name trùng nhau
+                    return 0;
+                  })
+                }
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+      
+          <Snackbar
+                    place="tc"
+                    color="info"
+                    icon={AddAlert}
+                    message={this.state.message}
+                    open={this.state.tc}
+                    closeNotification={() => this.setState({ tc: false })}
+                    close
+                  />
+             <Snackbar
+                    place="tc1"
+                    color="info"
+                    icon={DeleteIcon}
+                    message={this.state.message}
+                    open={this.state.tc1}
+                    closeNotification={() => this.setState({ tc1: false })}
+                    close
+                  />
+         <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Add Advertisement</h4>
+            </CardHeader>
+            <CardBody>
         <GridItem xs={12} sm={6} >
           <TextField
             id="outlined-name"
@@ -68,12 +271,10 @@ class TableList extends React.Component {
             fullWidth
             variant="outlined"
           />
-          <Button variant="outlined" color="primary" className={[classes.textField,classes.button]  }>
-            Upload Image
-          </Button>
+          
         </GridItem>
 
-        <GridItem xs={12} sm={12} md={12}>
+        {/* <GridItem xs={12} sm={12} md={12}>
           <FormLabel component="legend" className={classes.textField}>
             Direction
           </FormLabel>
@@ -95,14 +296,14 @@ class TableList extends React.Component {
               label="Horizontal"
             />
           </RadioGroup>
-        </GridItem>
+        </GridItem> */}
         <GridItem xs={12} sm={12} md={12}>
           <TextField
             id="link"
             label="Link"
             className={classes.textField}
-            value={this.state.name}
-            onChange={this.handleChangeText("name")}
+            value={this.state.link}
+            onChange={this.handleChangeText("link")}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -119,15 +320,11 @@ class TableList extends React.Component {
             className={classes.textField}
             input={<Input name="age" id="age-helper" />}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            
+            {this.state.locData.map(location=>( <MenuItem value= {location} > {location.name} </MenuItem>))}
           </Select>
         </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
+        {/* <GridItem xs={12} sm={12} md={12}>
           <InputLabel htmlFor="age-helper" className={classes.textField}>
             Payment Methods
           </InputLabel>
@@ -145,12 +342,26 @@ class TableList extends React.Component {
             <MenuItem value={20}>Mastercard</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
+        </GridItem> */}
+        <GridItem xs={12} sm={12} md={12}>
+          <TextField
+            id="avatar"
+            label="Avatar"
+            className={classes.textField}
+            value={this.state.avatar}
+            onChange={this.handleChangeText("avatar")}
+            margin="normal"
+            variant="outlined"
+            fullWidth
+          />
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
-          <Button variant="outlined" color="primary" className={classes.button}>
-            Submit
+          <Button variant="outlined" color="primary" className={classes.button} onClick={()=>this.handleBuy()}>
+            Buy
           </Button>
         </GridItem>
+        </CardBody>
+        </Card>
       </GridContainer>
     );
   }

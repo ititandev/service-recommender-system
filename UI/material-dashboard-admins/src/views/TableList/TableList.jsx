@@ -162,6 +162,7 @@
 
 // export default withStyles(styles)(TableList);
 import React from "react";
+import axios from 'axios'
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -178,7 +179,7 @@ const BtnAdd = props => {
   console.log(props);
   return (
     <div>
-       <IconButton color='primary' aria-label="Delete" className={props.className}>
+      <IconButton color='primary' aria-label="Delete" className={props.className}>
         <CheckIcon />
       </IconButton>
       <IconButton aria-label="Delete" className={props.className}>
@@ -217,35 +218,58 @@ const styles = {
   }
 };
 
-function TableList(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Advertisements List</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Views", "Time", "Status",""]}
-              tableData={[
-                ["Dakota Rice", "1000", "1/1/2019", "New",<BtnAdd />],
-                ["Minerva Hooper", "3000", "1/1/2018", "Pending",<BtnAdd />],
-                ["Sage Rodriguez", "400", "1/1/2016", "Running",<BtnAdd />],
-              
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-     
-    </GridContainer>
-  );
+class TableList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      adsData: []
+    }
+  }
+  
+  componentWillMount() {
+    axios.get(`https://servicy.herokuapp.com/ads`)
+      .then(res => {
+        const adsData = res.data.data
+        this.setState({ adsData });
+      })
+  }
+  render() {
+    const { classes } = this.props;
+    return (
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Advertisements List</h4>
+              {/* <p className={classes.cardCategoryWhite}>
+                Here is a subtitle for this table
+            </p> */}
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Name", "Provider","Views", "Time", "Status", ""]}
+                // tableData={[
+                //   ["Dakota Rice", "1000", "1/1/2019", "New", <BtnAdd />],
+                //   ["Minerva Hooper", "3000", "1/1/2018", "Pending", <BtnAdd />],
+                //   ["Sage Rodriguez", "400", "1/1/2016", "Running", <BtnAdd />],
+                // ]}
+                tableData={
+                  this.state.adsData.map(item => {
+                    return [
+                      item.name,item.provider.firstname+" "+item.provider.lastname, item.views, item.date_time, item.status, <BtnAdd />
+                    ]
+                  })
+                }
+                
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+
+      </GridContainer>
+    )
+  }
 }
 
 export default withStyles(styles)(TableList);

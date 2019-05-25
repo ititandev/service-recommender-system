@@ -29,7 +29,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-
+import axios from "axios";
 import { bugs, website, server } from "variables/general.jsx";
 
 import {
@@ -41,9 +41,14 @@ import {
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
-  state = {
-    value: 0
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: 0,
+      adsData:[],
+      serData:[],
+    };
+  }
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -51,12 +56,54 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+  componentWillMount() {
+    axios.get(`https://servicy.herokuapp.com/api/services`)
+      .then(res => {
+        const serData = (res.data.data).filter(item => item.provider_id._id == this.props.user.user._id)
+        this.setState({ serData });
+      })
+      axios({
+        method:'GET',
+        url:`https://servicy.herokuapp.com/api/ads`,
+        headers:{
+          Authorization:this.props.user.token,
+        }
+        })
+        .then(res=>{
+          const adsData = res.data.data
+        this.setState({ adsData });
+        })
+  }
   render() {
     const { classes } = this.props;
+    const adsver=this.state.adsData.filter(i=>i.status=="running").sort(function(a, b) {
+      var nameA = a.name; // bỏ qua hoa thường
+      var nameB = b.name; // bỏ qua hoa thường
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+    
+      // name trùng nhau
+      return 0;
+    })
+    const labels=adsver.map(i=>{return i.name.substring(0, 5)})
+    console.log("se",adsver)
+    const series=adsver.map(i=>{return i.views})
+    console.log("se",series)
+    const data={labels:labels,
+    series:[series]}
+    var options=emailsSubscriptionChart.options
+    console.log("op1",series.sort()[0]+200)
+    options.high=series.sort()[0]+200
+    
+    console.log("op1",options)
     return (
       <div>
         <GridContainer>
-          <GridItem xs={12} sm={6} md={3}>
+          {/* <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
@@ -78,15 +125,15 @@ class Dashboard extends React.Component {
                 </div>
               </CardFooter>
             </Card>
-          </GridItem>
+          </GridItem> */}
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="success" stats icon>
                 <CardIcon color="success">
                   <Store />
                 </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34,245</h3>
+                <p className={classes.cardCategory}>Services</p>
+                <h3 className={classes.cardTitle}>{this.state.serData.length}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -97,6 +144,23 @@ class Dashboard extends React.Component {
             </Card>
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="success" stats icon>
+                <CardIcon color="danger">
+                  <Store />
+                </CardIcon>
+                <p className={classes.cardCategory}>Advertisement</p>
+                <h3 className={classes.cardTitle}>{this.state.adsData.length}</h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <DateRange />
+                  Last 24 Hours
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          {/* <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="danger" stats icon>
                 <CardIcon color="danger">
@@ -129,10 +193,38 @@ class Dashboard extends React.Component {
                 </div>
               </CardFooter>
             </Card>
+          </GridItem> */}
+        </GridContainer>
+        <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+            <Card chart>
+              <CardHeader color="success">
+                <ChartistGraph
+                  className="ct-chart"
+                  data={data}
+                  // data={emailsSubscriptionChart.data}
+                  type="Bar"
+                  options={options}
+                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
+                  listener={emailsSubscriptionChart.animation}
+                />
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Views</h4>
+                <p className={classes.cardCategory}>
+                  Last Campaign Performance
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <AccessTime /> just now
+                </div>
+              </CardFooter>
+            </Card>
           </GridItem>
         </GridContainer>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={4}>
+          {/* <GridItem xs={12} sm={12} md={4}>
             <Card chart>
               <CardHeader color="success">
                 <ChartistGraph
@@ -158,33 +250,9 @@ class Dashboard extends React.Component {
                 </div>
               </CardFooter>
             </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
+          </GridItem> */}
+
+          {/* <GridItem xs={12} sm={12} md={4}>
             <Card chart>
               <CardHeader color="danger">
                 <ChartistGraph
@@ -207,9 +275,10 @@ class Dashboard extends React.Component {
                 </div>
               </CardFooter>
             </Card>
-          </GridItem>
+          </GridItem> */}
         </GridContainer>
-        <GridContainer>
+        
+        {/* <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
             <CustomTabs
               title="Tasks:"
@@ -273,7 +342,7 @@ class Dashboard extends React.Component {
               </CardBody>
             </Card>
           </GridItem>
-        </GridContainer>
+        </GridContainer> */}
       </div>
     );
   }

@@ -92,7 +92,7 @@ const emailsSubscriptionChart = {
       showGrid: false
     },
     low: 0,
-    high: 1000,
+    high: 1500,
     chartPadding: {
       top: 0,
       right: 5,

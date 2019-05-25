@@ -17,6 +17,7 @@ import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.jsx";
+
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.jsx";
 
@@ -37,14 +38,7 @@ const dashboardRoutes = [
     component: UserProfile,
     layout: "/admin"
   },
-  // {
-  //   path: "/table",
-  //   name: "Services List",
-  //   rtlName: "قائمة الجدول",
-  //   icon: "content_paste",
-  //   component: TableList,
-  //   layout: "/admin",
-  // },
+  
   // {
   //   path:"/typography",
   //   name:"Services List",

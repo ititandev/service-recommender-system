@@ -175,8 +175,37 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/Button";
 import CheckIcon from '@material-ui/icons/Check'
+import CustomInput from "components/CustomInput/CustomInput.jsx";
+import CardFooter from "components/Card/CardFooter.jsx";
 import Fab from '@material-ui/core/Fab'
-const styles = {
+import AddAlert from "@material-ui/icons/AddAlert";
+import Snackbar from "components/Snackbar/Snackbar.jsx";
+import axios from 'axios'
+import TextField from "@material-ui/core/TextField";
+import {
+  FormLabel,
+  InputLabel,
+  Select,
+  Input,
+  MenuItem,
+  Button,
+  ButtonToolbar
+
+} from "@material-ui/core";
+import Typography from '../SignIn/Typography';
+import Modal from '@material-ui/core/Modal';
+import { type } from "os";
+function getModalStyle() {
+  const top = 100
+  const left = 100
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+const styles = theme => ({
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
       color: "rgba(255,255,255,.62)",
@@ -203,59 +232,493 @@ const styles = {
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  paper: {
+    position: "absolute",
+    width: theme.spacing.unit * 180,
   }
+});
+  const BtnAdd = props => {
+
+    return (
+      <div>
+        {/* <IconButton color='primary' aria-label="Delete" className={props.className}>
+          <CheckIcon />
+        </IconButton> */}
+        
+        <IconButton aria-label="Delete" className={props.className}>
+          <DeleteIcon onClick={props.onClick}/>
+        </IconButton>
+      </div>
+    );
 };
-const BtnAdd = props => {
-  console.log(props);
-  return (
-    <div>
-        <IconButton color='primary' aria-label="Delete" className={props.className}>
-        <CheckIcon />
-      </IconButton>
-      <IconButton aria-label="Delete" className={props.className}>
-        <DeleteIcon />
-      </IconButton>
-    </div>
-  );
-};
-function TableList(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>Services List</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Time", "Status",""]}
-              tableData={[
-                ["Dakota Rice", "1/1/2019", "Pending",<BtnAdd className={classes.margin} />],
-                ["Minerva Hooper", "1/1/2018","Running", <BtnAdd className={classes.margin} />],
-                [
-                  "Sage Rodriguez",
-                  "1/1/2016",
-                  "Running",
-                  <BtnAdd className={classes.margin} />
-                ]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-      <GridItem  xs={12} sm={12} md={12} alignItems='flex-end'>
-      <Fab aria-label="Delete"  color="primary" className={classes.fab}>
-        <AddIcon />
-      </Fab>
-      </GridItem>
+
+class TableList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name:"",
+      name1:"",
+      address:"",
+      images:"",
+      avatar:"",
+      description:"",
+      website:"",
+      serT: "",
+      price: "",
+      local:"",
+      adsData: [],
+      serTData: [],
+      locData: [],
+      open: false,
+      tc: false,
+      tc1: false,
+      massage:"",
+    }
+  }
+  
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+  showNotification(place) {
+    const avatar=this.state.avatar;
+    const name=this.state.name
+    const description=this.state.description;
+    const location=this.state.local;
+    const address=this.state.address;
+    const price=this.state.price;
+    const website=this.state.website;
+    const info={"location":location,
+    "address":address,
+      "price":price,
+      "website":website};
+    const images=[this.state.images];
+    // console.log(this.state.avatar,this.state.name,this.sate.price,this.state.local)
+    const token=this.props.user.token;
+    const serT=this.state.serT;
+    axios({
+      method:'POST',
+      url:`https://servicy.herokuapp.com/api/services/`,
+      headers:{
+        Authorization:this.props.user.token,
+      },
+      data:{
+        avatar,name,description,info,images,serT
+      }
+      })
+      .then(response=>{
+        
+        this.setState({message:"Add success"})
+        this.setState(state=>{
+          const item={...response.data,provider_id: this.props.user.user}
+          const newAds=state.adsData.concat(item);
+          return {
+            ...state,
+            adsData:newAds
+          }
+        })
+
+      })
+      .catch(err=>this.setState({message:'Unexpected Error was happend! Please Try Again!'}))
       
-    </GridContainer>
-  );
+    var x = [];
+    x[place] = true;
+    this.setState(x);
+    this.alertTimeout = setTimeout(
+      function() {
+        x[place] = false;
+        this.setState(x);
+      }.bind(this),
+      6000
+    );
+  }
+  handleAdd(){
+    const name=this.state.name1;
+    axios({
+      method:'POST',
+      url:`https://servicy.herokuapp.com/api/servicetypes`,
+      headers:{
+        Authorization:this.props.user.token,
+      },
+      data:{
+        name:name
+      }
+      })
+      .then(response=>{
+        console.log("message",response)
+        if (response.data.success) {this.setState({message:"Success"})}
+        
+        else {this.setState({message:"Fail"})}
+      })
+      .catch(err=>this.setState({message:'Unexpected Error was happend! Please Try Again!'}))
+      
+      this.setState({
+        name1:"",
+       
+      })     
+
+      var x = [];
+      x["tc"] = true;
+      this.setState(x);
+      this.alertTimeout = setTimeout(
+        function() {
+          x["tc"] = false;
+          this.setState(x);
+        }.bind(this),
+        6000
+        );
+    
+  }
+  handleChangeSelect = event => {
+    console.log(event.target.name, event.target.value)
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  componentWillMount() {
+    axios.get(`https://servicy.herokuapp.com/api/services`)
+      .then(res => {
+        const adsData = (res.data.data).filter(item => item.provider_id._id == this.props.user.user._id)
+        this.setState({ adsData });
+      })
+    axios.get(`https://servicy.herokuapp.com/api/servicetypes`)
+      .then(res => {
+        const serTData = res.data.data
+        this.setState({ serTData });
+      })
+    axios.get(`https://servicy.herokuapp.com/api/locations`)
+      .then(res => {
+        const locData = res.data.data
+        this.setState({ locData });
+      })
+  }
+  handleDelete(id){
+    axios({
+      method:'DELETE',
+      url:`https://servicy.herokuapp.com/api/services/${id}`,
+      headers:{
+        Authorization:this.props.user.token,
+      }
+      })
+      .then(response=>{
+
+        this.setState({message:"Delete Success"})
+      })
+      .catch(err=>this.setState({message:'Unexpected Error was happend! Please Try Again!'}))
+      this.setState(state=>{
+        console.log("log:",state.adsData)
+        console.log("log:",id)
+          const ads=state.adsData.filter(i=>i._id!=id)
+          console.log("log:",ads)
+          return{
+            ...state,
+            adsData:ads
+          }
+      })      
+      console.log(this.state.adsData)
+      var x = [];
+      x["tc1"] = true;
+      this.setState(x);
+      this.alertTimeout = setTimeout(
+        function() {
+          x["tc1"] = false;
+          this.setState(x);
+        }.bind(this),
+        6000
+        );
+    
+  }
+  handleChangeText = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+  
+  render() {
+    const { classes } = this.props;
+   console.log('adssss',this.state.adsData)
+    return (
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card >
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Services List</h4>
+              
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Name", "Description", "Address", "Status", "Rating", ""]}
+                tableData={
+                  this.state.adsData.map((item,index) => {
+                    return [
+                      item.name, item.description, item.info.address,
+                      item.status, Math.round(item.rating.points*10 / item.rating.total)/10, <BtnAdd   className={classes.margin} onClick={()=>this.handleDelete(item._id)}/>
+                    ]
+                  }).sort(function(a, b) {
+                    var nameA = a[0].toUpperCase(); // bỏ qua hoa thường
+                    var nameB = b[0].toUpperCase(); // bỏ qua hoa thường
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                  
+                    // name trùng nhau
+                    return 0;
+                  })
+                }
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem
+          xs={12} sm={12} md={12} alignItems='flex-end'>
+          <Fab aria-label="Delete" color="primary" className={classes.fab}>
+            <AddIcon onClick={this.handleOpen} />
+          </Fab>
+        </GridItem>
+        <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Add Service Type</h4>
+            </CardHeader>
+            <CardBody>
+        <GridItem xs={12} sm={6} >
+          <TextField
+            id="outlined-name"
+            label="Name"
+            className={classes.textField}
+            value={this.state.name1}
+            onChange={this.handleChangeText("name1")}
+            margin="normal"
+            fullWidth
+            variant="outlined"
+          />
+          
+        </GridItem>
+
+       
+        
+        <GridItem xs={12} sm={12} md={12}>
+          <Button variant="outlined" color="primary" className={classes.button} onClick={()=>this.handleAdd()}>
+            Add
+          </Button>
+        </GridItem>
+        </CardBody>
+        </Card>
+        <div>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <div style={getModalStyle()} className={classes.paper}>
+              <GridItem xs={12} sm={12} md={8}>
+                <Card>
+                  <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>Add Service</h4>
+                    <p className={classes.cardCategoryWhite}>Complete your profile</p>
+                  </CardHeader>
+                  <CardBody>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={8}>
+                        <CustomInput
+                          // labelText="Company (disabled)"
+                          // id="company-disabled"
+                          // formControlProps={{
+                          //   fullWidth: true
+                          // }}
+                          // inputProps={{
+                          //   disabled: true
+                          // }}
+                          labelText="Service's name"
+
+                          id="servicename"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          inputProps={{
+                            onChange: this.handleChangeSelect,
+                            name: "name",
+                            type: "text",
+                          }}
+                        />
+                      </GridItem>
+
+                      <GridItem xs={12} sm={12} md={4}>
+                        <CustomInput
+                          value={this.state.price}
+                          labelText="Price"
+
+                          inputProps={{
+                            onChange: this.handleChangeSelect,
+                            name: "price",
+                            type: "text",
+                          }}
+                          id="price"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={3}>
+
+                        <InputLabel htmlFor="age-helper" className={classes.textField}>
+                          Type
+                         </InputLabel>
+                        <Select
+                          value={this.state.serT}
+                          onChange={this.handleChangeSelect}
+                          fullWidth
+                          className={classes.textField}
+                          input={<Input name="serT" id="age-helper" />}
+                        >
+
+                          {this.state.serTData.map(typ => (<MenuItem value={typ._id} > {typ.name} </MenuItem>))}
+                        </Select>
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={3}>
+
+                        <InputLabel htmlFor="local-helper" className={classes.textField}>
+                          Location
+        </InputLabel>
+                        <Select
+                          value={this.state.local}
+                          onChange={this.handleChangeSelect}
+                          fullWidth
+                          className={classes.textField}
+                          input={<Input name="local" id="local-helper" />}
+                        >
+
+                          {this.state.locData.map(location => (<MenuItem value={location._id} > {location.name} </MenuItem>))}
+                        </Select>
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <CustomInput
+                          labelText="Address"
+                          id="address"
+                          inputProps={{
+                            onChange: this.handleChangeSelect,
+                            name: "address",
+                            type: "text",
+                          }}
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                        />
+                      </GridItem>
+
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <CustomInput
+                          labelText="Website"
+                          id="website"
+                          inputProps={{
+                            onChange: this.handleChangeSelect,
+                            name: "website",
+                            type: "text",
+                          }}
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CustomInput
+                          labelText="Link avatar"
+                          id="avatar"
+                          inputProps={{
+                            onChange: this.handleChangeSelect,
+                            name: "avatar",
+                            type: "text",
+                          }}
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+
+                        />
+                      </GridItem>
+                      </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CustomInput
+                          labelText="Link detail avatar"
+                          id="images"
+                          inputProps={{
+                            onChange: this.handleChangeSelect,
+                            name: "images",
+                            type: "text",
+                          }}
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={12}>
+                        
+                        <CustomInput
+                          labelText="Description"
+                          id="description"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          inputProps={{
+                            multiline: true,
+                            rows: 5,
+                            onChange: this.handleChangeSelect,
+                            name: "description",
+                            type: "text",
+                          }}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                  </CardBody>
+                  <CardFooter>
+                    <Button color="primary" onClick={() =>{this.handleClose();this.showNotification("tc")}}
+                    //onClick={this.handleClose}
+                    >Add Service</Button>
+
+                  </CardFooter>
+                </Card>
+              </GridItem>
+            </div>
+          </Modal>
+        </div>
+        <Snackbar
+                    place="tc"
+                    color="info"
+                    icon={AddAlert}
+                    message={this.state.message}
+                    open={this.state.tc}
+                    closeNotification={() => this.setState({ tc: false })}
+                    close
+                  />
+        <Snackbar
+                    place="tc1"
+                    color="info"
+                    icon={DeleteIcon}
+                    message={this.state.message}
+                    open={this.state.tc1}
+                    closeNotification={() => this.setState({ tc1: false })}
+                    close
+                  />
+         
+      </GridContainer>
+    );
+  }
 }
 
 export default withStyles(styles)(TableList);
