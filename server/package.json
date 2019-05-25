@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "build": "cd .. && cd homepage && git pull && npm run-script build && cp build/* -rf ../server/public/ && cd ../server"
   },
   "dependencies": {
     "async": "^3.0.0",
