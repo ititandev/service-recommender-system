@@ -261,7 +261,7 @@ router.get("/views/:id", (req, res) => {
     .then(payload => {
       if (payload.role == "user")
         return res.json({
-          success: true,
+          success: false,
           message: "User can not access view data"
         });
       ViewModel.aggregate([
@@ -275,7 +275,7 @@ router.get("/views/:id", (req, res) => {
             count: { $sum: 1 }
           }
         }
-      ]).exec((err, ads) => {
+      ]).exec((err, views) => {
         if (err)
           return res.json({
             success: false,
@@ -283,7 +283,47 @@ router.get("/views/:id", (req, res) => {
           });
         return res.json({
           success: true,
-          data: ads
+          data: views
+        });
+      });
+    })
+    .catch(err => {
+      res.json({
+        success: false,
+        message: "Authentication failed " + err
+      });
+    });
+});
+
+
+router.get("/clicks/:id", (req, res) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      if (payload.role == "user")
+        return res.json({
+          success: false,
+          message: "User can not access click data"
+        });
+      ClickModel.aggregate([
+        {
+          $group: {
+            _id: {
+              year: { $year: "$data_time" },
+              month: { $month: "$data_time" },
+              day: { $dayOfMonth: "$data_time" }
+            },
+            count: { $sum: 1 }
+          }
+        }
+      ]).exec((err, clicks) => {
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          });
+        return res.json({
+          success: true,
+          data: clicks
         });
       });
     })
