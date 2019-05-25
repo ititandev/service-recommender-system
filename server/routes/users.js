@@ -33,7 +33,6 @@ router.delete("/users/:id", function(req, res, next) {
           });
         } else {
           if (data.role != "provider") {
-            //user or admin
             UserModel.remove({ _id: userId }, err => {
               if (err)
                 return res.json({
@@ -46,8 +45,7 @@ router.delete("/users/:id", function(req, res, next) {
               message: "the user is deleted",
               data: userId
             });
-          } //provider
-          else {
+          } else {
             ServiceModel.remove({ provider_id: userId }, err => {
               if (err)
                 return res.json({
