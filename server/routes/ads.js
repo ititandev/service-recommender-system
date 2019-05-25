@@ -257,8 +257,36 @@ router.put("/ads/:id", (req, res) => {
 });
 
 router.get("/views/:id", (req, res) => {
-  verifyJWTToken(req.headers("Authorization"))
-    .then(payload => {})
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      if (payload.role == "user")
+        return res.json({
+          success: true,
+          message: "User can not access view data"
+        });
+      ViewModel.aggregate([
+        {
+          $group: {
+            _id: {
+              year: { $year: "$data_time" },
+              month: { $month: "$data_time" },
+              day: { $dayOfMonth: "$data_time" }
+            },
+            count: { $sum: 1 }
+          }
+        }
+      ]).exec((err, ads) => {
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          });
+        return res.json({
+          success: true,
+          data: ads
+        });
+      });
+    })
     .catch(err => {
       res.json({
         success: false,
