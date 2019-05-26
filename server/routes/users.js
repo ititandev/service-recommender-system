@@ -151,8 +151,8 @@ router.put("/users/:id", (req, res) => {
         delete req.body._id;
         delete req.body.email;
 
-        hash = bcrypt.hashSync(req.body.password, saltRounds);
         if (req.body.password) {
+          hash = bcrypt.hashSync(req.body.password, saltRounds);
           user.password = hash;
           delete req.body.password;
         }
