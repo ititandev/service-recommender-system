@@ -324,30 +324,39 @@ router.delete("/services/:id", function(req, res, next) {
 });
 
 router.get("/servicetypes", function(req, res, next) {
-  var { status } = req.query;
-  var query = {};
-  if (status) {
-    query.status = status;
-  }
-  ServiceTypeModel.find(query, { name: 1 }, (err, data) => {
-    if (err) {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      var { status } = req.query;
+      var query = {};
+      if (status) {
+        query.status = status;
+      }
+      ServiceTypeModel.find(query, { name: 1 }, (err, data) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: "error"
+          });
+        }
+        if (data.length < 1)
+          return res.json({
+            success: false,
+            data: data,
+            message: "Not have Service Types yet"
+          });
+        return res.json({
+          success: true,
+          message: "Find service Types",
+          data: data
+        });
+      });
+    })
+    .catch(err => {
       return res.json({
         success: false,
-        message: "error"
+        message: "Authentication failed"
       });
-    }
-    if (data.length < 1)
-      return res.json({
-        success: false,
-        data: data,
-        message: "Not have Service Types yet"
-      });
-    return res.json({
-      success: true,
-      message: "Find service Types",
-      data: data
     });
-  });
 });
 
 router.post("/servicetypes", (req, res) => {

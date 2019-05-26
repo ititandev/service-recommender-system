@@ -43,7 +43,6 @@ router.get("/ads", (req, res) => {
     })
     .catch(err => {
       AdModel.find({ status: "running" })
-        .limit(limit)
         // .populate("adtype")
         .populate("provider", "_id firstname lastname avatar")
         .exec((err, data) => {
@@ -52,6 +51,10 @@ router.get("/ads", (req, res) => {
               success: false,
               message: "Some error happen " + err
             });
+          }
+          while (data.length > limit) {
+            idx = Math.floor(Math.random() * data.length);
+            data.splice(idx, 1)
           }
 
           as.each(
