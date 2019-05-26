@@ -406,7 +406,6 @@ router.put("/servicetypes/:id", (req, res) => {
   verifyJWTToken(req.header("Authorization"))
     .then(payload => {
       serviceTypeId = req.params.id;
-      status = req.body.status;
       uid = payload.uid;
       role = payload.role;
       if (role !== "admin")
@@ -415,27 +414,26 @@ router.put("/servicetypes/:id", (req, res) => {
           message: "Sorry! Only admin is allowed to update the service type"
         });
 
-      ServiceTypeModel.findOne({ _id: serviceTypeId }, (err, data) => {
-        if (!data) {
+      ServiceTypeModel.findById(serviceTypeId, (err, servicetype) => {
+        if (!servicetype) {
           return res.json({
             success: false,
-            message: "not found the service type to update",
-            data: serviceTypeId
+            message: "Not found the service type to update"
           });
         }
+        if (req.body.status) servicetype.status = req.body.status;
+        else servicetype.status = "active";
 
-        ServiceTypeModel.update(
-          {
-            _id: serviceTypeId
-          },
-          {
-            status: status
-          }
-        );
-        return res.json({
-          success: true,
-          message: "service is update",
-          data: status
+        servicetype.save(err => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
+          return res.json({
+            success: true,
+            data: servicetype
+          });
         });
       });
     })
