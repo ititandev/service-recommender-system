@@ -299,7 +299,8 @@ class TableList extends React.Component {
     const images=[this.state.images];
     // console.log(this.state.avatar,this.state.name,this.sate.price,this.state.local)
     const token=this.props.user.token;
-    const serT=this.state.serT;
+    const servicetype=this.state.serT;
+    console.log("type",servicetype)
     axios({
       method:'POST',
       url:`https://servicy.herokuapp.com/api/services/`,
@@ -307,7 +308,7 @@ class TableList extends React.Component {
         Authorization:this.props.user.token,
       },
       data:{
-        avatar,name,description,info,images,serT
+        avatar,name,description,info,images,servicetype
       }
       })
       .then(response=>{
