@@ -20,6 +20,7 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
 import Utils from "../../Utils.jsx";
+import { Avatar } from "@material-ui/core";
 
 const styles = theme => ({
     cardCategoryWhite: {
@@ -61,7 +62,7 @@ const styles = theme => ({
 
 class AdRequests extends React.Component {
     state = {
-        tableData: [...Utils.adTestData],
+        tableData: [],//[...Utils.adTestData],
         openDeleteDialog: false,
         openAcceptDialog: false,
         alertIndex: null
@@ -86,6 +87,7 @@ class AdRequests extends React.Component {
                             <Table className={classes.table} >
                                 <TableHead >
                                     <TableRow>
+                                        <TableCell></TableCell>
                                         <TableCell>Tên</TableCell>
                                         <TableCell>Nhà cung cấp</TableCell>
                                         <TableCell>URL</TableCell>
@@ -97,15 +99,22 @@ class AdRequests extends React.Component {
                                 <TableBody>
                                     {this.state.tableData.map((row, index) => (
                                         <TableRow key={index}>
+                                            <TableCell>
+                                            <Avatar alt="Remy Sharp" src={row.banner} className={classes.bigAvatar} style={{
+                                                margin: 5,
+                                                width: 60,
+                                                height: 60,
+                                            }} />
+                                            </TableCell>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell>{`${row.provider.firstname} ${row.provider.lastname}`}</TableCell>
                                             <TableCell>
-                                                <a target='_blank' href={row.url}>
+                                                <a target='_blank' rel="noopener noreferrer" href={row.url}>
                                                     {row.url}
                                                 </a>
                                             </TableCell>
                                             <TableCell>{Utils.getFormatAdtype(row.adtype.name)}</TableCell>
-                                            <TableCell>{Utils.getFormatDate(row.date_time)}</TableCell>
+                                            <TableCell>{Utils.getFormatDate(row.datetime)}</TableCell>
                                             <TableCell >
                                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                     <IconButton color='primary' aria-label="Check" onClick={() => {
@@ -144,13 +153,11 @@ class AdRequests extends React.Component {
                             openDeleteDialog: false
                         })
                     }} handleConfirm={() => {
-                        const index = this.state.alertIndex
-                        const updatedAd = this.state.tableData.splice(index, 1)[0]._id
                         this.setState({
                             ...this.state,
                             openDeleteDialog: false
                         })
-                        this.deleteAd(updatedAd)
+                        this.updateRequestStatus('inactive')
                     }} /> : null}
 
                 {this.state.openAcceptDialog ? <AlertDialog
@@ -162,47 +169,44 @@ class AdRequests extends React.Component {
                             openAcceptDialog: false
                         })
                     }} handleConfirm={() => {
-                        const index = this.state.alertIndex
-                        const {open, expectedValue, ...updatedAd} = this.state.tableData.splice(index, 1)[0]
                         this.setState({
                             ...this.state,
                             openAcceptDialog: false
                         })
-                        this.updateAd(updatedAd)
+                        this.updateRequestStatus('running')
                     }} /> : null}
             </GridContainer>
         );
     }
 
     initData() {
-        axios.get(`${Utils.BASE_URL}/ads?status=pending`
-            , {
-                headers: {
-                    Authorization: Utils.state.token
-                }
+        axios({
+            method: 'get',
+            url: `${Utils.BASE_URL}/ads`,
+            headers: {
+                Authorization: Utils.state.token
+            },
+            data: {
+                status: ["pending"],
             }
-        )
+        })
             .then(response => {
                 if (response.data.success) {
-                    const newData = response.data.data.map((item, index) => {
-                        return {
-                            _id: item._id,
-                            name: item.name,
-                            provider: item.provider,
-                            url: item.url,
-                            adtype: item.adtype,
-                            date_time: item.date_time,
-                            views: item.views,
-                            status: item.status,
-                            open: false,
-                            expectedValue: null
+                    const newData = []
+                    for (let item of response.data.data) {
+                        if (item.status === 'pending') {
+                            newData.push({
+                                ...item,
+                            })
                         }
-                    })
+                    }
                     this.setState({
                         ...this.state,
                         tableData: newData
                     })
                     console.log(newData)
+                } else {
+                    console.log(`get ad requests fail with msg: ${response.data.message}`)
                 }
             })
             .catch(function (error) {
@@ -210,45 +214,30 @@ class AdRequests extends React.Component {
             });
     }
 
-    deleteAd(AdId) {
-        axios.delete(`${Utils.BASE_URL}/ads/${AdId}`
-            , {
-                headers: {
-                    Authorization: Utils.state.token
-                }
+    updateRequestStatus(status) {
+        const index = this.state.alertIndex
+        const adId = this.state.tableData.splice(index, 1)[0]._id
+
+        axios({
+            method: 'put',
+            url: `${Utils.BASE_URL}/ads/${adId}`,
+            headers: {
+                Authorization: Utils.state.token
+            },
+            data: {
+                status: status,
             }
-        )
+        })
             .then(response => {
                 if (response.data.success) {
-                    console.log(`successful delete Ad: ${AdId}`)
+                    console.log(`update ad request success with msg: ${response.data.message}`)
                 } else {
-                    console.log(`fail delete Ad ${AdId} with message: ${response.data.message}`)
+                    console.log(`update ad request fail with msg: ${response.data.message}`);
                 }
-            })
-            .catch(function (error) {
-                console.log(`delete fail with error: ${error}`);
+            }).catch(function (error) {
+                console.log(error);
             });
     }
-
-    updateAd(ad) {
-        console.log(ad)
-        axios({
-          method: 'put',
-          url: `${Utils.BASE_URL}/ads/${ad._id}`,
-          headers: {
-            Authorization: Utils.state.token,
-          },
-          data: ad
-        }).then(function (response) {
-            if (response.data.success) {
-              console.log('update ad successfully !')
-            } else {
-              console.log(`update ad fail with error msg: ${response.data.message}`);
-            }
-          }).catch(function (error) {
-            console.log(error);
-          });
-      }
 }
 
 export default withStyles(styles)(AdRequests);

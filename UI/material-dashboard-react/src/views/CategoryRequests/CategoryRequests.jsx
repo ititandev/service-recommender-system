@@ -67,7 +67,7 @@ class TableList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableData: [...Utils.cateTestData],
+      tableData: [],//[...Utils.cateTestData],
       openAcceptDialog: false,
       openDeleteDialog: false,
       alertIndex: null
@@ -139,7 +139,7 @@ class TableList extends React.Component {
               ...this.state,
               openAcceptDialog: false
             })
-          }} handleConfirm={() => this.updateCateRequestStatus('active')} /> : null}
+          }} handleConfirm={() => this.updateRequestStatus('active')} /> : null}
 
         {this.state.openDeleteDialog ? <AlertDialog
           title={"Xác nhận xoá yêu cầu?"}
@@ -149,25 +149,27 @@ class TableList extends React.Component {
               ...this.state,
               openDeleteDialog: false
             })
-          }} handleConfirm={() => this.updateCateRequestStatus('inactive')} /> : null}
+          }} handleConfirm={() => this.updateRequestStatus('inactive')} /> : null}
       </GridContainer>
     );
   }
 
   initData() {
-    axios.get(`${Utils.BASE_URL}/servicetypes?status=pending`
-      // , {
-      //     headers: {
-      //         Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
-      //     }
-      // }
-    )
+    axios({
+      method: 'get',
+      url: `${Utils.BASE_URL}/servicetypes?status=pending`,
+      headers: {
+        Authorization: Utils.state.token
+      },
+      data: {
+        status: ["pending"],
+      }
+    })
       .then(response => {
         if (response.data.success) {
           const newData = response.data.data.map((item, index) => {
             return {
-              _id: item._id,
-              name: item.name,
+              ...item,
             }
           })
           this.setState({
@@ -175,6 +177,8 @@ class TableList extends React.Component {
             tableData: newData
           })
           console.log(newData)
+        } else {
+          console.log(`get cate request fail with msg: ${response.data.message}`)
         }
       })
       .catch(function (error) {
@@ -182,8 +186,8 @@ class TableList extends React.Component {
       });
   }
 
-  updateCateRequestStatus(newStatus) {
-    const deletedCateId = this.state.tableData.splice(this.state.alertIndex, 1)[0]._id
+  updateRequestStatus(status) {
+    const requestId = this.state.tableData.splice(this.state.alertIndex, 1)[0]._id
     this.setState({
       ...this.state,
       tableData: this.state.tableData,
@@ -195,17 +199,17 @@ class TableList extends React.Component {
       headers: {
         Authorization: Utils.state.token,
       },
-      url: `${Utils.BASE_URL}/servicetypes/${deletedCateId}`,
+      url: `${Utils.BASE_URL}/servicetypes/${requestId}`,
       data: {
-        status: newStatus
+        status: status
       }
     }).then(response => {
-        if (response.data.success) {
-          console.log('successful put')
-        } else {
-          console.log(`fail put with message: ${response.data.message}`)
-        }
-      })
+      if (response.data.success) {
+        console.log(`put cate request success with msg: ${response.data.message}`)
+      } else {
+        console.log(`put cate request fail with msg: ${response.data.message}`)
+      }
+    })
       .catch(function (error) {
         console.log(`put exception: ${error}`);
       });

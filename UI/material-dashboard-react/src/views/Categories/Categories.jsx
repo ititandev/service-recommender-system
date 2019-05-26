@@ -62,7 +62,7 @@ class TableList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableData: [...Utils.cateTestData],
+            tableData: [],//[...Utils.cateTestData],
             openDeleteDialog: false,
             alertIndex: null
         }
@@ -136,21 +136,21 @@ class TableList extends React.Component {
     }
 
     initData() {
-        axios.get(`${Utils.BASE_URL}/servicetypes?status=active`
-            // , {
-            //     headers: {
-            //         Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
-            //     }
-            // }
-        )
+        axios({
+            method: 'get',
+            url: `${Utils.BASE_URL}/servicetypes?status=active`,
+            headers: {
+              Authorization: Utils.state.token
+            },
+            data: {
+              status: ["active"],
+            }
+          })
             .then(response => {
                 if (response.data.success) {
                     const newData = response.data.data.map((item, index) => {
                         return {
-                            _id: item._id,
-                            name: item.name,
-                            open: false,
-                            expectedValue: null
+                            ...item,
                         }
                     })
                     this.setState({
@@ -166,13 +166,16 @@ class TableList extends React.Component {
     }
 
     deleteCategory(cateId) {
-        axios.delete(`${Utils.BASE_URL}/servicetypes/${cateId}`
-            , {
-                headers: {
-                    Authorization: Utils.state.token,
-                }
+        axios({
+            method: 'delete',
+            url: `${Utils.BASE_URL}/servicetypes/${cateId}`,
+            headers: {
+              Authorization: Utils.state.token
+            },
+            data: {
+              status: ["active"],
             }
-        )
+          })
             .then(response => {
                 if (response.data.success) {
                     console.log(`successful delete Category: ${cateId}`)

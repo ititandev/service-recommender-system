@@ -10,8 +10,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import {Collapse} from '@material-ui/core'; 
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.jsx";
@@ -29,30 +27,30 @@ class Sidebar extends React.Component {
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  render_item({prop,key}){
-    
+  render_item({ prop, key }) {
+
   }
   render_links() {
     const { classes, color, routes } = this.props;
     return (
       <List className={classes.list}>
         {routes.map((prop, key) => {
-          if(prop.path !== "/login"){
-          var activePro = " ";
-          var listItemClasses;
-          if (prop.path === "/upgrade-to-pro") {
-            activePro = classes.activePro + " ";
-            listItemClasses = classNames({
-              [" " + classes[color]]: true
+          if (prop.path !== "/login") {
+            var activePro = " ";
+            var listItemClasses;
+            if (prop.path === "/upgrade-to-pro") {
+              activePro = classes.activePro + " ";
+              listItemClasses = classNames({
+                [" " + classes[color]]: true
+              });
+            } else {
+              listItemClasses = classNames({
+                [" " + classes[color]]: this.activeRoute(prop.layout + prop.path)
+              });
+            }
+            const whiteFontClasses = classNames({
+              [" " + classes.whiteFont]: this.activeRoute(prop.layout + prop.path)
             });
-          } else {
-            listItemClasses = classNames({
-              [" " + classes[color]]: this.activeRoute(prop.layout + prop.path)
-            });
-          }
-          const whiteFontClasses = classNames({
-            [" " + classes.whiteFont]: this.activeRoute(prop.layout + prop.path)
-          });
             return (
               <NavLink
                 to={prop.layout + prop.path}
@@ -74,16 +72,16 @@ class Sidebar extends React.Component {
                       {prop.icon}
                     </Icon>
                   ) : (
-                    <prop.icon
-                      className={classNames(
-                        classes.itemIcon,
-                        whiteFontClasses,
-                        {
-                          [classes.itemIconRTL]: this.props.rtlActive
-                        }
-                      )}
-                    />
-                  )}
+                      <prop.icon
+                        className={classNames(
+                          classes.itemIcon,
+                          whiteFontClasses,
+                          {
+                            [classes.itemIconRTL]: this.props.rtlActive
+                          }
+                        )}
+                      />
+                    )}
                   <ListItemText
                     primary={this.props.rtlActive ? prop.rtlName : prop.name}
                     className={classNames(classes.itemText, whiteFontClasses, {
@@ -94,7 +92,9 @@ class Sidebar extends React.Component {
                 </ListItem>
               </NavLink>
             );
-                  }
+          } else {
+            return null
+          }
         })}
       </List>
     );

@@ -37,12 +37,21 @@ const styles = {
 };
 
 class Profile extends React.Component {
+  _isMounted = false;
   state = {
-    ...Utils.state.user ,
+    ...Utils.state.user,
     disabled: true,
     openUpdateDialog: false,
     openLogoutDialog: false,
     isLogout: false,
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {
@@ -65,10 +74,12 @@ class Profile extends React.Component {
                       <CustomInput
                         value={this.state.firstname}
                         onChange={event => {
-                          this.setState({
-                            ...this.state,
-                            firstname: event.target.value,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              firstname: event.target.value,
+                            })
+                          }
                         }}
                         labelText="Tên"
                         id="firstname"
@@ -84,10 +95,12 @@ class Profile extends React.Component {
                       <CustomInput
                         value={this.state.lastname}
                         onChange={event => {
-                          this.setState({
-                            ...this.state,
-                            lastname: event.target.value,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              lastname: event.target.value,
+                            })
+                          }
                         }}
                         labelText="Họ lót"
                         id="lastname"
@@ -106,10 +119,12 @@ class Profile extends React.Component {
                       <CustomInput
                         value={this.state.email}
                         onChange={event => {
-                          this.setState({
-                            ...this.state,
-                            email: event.target.value,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              email: event.target.value,
+                            })
+                          }
                         }}
                         labelText="Email"
                         id="email"
@@ -128,10 +143,12 @@ class Profile extends React.Component {
                       <CustomInput
                         value={this.state.phone}
                         onChange={event => {
-                          this.setState({
-                            ...this.state,
-                            phone: event.target.value,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              phone: event.target.value,
+                            })
+                          }
                         }}
                         labelText="Số điện thoại"
                         id="phone"
@@ -166,26 +183,32 @@ class Profile extends React.Component {
                     this.state.disabled ?
                       <Button color="primary" onClick={
                         () => {
-                          this.setState({
-                            ...this.state,
-                            disabled: false,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              disabled: false,
+                            })
+                          }
                         }
                       }>Chỉnh sửa</Button>
                       :
                       <div>
                         <Button color='primary' onClick={() => {
-                          this.setState({
-                            ...this.state,
-                            ...Utils.state.user,
-                            disabled: true,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              ...Utils.state.user,
+                              disabled: true,
+                            })
+                          }
                         }}>Hủy</Button>
                         <Button color="primary" onClick={() => {
-                          this.setState({
-                            ...this.state,
-                            openUpdateDialog: true,
-                          })
+                          if (this._isMounted) {
+                            this.setState({
+                              ...this.state,
+                              openUpdateDialog: true,
+                            })
+                          }
                         }}>Cập nhật</Button>
                       </div>
                   }
@@ -208,14 +231,16 @@ class Profile extends React.Component {
                     I love Rick Owens’ bed design but the back is...
               </p>
                   <a href="#pablo" onClick={e => e.preventDefault()}>
-                    <img src="https://www.sccpre.cat/png/big/60/608486_button-icon-png.png" style={{
-                      width: 50,
-                      height: 50,
+                    <img alt="Log out" src="http://icons.iconarchive.com/icons/alecive/flatwoken/512/Apps-Dialog-Shutdown-icon.png" style={{
+                      width: 40,
+                      height: 40,
                     }} onClick={() => {
-                      this.setState({
-                        ...this.state,
-                        openLogoutDialog: true,
-                      })
+                      if (this._isMounted) {
+                        this.setState({
+                          ...this.state,
+                          openLogoutDialog: true,
+                        })
+                      }
                     }} />
                   </a>
                 </CardBody>
@@ -226,16 +251,20 @@ class Profile extends React.Component {
             title={"Xác nhận cập nhật thông tin tài khoản?"}
             description={"Bạn đang thực hiện cập nhật thông tin của tài khoản hiện tại trên hệ thống, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
             handleCancel={() => {
-              this.setState({
-                ...this.state,
-                openUpdateDialog: false
-              })
+              if (this._isMounted) {
+                this.setState({
+                  ...this.state,
+                  openUpdateDialog: false
+                })
+              }
             }} handleConfirm={() => {
-              this.setState({
-                ...this.state,
-                openUpdateDialog: false,
-                disabled: true,
-              })
+              if (this._isMounted) {
+                this.setState({
+                  ...this.state,
+                  openUpdateDialog: false,
+                  disabled: true,
+                })
+              }
               this.updateUser()
             }} /> : null}
 
@@ -243,52 +272,57 @@ class Profile extends React.Component {
             title={"Xác nhận đăng xuất?"}
             description={"Hãy xác nhận rằng bạn chắc chắn muốn đăng xuất khỏi hệ thống."}
             handleCancel={() => {
-              this.setState({
-                ...this.state,
-                openLogoutDialog: false
-              })
+              if (this._isMounted) {
+                this.setState({
+                  ...this.state,
+                  openLogoutDialog: false
+                })
+              }
             }} handleConfirm={this.logout} /> : null}
         </div>
       );
   }
 
   updateUser = () => {
+    const newUserData = {
+      email: this.state.email,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      role: this.state.role,
+      phone: this.state.phone,
+      avatar: this.state.avatar,
+    }
+    console.log(newUserData)
     axios({
       method: 'put',
       url: `${Utils.BASE_URL}/users/${this.state._id}`,
       headers: {
         Authorization: Utils.state.token,
       },
-      data: {
-        email: this.state.email,
-        password: this.state.password,
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        role: this.state.role,
-        phone: this.state.phone,
-        avatar: this.state.avatar,
-      }
-    }).then(function (response) {
+      data: newUserData
+    }).then(response => {
       if (response.data.success) {
-        console.log('update user successfully !')
+        console.log(`update user success with msg: ${response.data.message}`)
+        const { disabled, openUpdateDialog, isLogout, openLogoutDialog, ...newUserData } = this.state
+        Utils.cookies.set('user',newUserData,{path: '/'})
+        Utils.state.user = newUserData
       } else {
-        console.log(`get services fail with error msg: ${response.data.message}`);
+        console.log(`update user fail with msg: ${response.data.message}`)
       }
-    })
-      .catch(function (error) {
-        console.log(error);
-      });
-    const { disabled, openUpdateDialog, isLogout, openLogoutDialog, ...newUserData } = this.state
-    Utils.state.user = newUserData
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
   logout = () => {
     Utils.cookies.set('isLogin', "false", { path: '/' })
     Utils.state = {}
-    this.setState({
-      ...this.state,
-      isLogout: true,
-    })
+    if (this._isMounted) {
+      this.setState({
+        ...this.state,
+        isLogout: true,
+      })
+    }
   }
 }
 

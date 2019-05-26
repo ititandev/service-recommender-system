@@ -21,7 +21,6 @@ import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
 import Utils from "../../Utils.jsx";
 import { Avatar } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -63,7 +62,7 @@ const styles = theme => ({
 
 class ServiceRequests extends React.Component {
   state = {
-    tableData: [...Utils.serviceTestData],
+    tableData: [],//[...Utils.serviceTestData],
     openDeleteDialog: false,
     openCheckDialog: false,
     alertIndex: null
@@ -93,7 +92,7 @@ class ServiceRequests extends React.Component {
                     <TableCell>Nhà cung cấp</TableCell>
                     <TableCell>Loại</TableCell>
                     <TableCell>Địa điểm</TableCell>
-                    <TableCell>Rating</TableCell>
+                    <TableCell>Trạng thái</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -109,9 +108,9 @@ class ServiceRequests extends React.Component {
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{`${row.provider_id.firstname} ${row.provider_id.lastname}`}</TableCell>
-                      <TableCell>{row.category_id.name}</TableCell>
-                      <TableCell>{row.info.location_id.name}</TableCell>
-                      <TableCell>{row.rating.points / row.rating.total}</TableCell>
+                      <TableCell>{row.servicetype.name}</TableCell>
+                      <TableCell>{row.info.address}</TableCell>
+                      <TableCell>{Utils.getFormatStatus(row.status)}</TableCell>
                       <TableCell >
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                           <IconButton color='primary' aria-label="Check" onClick={() => {
@@ -150,17 +149,14 @@ class ServiceRequests extends React.Component {
               openDeleteDialog: false
             })
           }} handleConfirm={() => {
-            const index = this.state.alertIndex
-            let {open, expectedValue, ...updatedRequest} = this.state.tableData.splice(index, 1)[0]
-            updatedRequest.status = "inactive"
             this.setState({
               ...this.state,
               openDeleteDialog: false
             })
-            this.updateRequest(updatedRequest)
+            this.updateRequestStatus("inactive")
           }} /> : null}
 
-          {this.state.openCheckDialog ? <AlertDialog
+        {this.state.openCheckDialog ? <AlertDialog
           title={"Xác nhận thêm dịch vụ?"}
           description={"Bạn đang thực hiện thêm dịch vụ được chọn vào hệ thống, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
           handleCancel={() => {
@@ -169,41 +165,43 @@ class ServiceRequests extends React.Component {
               openCheckDialog: false
             })
           }} handleConfirm={() => {
-            const index = this.state.alertIndex
-            let {open, expectedValue, ...updatedRequest} = this.state.tableData.splice(index, 1)[0]
-            updatedRequest.status = "active"
             this.setState({
               ...this.state,
               openCheckDialog: false
             })
-            this.updateRequest(updatedRequest)
+            this.updateRequestStatus("active")
           }} /> : null}
       </GridContainer>
     );
   }
 
   initData() {
-    axios.get(`${Utils.BASE_URL}/services?status=active`
-      , {
-        headers: {
-          Authorization: Utils.state.token
-        }
-      }
-    )
+    axios({
+      method: 'get',
+      url: `${Utils.BASE_URL}/services`,
+      headers: {
+        Authorization: Utils.state.token,
+        'Content-type': 'application/json'
+      },
+      data: { "status": "pending" },
+    })
       .then(response => {
         if (response.data.success) {
-          const newData = response.data.data.map((item, index) => {
-            return {
-              ...item,
-              open: false,
-              expectedValue: null
+          const newData = []
+          for (let item of response.data.data) {
+            if (item.status === 'pending') {
+              newData.push({
+                ...item,
+              })
             }
-          })
+          }
           this.setState({
             ...this.state,
             tableData: newData
           })
           console.log(newData)
+        } else {
+          console.log(`get service requests fail with error msg: ${response.data.message}`);
         }
       })
       .catch(function (error) {
@@ -211,24 +209,28 @@ class ServiceRequests extends React.Component {
       });
   }
 
-  updateRequest(serviceRequest) {
-    console.log(serviceRequest)
+  updateRequestStatus(status) {
+    const index = this.state.alertIndex
+    let requestId = this.state.tableData.splice(index, 1)[0]._id
+
     axios({
       method: 'put',
-      url: `${Utils.BASE_URL}/services/${serviceRequest._id}`,
+      url: `${Utils.BASE_URL}/services/${requestId}`,
       headers: {
         Authorization: Utils.state.token,
       },
-      data: serviceRequest
+      data: {
+        status: status
+      }
     }).then(function (response) {
-        if (response.data.success) {
-          console.log('update service successfully !')
-        } else {
-          console.log(`update service fail with error msg: ${response.data.message}`);
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
+      if (response.data.success) {
+        console.log(`update service success with message: ${response.data.message}`)
+      } else {
+        console.log(`update service fail with error msg: ${response.data.message}`);
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 }
 

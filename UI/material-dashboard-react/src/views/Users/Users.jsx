@@ -20,6 +20,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CustomSelect from 'components/CustomSelect/CustomSelect.jsx'
 import update from 'react-addons-update';
+import { Avatar } from "@material-ui/core";
 
 import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
@@ -69,12 +70,11 @@ const styles = theme => ({
 
 class TableList extends React.Component {
     state = {
-        tableData: [...Utils.userTestData],
+        tableData: [],//[...Utils.userTestData],
         openEditDialog: false,
         openDeleteDialog: false,
         alertIndex: null
     }
-
     componentWillMount() {
         this.initData()
     }
@@ -109,6 +109,7 @@ class TableList extends React.Component {
                             <Table className={classes.table} >
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell></TableCell>
                                         <TableCell>Tên</TableCell>
                                         <TableCell>Số điện thoại</TableCell>
                                         <TableCell>Email</TableCell>
@@ -119,6 +120,11 @@ class TableList extends React.Component {
                                 <TableBody>
                                     {this.state.tableData.map((row, index) => (
                                         <TableRow key={index}>
+                                            <Avatar alt="Remy Sharp" src={row.avatar} className={classes.bigAvatar} style={{
+                                                margin: 5,
+                                                width: 60,
+                                                height: 60,
+                                            }} />
                                             <TableCell component="th" scope="row">
                                                 {`${row.firstname} ${row.lastname}`}
                                             </TableCell>
@@ -126,7 +132,7 @@ class TableList extends React.Component {
                                             <TableCell >{row.email}</TableCell>
                                             <TableCell >{row.open ?
                                                 (<CustomSelect value={row.role}
-                                                    menuItems={['admin', 'provider', 'user']}
+                                                    menuItems={['provider', 'user']}
                                                     onValueChange={value => { this.handleOnSelectValueChange(value, index) }} />) : Utils.getFormatRole(row.role)}
                                             </TableCell>
                                             <TableCell >
@@ -200,15 +206,7 @@ class TableList extends React.Component {
                             }),
                             openEditDialog: false
                         })
-                        const newUserData = {
-                            firstname: this.state.tableData[index].firstname,
-                            lastname: this.state.tableData[index].lastname,
-                            role: this.state.tableData[index].role,
-                            phone: this.state.tableData[index].phone,
-                            email: this.state.tableData[index].email,
-                            avatar: this.state.tableData[index].avatar,
-                            password: this.state.tableData[index].password,
-                        }
+                        const newUserData = this.state.tableData[index]
                         this.updateUser(this.state.tableData[index]._id, newUserData)
                     }} /> : null}
 
@@ -234,34 +232,38 @@ class TableList extends React.Component {
     }
 
     initData() {
-        axios.get(`${Utils.BASE_URL}/users?role=user|provider`
-            , {
-                headers: {
-                    Authorization: Utils.state.token
-                }
+        axios({
+            method: 'get',
+            url: `${Utils.BASE_URL}/users`,
+            headers: {
+                Authorization: Utils.state.token,
+                'Content-Type': 'application/json',
+            },
+            data: {
+                "role": ["provider", "user"]
             }
-        )
+        })
             .then(response => {
+                console.log(response)
                 if (response.data.success) {
-                    const newData = response.data.data.map((item, index) => {
-                        return {
-                            _id: item._id,
-                            firstname: item.firstname,
-                            lastname: item.lastname,
-                            role: item.role,
-                            phone: item.phone,
-                            email: item.email,
-                            avatar: item.avatar,
-                            password: item.password,
-                            open: false,
-                            expectedValue: null
+                    const newData = []
+                    for (let item of response.data.data) {
+                        if (item.role === 'user' || item.role === 'provider') {
+                            newData.push({
+                                ...item,
+                                open: false,
+                                expectedValue: null
+                            })
                         }
-                    })
+                    }
                     this.setState({
                         ...this.state,
                         tableData: newData
                     })
+                    console.log(`get users success with msg: ${response.data.message}`);
                     console.log(newData)
+                } else {
+                    console.log(`get users fail with error msg: ${response.data.message}`);
                 }
             })
             .catch(function (error) {
@@ -270,13 +272,17 @@ class TableList extends React.Component {
     }
 
     updateUser(userId, newUserData) {
-        axios.put(`${Utils.BASE_URL}/users/${userId}`, newUserData
-            , {
-                headers: {
-                    Authorization: Utils.state.token,
-                }
+        console.log(newUserData)
+        axios({
+            method: 'put',
+            url: `${Utils.BASE_URL}/users/${userId}`,
+            headers: {
+                Authorization: Utils.state.token,
+            },
+            data: {
+                role: newUserData.role,
             }
-        )
+        })
             .then(response => {
                 if (response.data.success) {
                     console.log('successful post')
@@ -290,13 +296,13 @@ class TableList extends React.Component {
     }
 
     deleteUser(userId) {
-        axios.delete(`${Utils.BASE_URL}/users/${userId}`
-            , {
-                headers: {
-                    Authorization: Utils.state.token,
-                }
-            }
-        )
+        axios({
+            method: 'delete',
+            url: `${Utils.BASE_URL}/users/${userId}`,
+            headers: {
+                Authorization: Utils.state.token
+            },
+        })
             .then(response => {
                 if (response.data.success) {
                     console.log(`successful delete user: ${userId}`)

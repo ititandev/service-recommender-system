@@ -6,7 +6,6 @@ import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "@material-ui/core/Table";
 import Card from "components/Card/Card.jsx";
-import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -62,7 +61,7 @@ const styles = theme => ({
 
 class Services extends React.Component {
   state = {
-    tableData: [...Utils.serviceTestData],
+    tableData: [],//[...Utils.serviceTestData],
     openDeleteDialog: false,
     alertIndex: null
   }
@@ -92,6 +91,7 @@ class Services extends React.Component {
                     <TableCell>Loại</TableCell>
                     <TableCell>Địa điểm</TableCell>
                     <TableCell>Rating</TableCell>
+                    <TableCell>Trạng thái</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -107,9 +107,10 @@ class Services extends React.Component {
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{`${row.provider_id.firstname} ${row.provider_id.lastname}`}</TableCell>
-                      <TableCell>{row.category_id.name}</TableCell>
-                      <TableCell>{row.info.location_id.name}</TableCell>
-                      <TableCell>{row.rating.points / row.rating.total}</TableCell>
+                      <TableCell>{row.servicetype.name}</TableCell>
+                      <TableCell>{row.info.address}</TableCell>
+                      <TableCell>{(row.rating.points / row.rating.total).toFixed(2)}</TableCell>
+                      <TableCell>{Utils.getFormatStatus(row.status)}</TableCell>
                       <TableCell >
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                           <IconButton color='secondary' aria-label="Delete" onClick={() => {
@@ -152,32 +153,35 @@ class Services extends React.Component {
   }
 
   initData() {
-    axios.get(`${Utils.BASE_URL}/services?status=active`
-      , {
-        headers: {
-          Authorization: Utils.state.token
-        }
-      }
-    )
+    axios({
+      method: 'get',
+      url: `${Utils.BASE_URL}/services`,
+      headers: {
+        Authorization: Utils.state.token,
+        'Content-type':'application/json'
+      },
+      data: {
+        "status": "active"
+      },
+      // params: ["status"]
+    })
       .then(response => {
+        console.log(response)
         if (response.data.success) {
-          const newData = response.data.data.map((item, index) => {
-            return {
-              _id: item._id,
-              name: item.name,
-              provider_id: item.provider,
-              category_id: item.url,
-              rating: item.adtype,
-              info: item.date_time,
-              open: false,
-              expectedValue: null
-            }
-          })
+          const newData = response.data.data.map((item, index) => ({
+            ...item,
+            open: false,
+            expectedValue: null
+          }))
+          console.log(`get services success with msg: ${response.data.message}`);
+          console.log(newData)
+
           this.setState({
             ...this.state,
             tableData: newData
           })
-          console.log(newData)
+        } else {
+          console.log(`get services fail with error msg: ${response.data.message}`);
         }
       })
       .catch(function (error) {

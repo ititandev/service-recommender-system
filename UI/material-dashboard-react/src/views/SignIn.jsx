@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import axios from 'axios';
-import Redirect from 'react-router-dom/Redirect';
+import { Redirect } from 'react-router-dom';
 import Utils from '../Utils';
 
 const styles = theme => ({
@@ -56,41 +56,44 @@ class SignIn extends React.Component {
         loginSuccess: false,
     }
     handleClickLogin = () => {
-        console.log(this.state)
         if (this.state.email === "" || this.state.password === "") {
         } else {
+            const email = this.state.email
+            const password = this.state.password
+            console.log(`email: ${email}, password: ${password}`)
             axios({
                 method: 'post',
-                url: `${Utils.BASE_URL}/api/login`,
+                url: `${Utils.BASE_URL}/login`,
                 data: {
-                    email: this.state.email, // This is the body part
-                    password: this.state.padding,
+                    email: email,
+                    password: password,
                 }
-            }).then(response => {
-                Utils.cookies.set('isLogin', "true", { path: '/' });
-                if (response.data.success) {
-                    Utils.state = {
-                        token: response.data.data.token,
-                        user: response.data.data.user,
+            })
+                .then(response => {
+                    if (response.data.success) {
+                        Utils.cookies.set('isLogin', "true", { path: '/' });
+                        Utils.cookies.set('token', response.data.data.token, { path: '/' });
+                        Utils.cookies.set('user', response.data.data.user, { path: '/' });
+                        Utils.state = {
+                            token: response.data.data.token,
+                            user: response.data.data.user,
+                        }
+                        this.setState({
+                            ...this.state,
+                            loginSuccess: true,
+                        })
+                        console.log(`login success with msg: ${response.data.message}`);
+                    } else {
+                        console.log(`login fail with error msg: ${response.data.message}`);
                     }
-                } else {
-                    Utils.state = Utils.defaultState
-                    console.log(`login fail with error msg: ${response.data.message}`);
-                }
-
-                this.setState({
-                    ...this.state,
-                    loginSuccess: true,
-                })
-
-            }).catch(function (error) {
-                console.log(error);
-            });
+                }).catch(function (error) {
+                    console.log(error);
+                });
         }
     }
     render() {
         const { classes } = this.props;
-        return (Utils.cookies.get('isLogin') === "true" || this.state.loginSuccess)?
+        return (Utils.cookies.get('isLogin') === "true" || this.state.loginSuccess) ?
             <Redirect to={{
                 pathname: "/admin/profile",
             }} />
@@ -119,7 +122,6 @@ class SignIn extends React.Component {
                                             ...this.state,
                                             email: event.target.value
                                         })
-                                        console.log(this.state)
                                     }}
                                 />
                             </FormControl>
@@ -136,7 +138,6 @@ class SignIn extends React.Component {
                                             ...this.state,
                                             password: event.target.value
                                         })
-                                        console.log(this.state)
                                     }}
                                 />
                             </FormControl>

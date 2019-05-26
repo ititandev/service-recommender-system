@@ -19,6 +19,7 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
 import Utils from "../../Utils.jsx";
+import { Avatar } from "@material-ui/core";
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -60,7 +61,7 @@ const styles = theme => ({
 
 class Advertisements extends React.Component {
   state = {
-    tableData: [...Utils.adTestData],
+    tableData: [],//[...Utils.adTestData],
     openDeleteDialog: false,
     alertIndex: null
   }
@@ -84,6 +85,7 @@ class Advertisements extends React.Component {
               <Table className={classes.table} >
                 <TableHead >
                   <TableRow>
+                    <TableCell></TableCell>
                     <TableCell>Tên</TableCell>
                     <TableCell>Nhà cung cấp</TableCell>
                     <TableCell>URL</TableCell>
@@ -97,15 +99,22 @@ class Advertisements extends React.Component {
                 <TableBody>
                   {this.state.tableData.map((row, index) => (
                     <TableRow key={index}>
+                      <TableCell>
+                        <Avatar alt="Remy Sharp" src={row.banner} className={classes.bigAvatar} style={{
+                          margin: 5,
+                          width: 60,
+                          height: 60,
+                        }} />
+                      </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{`${row.provider.firstname} ${row.provider.lastname}`}</TableCell>
                       <TableCell>
-                        <a target='_blank' href={row.url}>
+                        <a target='_blank' rel="noopener noreferrer" href={row.url}>
                           {row.url}
                         </a>
                       </TableCell>
                       <TableCell>{Utils.getFormatAdtype(row.adtype.name)}</TableCell>
-                      <TableCell>{Utils.getFormatDate(row.date_time)}</TableCell>
+                      <TableCell>{Utils.getFormatDate(row.datetime)}</TableCell>
                       <TableCell>{row.views}</TableCell>
                       <TableCell>{Utils.getFormatStatus(row.status)}</TableCell>
                       <TableCell >
@@ -138,46 +147,45 @@ class Advertisements extends React.Component {
             })
           }} handleConfirm={() => {
             const index = this.state.alertIndex
-            const deletedCateId = this.state.tableData.splice(index, 1)[0]._id
+            const deletedAdId = this.state.tableData.splice(index, 1)[0]._id
             this.setState({
               ...this.state,
               openDeleteDialog: false
             })
-            this.deleteAd(deletedCateId)
+            this.deleteAd(deletedAdId)
           }} /> : null}
       </GridContainer>
     );
   }
 
   initData() {
-    axios.get(`${Utils.BASE_URL}/ads?status=running|status=done`
-      // , {
-      //     headers: {
-      //         Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1Y2Q2OTk2MDEwMTEzODE4M2U1MWYxOTAiLCJyb2xlIjoicHJvdmlkZXIiLCJpYXQiOjE1NTc3MjA0MzAsImV4cCI6MTU1ODMyNTIzMH0.UNt9R6dw77ijyZH_lIUXTlx-YjpL_4a5px5em0fvmKs'
-      //     }
-      // }
-    )
+    axios({
+      method: 'get',
+      url: `${Utils.BASE_URL}/ads?status=active`,
+      headers: {
+        Authorization: Utils.state.token
+      },
+      data: {
+        status: ["active", "done"],
+      }
+    })
       .then(response => {
         if (response.data.success) {
-          const newData = response.data.data.map((item, index) => {
-            return {
-              _id: item._id,
-              name: item.name,
-              provider: item.provider,
-              url: item.url,
-              adtype: item.adtype,
-              date_time: item.date_time,
-              views: item.views,
-              status: item.status,
-              open: false,
-              expectedValue: null
+          const newData = []
+          for (let item of response.data.data) {
+            if (item.status === 'done' || item.status === 'running') {
+              newData.push({
+                ...item,
+              })
             }
-          })
+          }
           this.setState({
             ...this.state,
             tableData: newData
           })
           console.log(newData)
+        } else {
+          console.log(`get ads fail with msg: ${response.data.message}`)
         }
       })
       .catch(function (error) {
@@ -185,19 +193,22 @@ class Advertisements extends React.Component {
       });
   }
 
-  deleteAd(AdId) {
-    axios.delete(`${Utils.BASE_URL}/ads/${AdId}`
-      , {
-        headers: {
-          Authorization: Utils.state.token
-        }
+  deleteAd(adId) {
+    axios({
+      method: 'delete',
+      url: `${Utils.BASE_URL}/ads/${adId}`,
+      headers: {
+        Authorization: Utils.state.token
+      },
+      data: {
+        id: adId,
       }
-    )
+    })
       .then(response => {
         if (response.data.success) {
-          console.log(`successful delete Ad: ${AdId}`)
+          console.log(`delete ad success with msg: ${response.data.message}`)
         } else {
-          console.log(`fail delete Ad ${AdId} with message: ${response.data.message}`)
+          console.log(`delete ad fail with msg: ${response.data.message}`)
         }
       })
       .catch(function (error) {
