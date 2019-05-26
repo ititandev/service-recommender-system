@@ -138,8 +138,8 @@ class Advertisements extends React.Component {
           </Card>
         </GridItem>
         {this.state.openDeleteDialog ? <AlertDialog
-          title={"Xác nhận xoá loại dịch vụ?"}
-          description={"Bạn đang thực hiện xóa loại dịch vụ được chọn khỏi hệ thống. Thao tác này không thể được hoàn tác, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
+          title={"Xác nhận xoá quảng cáo?"}
+          description={"Bạn đang thực hiện xóa quảng cáo được chọn khỏi hệ thống. Thao tác này không thể được hoàn tác, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
           handleCancel={() => {
             this.setState({
               ...this.state,
