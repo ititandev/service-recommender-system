@@ -54,7 +54,7 @@ router.get("/ads", (req, res) => {
           }
           while (data.length > limit) {
             idx = Math.floor(Math.random() * data.length);
-            data.splice(idx, 1)
+            data.splice(idx, 1);
           }
 
           as.each(
@@ -283,9 +283,11 @@ router.get("/views/:id", (req, res) => {
               day: { $dayOfMonth: "$data_time" },
               ad_id: "$ad_id"
             },
-            count: { $sum: 1 }
+            count: { $sum: 1 },
+            date: { $first: "$data_time" }
           }
-        }
+        },
+        { $sort: { date: 1 } }
       ]).exec((err, views) => {
         if (err)
           return res.json({
@@ -324,9 +326,11 @@ router.get("/clicks/:id", (req, res) => {
               month: { $month: "$data_time" },
               day: { $dayOfMonth: "$data_time" }
             },
-            count: { $sum: 1 }
+            count: { $sum: 1 },
+            date: { $first: "$data_time" }
           }
-        }
+        },
+        { $sort: { date: 1 } }
       ]).exec((err, clicks) => {
         if (err)
           return res.json({
