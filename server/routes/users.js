@@ -142,29 +142,23 @@ router.put("/users/:id", (req, res) => {
         delete req.body._id;
         delete req.body.email;
 
-        bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-          if (req.body.password) {
-            if (err)
-              return res.json({
-                success: false,
-                message: "Some error happen " + err
-              });
-            user.password = hash;
-            delete req.body.password;
-          }
+        hash = bcrypt.hashSync(req.body.password, saltRounds);
+        if (req.body.password) {
+          user.password = hash;
+          delete req.body.password;
+        }
 
-          for (var prop in req.body) user[prop] = req.body[prop];
+        for (var prop in req.body) user[prop] = req.body[prop];
 
-          user.save(err => {
-            if (err)
-              return res.json({
-                success: false,
-                message: "Some error happen " + err
-              });
+        user.save(err => {
+          if (err)
             return res.json({
-              success: true,
-              data: user
+              success: false,
+              message: "Some error happen " + err
             });
+          return res.json({
+            success: true,
+            data: user
           });
         });
       });
