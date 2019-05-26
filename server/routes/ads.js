@@ -110,10 +110,16 @@ router.get("/tracking/:id", (req, res) => {
         ad_id: ad_id,
         user_id: uid
       });
-      click.save();
+      click.save(err => {
+        AdModel.findById(ad_id, (err, ad) => {
+          ad.clicks += 1;
+          ad.save(err => {
+            url = decodeURI(req.query.url);
+            res.redirect(url);
+          });
+        });
+      });
     });
-  url = decodeURI(req.query.url);
-  res.redirect(url);
 });
 
 router.get("/adtypes", (req, res) => {
@@ -148,7 +154,8 @@ router.post("/ads", (req, res) => {
         url: req.body.url,
         name: req.body.name,
         adtype: req.body.adtype,
-        views: 0
+        views: 0,
+        clicks: 0
       });
 
       ad.save();
@@ -264,28 +271,36 @@ router.get("/views/:id", (req, res) => {
           success: false,
           message: "User can not access view data"
         });
-      ViewModel.aggregate([
-        {
-          $group: {
-            _id: {
-              year: { $year: "$data_time" },
-              month: { $month: "$data_time" },
-              day: { $dayOfMonth: "$data_time" }
-            },
-            count: { $sum: 1 }
+      ViewModel.find({ ad_id: "5ccd53d39c6b54297aad85cd" })
+        .aggregate([
+          // {
+          //   "$match": {
+          //     "ad_id": "5ccd53d39c6b54297aad85cd"
+          //   }
+          // }
+          // ,
+          {
+            $group: {
+              _id: {
+                year: { $year: "$data_time" },
+                month: { $month: "$data_time" },
+                day: { $dayOfMonth: "$data_time" }
+              },
+              count: { $sum: 1 }
+            }
           }
-        }
-      ]).exec((err, views) => {
-        if (err)
+        ])
+        .exec((err, views) => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
           return res.json({
-            success: false,
-            message: "Some error happen " + err
+            success: true,
+            data: views
           });
-        return res.json({
-          success: true,
-          data: views
         });
-      });
     })
     .catch(err => {
       res.json({
@@ -294,7 +309,6 @@ router.get("/views/:id", (req, res) => {
       });
     });
 });
-
 
 router.get("/clicks/:id", (req, res) => {
   verifyJWTToken(req.header("Authorization"))
