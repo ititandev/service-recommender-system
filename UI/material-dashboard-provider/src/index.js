@@ -15,7 +15,7 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/admin" component={SignIn} />
+      <Route path="/provider" component={SignIn} />
       
     </Switch>
   </Router>,

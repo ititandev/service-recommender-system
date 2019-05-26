@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
    switchRoutes(){ 
      return(   <Switch>
       {routes.map((prop, key) => {
-        if (prop.layout === "/admin") {
+        if (prop.layout === "/provider") {
           return (
             <Route
               path={prop.layout + prop.path}
@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
   getRoute() {
-    return this.props.location.pathname !== "/admin/maps";
+    return this.props.location.pathname !== "/provider/maps";
   }
   resizeFunction = () => {
     if (window.innerWidth >= 960) {

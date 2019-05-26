@@ -29,7 +29,7 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: DashboardPage,
     props :true,
-    layout: "/admin"
+    layout: "/provider"
   },
   // {
   //   path: "/user",
@@ -37,7 +37,7 @@ const dashboardRoutes = [
   //   rtlName: "ملف تعريفي للمستخدم",
   //   icon: Person,
   //   component: UserProfile,
-  //   layout: "/admin"
+  //   layout: "/provider"
   // },
   {
     path: "/table",
@@ -45,7 +45,7 @@ const dashboardRoutes = [
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: ServiceList,
-    layout: "/admin",
+    layout: "/provider",
   },
   {
     path:"/typography",
@@ -53,7 +53,7 @@ const dashboardRoutes = [
     icon:LocationOn,
     rtlName:'asdoag',
     component:TableList,
-    layout:"/admin"
+    layout:"/provider"
   },
 
   // {
@@ -86,7 +86,7 @@ const dashboardRoutes = [
     rtlName: "إخطارات",
     icon: Notifications,
     component: NotificationsPage,
-    layout: "/admin"
+    layout: "/provider"
   },
   // {
   //   path: "/upgrade-to-pro",

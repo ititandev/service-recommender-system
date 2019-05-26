@@ -189,7 +189,7 @@ class Dashboard extends React.Component {
                   <Store />
                 </CardIcon>
                 <p className={classes.cardCategory}>Services</p>
-                <h3 className={classes.cardTitle}>{this.state.serData.length}</h3>
+                <h3 className={classes.cardTitle}>{this.state.serData.filter(i=>i.status=="active").length}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -202,11 +202,28 @@ class Dashboard extends React.Component {
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="success" stats icon>
+                <CardIcon color="success">
+                  <Icon>info_outline</Icon>
+                </CardIcon>
+                <p className={classes.cardCategory}>Service Inactive</p>
+                <h3 className={classes.cardTitle}>{this.state.serData.filter(i=>i.status!="active").length}</h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <LocalOffer />
+                  Last 24 Hours
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="success" stats icon>
                 <CardIcon color="danger">
                   <Store />
                 </CardIcon>
                 <p className={classes.cardCategory}>Advertisement</p>
-                <h3 className={classes.cardTitle}>{this.state.adsData.length}</h3>
+                <h3 className={classes.cardTitle}>{this.state.adsData.filter(i=>i.status=="running").length}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -216,7 +233,23 @@ class Dashboard extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-         
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="danger" stats icon>
+                <CardIcon color="danger">
+                  <Icon>info_outline</Icon>
+                </CardIcon>
+                <p className={classes.cardCategory}>Advertisement Pending</p>
+                <h3 className={classes.cardTitle}>{this.state.adsData.filter(i=>i.status!="running").length}</h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <LocalOffer />
+                  Last 24 Hours
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
         </GridContainer>
       
 

@@ -138,7 +138,7 @@ class SignIn extends React.Component {
     return (
       <Router history={hist}>
         <Switch>
-          <Redirect from="/*" to="/admin/dashboard" />
+          <Redirect from="/*" to="/provider/dashboard" />
         </Switch>
       </Router>
     )

@@ -381,16 +381,19 @@ class TableList extends React.Component {
     axios.get(`https://servicy.herokuapp.com/api/services`)
       .then(res => {
         const adsData = (res.data.data).filter(item => item.provider_id._id == this.props.user.user._id)
+        console.log("ads",adsData)
         this.setState({ adsData });
       })
     axios.get(`https://servicy.herokuapp.com/api/servicetypes`)
       .then(res => {
         const serTData = res.data.data
+        console.log("ser",serTData)
         this.setState({ serTData });
       })
     axios.get(`https://servicy.herokuapp.com/api/locations`)
       .then(res => {
         const locData = res.data.data
+        console.log("ads",locData)
         this.setState({ locData });
       })
   }
