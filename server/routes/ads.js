@@ -272,18 +272,13 @@ router.get("/views/:id", (req, res) => {
           message: "User can not access view data"
         });
       ViewModel.aggregate([
-        // {
-        //   "$match": {
-        //     "ad_id": "5ccd53d39c6b54297aad85cd"
-        //   }
-        // }
-        // ,
         {
           $group: {
             _id: {
               year: { $year: "$data_time" },
               month: { $month: "$data_time" },
-              day: { $dayOfMonth: "$data_time" }
+              day: { $dayOfMonth: "$data_time" },
+              ad_id: "$ad_id"
             },
             count: { $sum: 1 }
           }
@@ -294,6 +289,7 @@ router.get("/views/:id", (req, res) => {
             success: false,
             message: "Some error happen " + err
           });
+        views = views.filter(v => v._id.ad_id == req.params.id);
         return res.json({
           success: true,
           data: views
@@ -320,6 +316,7 @@ router.get("/clicks/:id", (req, res) => {
         {
           $group: {
             _id: {
+              ad_id: "$ad_id",
               year: { $year: "$data_time" },
               month: { $month: "$data_time" },
               day: { $dayOfMonth: "$data_time" }
@@ -333,6 +330,7 @@ router.get("/clicks/:id", (req, res) => {
             success: false,
             message: "Some error happen " + err
           });
+        clicks = clicks.filter(v => v._id.ad_id == req.params.id);
         return res.json({
           success: true,
           data: clicks
