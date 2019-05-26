@@ -360,55 +360,46 @@ router.get("/servicetypes", function(req, res, next) {
 });
 
 router.post("/servicetypes", (req, res) => {
-  verifyJWTToken(req.header("Authorization"))
-    .then(payload => {
-      serviceTypeName = req.body.name;
-      uid = payload.uid;
-      role = payload.role;
+  serviceTypeName = req.body.name;
+  uid = payload.uid;
+  role = payload.role;
 
-      ServiceTypeModel.findOne({ name: serviceTypeName }, (err, data) => {
-        if (!data) {
-          var serviceType = new ServiceTypeModel({
-            name: serviceTypeName,
-            status: "pending"
-          });
-          serviceType.save();
-          return res.json({
-            success: true,
-            message:
-              "new service type is added, please wait for the admin to accept",
-            data: serviceType
-          });
-        } else if (data.status == "pending") {
-          return res.json({
-            success: false,
-            message:
-              "The service type is already added, but is waiting for admin to accept",
-            data: []
-          });
-        } else if (data.status == "active") {
-          return res.json({
-            success: false,
-            message: "The service type is already in our system",
-            data: []
-          });
-        } //inactive
-        else {
-          return res.json({
-            success: false,
-            message:
-              "The service type is already rejected by the admin. You can't request it",
-            data: []
-          });
-        }
+  ServiceTypeModel.findOne({ name: serviceTypeName }, (err, data) => {
+    if (!data) {
+      var serviceType = new ServiceTypeModel({
+        name: serviceTypeName,
+        status: "pending"
       });
-    })
-    .catch(err => {
+      serviceType.save();
+      return res.json({
+        success: true,
+        message:
+          "new service type is added, please wait for the admin to accept",
+        data: serviceType
+      });
+    } else if (data.status == "pending") {
       return res.json({
         success: false,
-        message: "Authentication failed"
+        message:
+          "The service type is already added, but is waiting for admin to accept",
+        data: []
       });
-    });
+    } else if (data.status == "active") {
+      return res.json({
+        success: false,
+        message: "The service type is already in our system",
+        data: []
+      });
+    } //inactive
+    else {
+      return res.json({
+        success: false,
+        message:
+          "The service type is already rejected by the admin. You can't request it",
+        data: []
+      });
+    }
+  });
 });
 
 router.put("/servicetypes/:id", (req, res) => {
