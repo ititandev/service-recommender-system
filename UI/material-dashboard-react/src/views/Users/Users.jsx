@@ -207,7 +207,7 @@ class TableList extends React.Component {
                             openEditDialog: false
                         })
                         const newUserData = this.state.tableData[index]
-                        this.updateUser(this.state.tableData[index]._id, newUserData)
+                        this.updateUser(newUserData)
                     }} /> : null}
 
                 {this.state.openDeleteDialog ? <AlertDialog
@@ -271,11 +271,11 @@ class TableList extends React.Component {
             });
     }
 
-    updateUser(userId, newUserData) {
+    updateUser(newUserData) {
         console.log(newUserData)
         axios({
             method: 'put',
-            url: `${Utils.BASE_URL}/users/${userId}`,
+            url: `${Utils.BASE_URL}/users/${newUserData._id}`,
             headers: {
                 Authorization: Utils.state.token,
             },
@@ -285,13 +285,13 @@ class TableList extends React.Component {
         })
             .then(response => {
                 if (response.data.success) {
-                    console.log('successful post')
+                    console.log(`put user success with msg: ${response.data.message}`)
                 } else {
-                    console.log(`fail post with message: ${response.data.message}`)
+                    console.log(`put user fail with msg: ${response.data.message}`)
                 }
             })
             .catch(function (error) {
-                console.log(`post fail with error: ${error}`);
+                console.log(`put fail with error: ${error}`);
             });
     }
 
@@ -305,9 +305,9 @@ class TableList extends React.Component {
         })
             .then(response => {
                 if (response.data.success) {
-                    console.log(`successful delete user: ${userId}`)
+                    console.log(`delete success with msg: ${response.data.message}`)
                 } else {
-                    console.log(`fail delete user ${userId} with message: ${response.data.message}`)
+                    console.log(`delete fail with msg: ${response.data.message}`)
                 }
             })
             .catch(function (error) {

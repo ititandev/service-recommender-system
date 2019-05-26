@@ -288,9 +288,7 @@ class Profile extends React.Component {
       email: this.state.email,
       firstname: this.state.firstname,
       lastname: this.state.lastname,
-      role: this.state.role,
       phone: this.state.phone,
-      avatar: this.state.avatar,
     }
     console.log(newUserData)
     axios({

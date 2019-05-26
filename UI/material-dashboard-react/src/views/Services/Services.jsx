@@ -163,19 +163,18 @@ class Services extends React.Component {
       data: {
         "status": "active"
       },
-      // params: ["status"]
     })
       .then(response => {
         console.log(response)
         if (response.data.success) {
-          const newData = response.data.data.map((item, index) => ({
-            ...item,
-            open: false,
-            expectedValue: null
-          }))
-          console.log(`get services success with msg: ${response.data.message}`);
-          console.log(newData)
-
+          const newData = []
+          for (let item of response.data.data) {
+            if (item.status === 'active') {
+              newData.push({
+                ...item,
+              })
+            }
+          }
           this.setState({
             ...this.state,
             tableData: newData
