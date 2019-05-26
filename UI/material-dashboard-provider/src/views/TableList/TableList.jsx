@@ -211,12 +211,12 @@ class TableList extends React.Component {
             <CardBody>
               <Table
                 tableHeaderColor="primary"
-                tableHead={["Name", "Type", "Status", "Views", "Time"]}
+                tableHead={["Name", "Type", "Status", "Views","Clicks", "Time"]}
                 tableData={
                   this.state.adsData.map((item,index) => {
                     return [
                       item.name, item.adtype.name, item.status,
-                      item.views, item.datetime , <BtnAdd   className={classes.margin} onClick={()=>this.handleDelete(item._id)}/>
+                      item.views,item.clicks, item.datetime , <BtnAdd   className={classes.margin} onClick={()=>this.handleDelete(item._id)}/>
                     ]
                   }).sort(function(a, b) {
                     var nameA = a[4]//.toUpperCase(); // bỏ qua hoa thường
@@ -309,7 +309,7 @@ class TableList extends React.Component {
             fullWidth
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
+        <GridItem xs={12} sm={12} md={4}>
           <InputLabel htmlFor="age-helper" className={classes.textField}>
             Advertisement Packages
           </InputLabel>
@@ -357,7 +357,7 @@ class TableList extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Button variant="outlined" color="primary" className={classes.button} onClick={()=>this.handleBuy()}>
-            Buy
+          REGISTER
           </Button>
         </GridItem>
         </CardBody>

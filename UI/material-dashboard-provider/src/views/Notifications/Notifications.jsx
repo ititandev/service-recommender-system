@@ -131,13 +131,13 @@ class Notifications extends React.Component {
           <GridContainer>
             <Table
                 tableHeaderColor="primary"
-                tableHead={["Customer", "Phone", "Email", "status", "Time"]}
+                tableHead={["Customer", "Phone", "Email","Message","Service", "status", "Time"]}
                 tableData={
                   this.state.userData.map((item,index) => {
                     if (item.status!="new") {
                       return [
                         item.user.firstname + " " + item.user.lastname, item.user.phone ,item.user.email,
-                        item.status , item.data_time ]
+                        item.message,item.service.name ,item.status , item.data_time ]
                     }
                     else {
                     return [

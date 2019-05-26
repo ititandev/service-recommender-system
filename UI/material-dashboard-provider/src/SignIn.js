@@ -78,7 +78,7 @@ class SignIn extends React.Component {
       .then(res => {
         const submitted = true;
         const user = res.data.data;
-        console.log(user)
+        console.log("user",user)
         if (user.user.role=="provider"){
         this.setState({ submitted, user })}
       })

@@ -37,8 +37,13 @@ import {
   emailsSubscriptionChart,
   completedTasksChart
 } from "variables/charts.jsx";
-
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import  CanvasJSReact from './canvasjs.react';
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+var dataPoints =[];
+
+
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -47,6 +52,8 @@ class Dashboard extends React.Component {
       value: 0,
       adsData:[],
       serData:[],
+      temp:[],
+      tempcl:[]
     };
   }
   handleChange = (event, value) => {
@@ -56,13 +63,14 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
-  componentWillMount() {
+  componentDidMount() {
+    const handleChart=this.handleChart.bind(this)
     axios.get(`https://servicy.herokuapp.com/api/services`)
       .then(res => {
         const serData = (res.data.data).filter(item => item.provider_id._id == this.props.user.user._id)
         this.setState({ serData });
       })
-      axios({
+    axios({
         method:'GET',
         url:`https://servicy.herokuapp.com/api/ads`,
         headers:{
@@ -70,62 +78,110 @@ class Dashboard extends React.Component {
         }
         })
         .then(res=>{
-          const adsData = res.data.data
+        const adsData = res.data.data
         this.setState({ adsData });
+        adsData.map(ads=>{if (ads.status=="running"){this.handleChart(ads)}})
         })
+       
   }
+  handleChart(ads){
+    axios({
+      method:'GET',
+      url:`https://servicy.herokuapp.com/api/views/${ads._id}`,
+      headers:{
+        Authorization:this.props.user.token,
+      }
+      })
+      .then(res=>{
+        var dataP=[]
+        var data=res.data.data
+        console.log("View",res);
+        for (var i = 0; i < data.length; i++) {
+          dataP.push({
+            x: new Date(data[i]._id.year+"-"+data[i]._id.month+"-"+data[i]._id.day),
+            y: data[i].count
+          });
+        }
+        console.log("P",dataP)
+        console.log("P1",dataPoints)
+        var options = {
+          theme: "light2",
+          title: {
+            text: ads.name
+          },
+          axisY: {
+            title: "Views",
+            prefix: "",
+            includeZero: true
+          },
+          
+          data: [{
+            type: "line",
+            xValueFormatString: "DD MMM YYYY",
+            yValueFormatString: ",##0",
+            dataPoints: dataP
+          }]
+        }
+        const newTmp=[...this.state.temp,{id:ads._id,options}];
+        this.setState({
+          temp: newTmp
+        })
+      })  
+      
+      axios({
+        method:'GET',
+        url:`https://servicy.herokuapp.com/api/clicks/${ads._id}`,
+        headers:{
+          Authorization:this.props.user.token,
+        }
+        })
+        .then(res=>{
+          var dataP=[]
+          var data=res.data.data
+          console.log("Click",res);
+          for (var i = 0; i < data.length; i++) {
+            dataP.push({
+              x: new Date(data[i]._id.year+"-"+data[i]._id.month+"-"+data[i]._id.day),
+              y: data[i].count
+            });
+          }
+          console.log("P",dataP)
+          console.log("P1",dataPoints)
+          var options = {
+            theme: "light2",
+            title: {
+              text: ads.name
+            },
+            axisY: {
+              title: "Clicks",
+              prefix: "",
+              includeZero: true
+            },
+            
+            data: [{
+              type: "line",
+              xValueFormatString: "DD MMM YYYY",
+              yValueFormatString: ",##0",
+              dataPoints: dataP
+            }]
+          }
+          const newTmp=[...this.state.tempcl,{id:ads._id,options}];
+          this.setState({
+            tempcl: newTmp
+          })
+        })  
+  }
+  
   render() {
     const { classes } = this.props;
-    const adsver=this.state.adsData.filter(i=>i.status=="running").sort(function(a, b) {
-      var nameA = a.name; // bỏ qua hoa thường
-      var nameB = b.name; // bỏ qua hoa thường
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-    
-      // name trùng nhau
-      return 0;
-    })
-    const labels=adsver.map(i=>{return i.name.substring(0, 5)})
-    console.log("se",adsver)
-    const series=adsver.map(i=>{return i.views})
-    console.log("se",series)
-    const data={labels:labels,
-    series:[series]}
-    var options=emailsSubscriptionChart.options
-    console.log("op1",series.sort()[0]+200)
-    options.high=series.sort()[0]+200
-    
-    console.log("op1",options)
+   
+      
+  
+  
     return (
       <div>
         <GridContainer>
-          {/* <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
-                <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
-                </h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Danger>
-                    <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
-                  </a>
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem> */}
+         
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="success" stats icon>
@@ -160,192 +216,35 @@ class Dashboard extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-          {/* <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="danger" stats icon>
-                <CardIcon color="danger">
-                  <Icon>info_outline</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <Accessibility />
-                </CardIcon>
-                <p className={classes.cardCategory}>Followers</p>
-                <h3 className={classes.cardTitle}>+245</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Update />
-                  Just Updated
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem> */}
+         
         </GridContainer>
-        <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-            <Card chart>
-              <CardHeader color="success">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={data}
-                  // data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Views</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> just now
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
-        <GridContainer>
-          {/* <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="success">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={dailySalesChart.data}
-                  type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Daily Sales</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                  </span>{" "}
-                  increase in today sales.
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> updated 4 minutes ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem> */}
+      
 
-          {/* <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem> */}
-        </GridContainer>
+        {this.state.adsData.map(item=>{
+          const dt=this.state.temp.filter(i=>item._id==i.id);
         
-        {/* <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomTabs
-              title="Tasks:"
-              headerColor="primary"
-              tabs={[
-                {
-                  tabName: "Bugs",
-                  tabIcon: BugReport,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
-                    />
-                  )
-                },
-                {
-                  tabName: "Website",
-                  tabIcon: Code,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0]}
-                      tasksIndexes={[0, 1]}
-                      tasks={website}
-                    />
-                  )
-                },
-                {
-                  tabName: "Server",
-                  tabIcon: Cloud,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[1]}
-                      tasksIndexes={[0, 1, 2]}
-                      tasks={server}
-                    />
-                  )
-                }
-              ]}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card>
-              <CardHeader color="warning">
-                <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
-                <p className={classes.cardCategoryWhite}>
-                  New employees on 15th September, 2016
-                </p>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  tableHeaderColor="warning"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
-                  tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                    ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                  ]}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer> */}
+          if(dt.length>0 )
+          return (
+          <div style={{margin:20}}>
+        <CanvasJSChart options = {dt[0].options}/>
+        </div>)
+        })}
+		{this.state.adsData.map(item=>{
+          const dt=this.state.tempcl.filter(i=>item._id==i.id);
+        
+          if(dt.length>0 )
+          return (
+          <div style={{margin:20}}>
+        <CanvasJSChart options = {dt[0].options}/>
+        </div>)
+        })}
+		
+		
+      
       </div>
     );
   }
+  
 }
 
 Dashboard.propTypes = {
