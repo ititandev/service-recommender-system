@@ -86,12 +86,14 @@ router.get("/users", function(req, res, next) {
           success: false,
           message: "Only admin can get all users"
         });
-      query = {
-        role: {
-          $in: req.body.role
-        }
-      };
-      
+      if (req.body.role)
+        query = {
+          role: {
+            $in: req.body.role
+          }
+        };
+      else query = {};
+
       UserModel.find(query, (err, data) => {
         if (err) {
           return res.json({
