@@ -12,9 +12,9 @@ import ServiceList from './modules/views/ServiceList'
 import AppAppBar from "./components/MyAppBar";
 import "./App.css";
 import {Provider} from 'react-redux';
-import { createStore, applyMiddleware } from 'redux'
-import reducers from './redux/reducers'
-import thunk from 'redux-thunk'
+
+import store from './redux/store'
+
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import { BrowserRouter as Router, Route,Switch } from "react-router-dom";
@@ -63,7 +63,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Provider store={createStore(reducers,applyMiddleware(thunk))}>
+      <Provider store={store}>
 
         <Router>
           <Switch>

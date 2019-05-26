@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {root} from '../../config'
+import store from '../store'
 import { LOGIN,
          STATUS,
          CHANGE_STATUS,
@@ -59,8 +60,34 @@ const adRequest=(ads)=>{
   }
 }
 export const loadAdvertisementAction=()=>{
+  const login=store.getState().login;
+  if(login.user){
+    console.log(login.user.role)
+    if(login.user.role==='admin'||login.user.role==='provider'){
+      return dispatch=>{
+        dispatch(adRequest([]))
+      }
+    }
+  }
+  if(login.token){
+    return dispatch=>{
+      axios({
+        method:'GET',
+        url:`${root}/ads`,
+        headers:{
+          Authorization:login.token,
+        }
+        })
+        .then(({data})=>{
+          if(data.success){
+            dispatch(adRequest(data.data))
+          }
+        })
+        .catch(err=>console.log(err))
+    }
+  }
   return dispatch=>{
-    axios.get(`${root}/ads`)
+    axios.get(`${root}/ads?status=running`)
     .then(({data})=>{
       if(data.success){
         dispatch(adRequest(data.data))
