@@ -140,7 +140,7 @@ class SignIn extends React.Component {
     return(
       <Router history={hist}>
         <Switch>
-          <Route path="/provider" render={(props)=><Admin  {...props} user={this.state.user}/>}  />
+          <Route path="/" render={(props)=><Admin  {...props} user={this.state.user}/>}  />
           
           
         </Switch>
