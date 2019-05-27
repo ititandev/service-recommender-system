@@ -292,15 +292,15 @@ class TableList extends React.Component {
     const address=this.state.address;
     const price=this.state.price;
     const website=this.state.website;
-    const info={"location":location,
+    const info={"location_id":location,
     "address":address,
       "price":price,
       "website":website};
-    const images=[this.state.images];
+    const images=this.state.images.split(";");
     // console.log(this.state.avatar,this.state.name,this.sate.price,this.state.local)
     const token=this.props.user.token;
     const servicetype=this.state.serT;
-    console.log("type",servicetype)
+    if (avatar && name && location && servicetype && price && address){
     axios({
       method:'POST',
       url:`https://servicy.herokuapp.com/api/services/`,
@@ -315,7 +315,8 @@ class TableList extends React.Component {
         
         this.setState({message:"Add success"})
         this.setState(state=>{
-          const item={...response.data,provider_id: this.props.user.user}
+          const item={...response.data.data,provider_id: this.props.user.user}
+          console.log("item",item)
           const newAds=state.adsData.concat(item);
           return {
             ...state,
@@ -325,7 +326,8 @@ class TableList extends React.Component {
 
       })
       .catch(err=>this.setState({message:'Unexpected Error was happend! Please Try Again!'}))
-      
+    }
+    else { this.setState({message:"Add fail"})} 
     var x = [];
     x[place] = true;
     this.setState(x);
