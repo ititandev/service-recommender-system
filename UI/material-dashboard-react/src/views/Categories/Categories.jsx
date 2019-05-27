@@ -19,6 +19,8 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
 import Utils from "../../Utils";
+import update from 'react-addons-update';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
     cardCategoryWhite: {
@@ -62,9 +64,10 @@ class TableList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableData: [],//[...Utils.cateTestData],
+            tableData: [],
             openDeleteDialog: false,
-            alertIndex: null
+            alertIndex: null,
+            openChangeStatusDialog: false,
         }
     }
     componentWillMount() {
@@ -96,6 +99,15 @@ class TableList extends React.Component {
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell >
                                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                    <IconButton color='secondary' aria-label="Disable" onClick={() => {
+                                                        this.setState({
+                                                            ...this.state,
+                                                            openChangeStatusDialog: true,
+                                                            alertIndex: index
+                                                        })
+                                                    }}>
+                                                        <img style={{ width: 20, height: 20 }} alt='disable' src="https://i.stack.imgur.com/HkYpY.png" />
+                                                    </IconButton>
                                                     <IconButton color='secondary' aria-label="Delete" onClick={() => {
                                                         this.setState({
                                                             ...this.state,
@@ -131,6 +143,26 @@ class TableList extends React.Component {
                         })
                         this.deleteCategory(deletedCateId)
                     }} /> : null}
+
+                {this.state.openChangeStatusDialog ? <AlertDialog
+                    title={"Xác nhận thay đổi trạng thái loại dịch vụ?"}
+                    description={"Bạn đang thực hiện thay đổi trạng thái của loại dịch vụ được chọn trên hệ thống, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
+                    handleCancel={() => {
+                        this.setState({
+                            ...this.state,
+                            openChangeStatusDialog: false
+                        })
+                    }} handleConfirm={() => {
+                        const index = this.state.alertIndex
+                        const updatedCateId = this.state.tableData.splice(index, 1)[0]._id
+                        const newStatus = 'inactive'
+                        this.setState({
+                            ...this.state,
+                            tableData: this.state.tableData,
+                            openChangeStatusDialog: false
+                        })
+                        this.updateCategory(updatedCateId, newStatus)
+                    }} /> : null}
             </GridContainer>
         );
     }
@@ -140,12 +172,12 @@ class TableList extends React.Component {
             method: 'get',
             url: `${Utils.BASE_URL}/servicetypes?status=active`,
             headers: {
-              Authorization: Utils.state.token
+                Authorization: Utils.cookies.get('token')
             },
             data: {
-              status: ["active"],
+                status: ["active"],
             }
-          })
+        })
             .then(response => {
                 if (response.data.success) {
                     const newData = response.data.data.map((item, index) => {
@@ -170,21 +202,45 @@ class TableList extends React.Component {
             method: 'delete',
             url: `${Utils.BASE_URL}/servicetypes/${cateId}`,
             headers: {
-              Authorization: Utils.state.token
+                Authorization: Utils.cookies.get('token')
             },
             data: {
-              status: ["active"],
+                status: ["active"],
             }
-          })
+        })
             .then(response => {
                 if (response.data.success) {
-                    console.log(`successful delete Category: ${cateId}`)
+                    console.log(`delete category success with msg: ${response.data.message}`)
                 } else {
-                    console.log(`fail delete Category ${cateId} with message: ${response.data.message}`)
+                    console.log(`delete category fail with msg: ${response.data.message}`)
                 }
             })
             .catch(function (error) {
-                console.log(`delete fail with error: ${error}`);
+                console.log(`delete category fail with error: ${error}`);
+            });
+    }
+
+    updateCategory(cateId, newStatus) {
+        axios({
+            method: 'put',
+            url: `${Utils.BASE_URL}/servicetypes/${cateId}`,
+            headers: {
+                Authorization: Utils.cookies.get('token'),
+                'Content-type': 'application/json',
+            },
+            data: {
+                status: newStatus,
+            }
+        })
+            .then(response => {
+                if (response.data.success) {
+                    console.log(`update category success with msg: ${response.data.message}`)
+                } else {
+                    console.log(`update category fail with msg: ${response.data.message}`)
+                }
+            })
+            .catch(function (error) {
+                console.log(`update category fail with error: ${error}`);
             });
     }
 }

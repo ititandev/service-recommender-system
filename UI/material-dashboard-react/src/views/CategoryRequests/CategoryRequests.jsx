@@ -67,7 +67,7 @@ class TableList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableData: [],//[...Utils.cateTestData],
+      tableData: [],
       openAcceptDialog: false,
       openDeleteDialog: false,
       alertIndex: null
@@ -159,7 +159,7 @@ class TableList extends React.Component {
       method: 'get',
       url: `${Utils.BASE_URL}/servicetypes?status=pending`,
       headers: {
-        Authorization: Utils.state.token
+        Authorization: Utils.cookies.get('token')
       },
       data: {
         status: ["pending"],
@@ -197,7 +197,7 @@ class TableList extends React.Component {
     axios({
       method: 'put',
       headers: {
-        Authorization: Utils.state.token,
+        Authorization: Utils.cookies.get('token')
       },
       url: `${Utils.BASE_URL}/servicetypes/${requestId}`,
       data: {

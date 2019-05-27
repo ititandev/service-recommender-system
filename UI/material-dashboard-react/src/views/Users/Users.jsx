@@ -70,7 +70,7 @@ const styles = theme => ({
 
 class TableList extends React.Component {
     state = {
-        tableData: [],//[...Utils.userTestData],
+        tableData: [],
         openEditDialog: false,
         openDeleteDialog: false,
         alertIndex: null
@@ -80,11 +80,13 @@ class TableList extends React.Component {
     }
     handleOpen(index) {
         this.setState({
+            ...this.state,
             tableData: update(this.state.tableData, { [index]: { open: { $set: !this.state.tableData[index].open } } })
         })
     }
     handleOnSelectValueChange = (value, index) => {
         this.setState({
+            ...this.state,
             tableData: update(this.state.tableData,
                 {
                     [index]: {
@@ -102,7 +104,7 @@ class TableList extends React.Component {
                         <CardHeader plain color="primary">
                             <h4 className={classes.cardTitleWhite}>Danh sách người dùng</h4>
                             <p className={classes.cardCategoryWhite}>
-                                Danh sách các người dùng trong hệ thống
+                                Danh sách các người dùng thường và các nhà cung cấp dịch vụ trên hệ thống
                             </p>
                         </CardHeader>
                         <CardBody>
@@ -120,11 +122,13 @@ class TableList extends React.Component {
                                 <TableBody>
                                     {this.state.tableData.map((row, index) => (
                                         <TableRow key={index}>
-                                            <Avatar alt="Remy Sharp" src={row.avatar} className={classes.bigAvatar} style={{
-                                                margin: 5,
-                                                width: 60,
-                                                height: 60,
-                                            }} />
+                                            <TableCell >
+                                                <Avatar alt="Remy Sharp" src={row.avatar} className={classes.bigAvatar} style={{
+                                                    margin: 5,
+                                                    width: 60,
+                                                    height: 60,
+                                                }} />
+                                            </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {`${row.firstname} ${row.lastname}`}
                                             </TableCell>
@@ -139,6 +143,7 @@ class TableList extends React.Component {
                                                 {!this.state.tableData[index].open ? (
                                                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                         <IconButton aria-label="Edit Role" onClick={() => this.setState({
+                                                            ...this.state,
                                                             tableData: update(this.state.tableData, { [index]: { open: { $set: !this.state.tableData[index].open } } })
                                                         })}>
                                                             <Edit />
@@ -197,17 +202,21 @@ class TableList extends React.Component {
                         })
                     }} handleConfirm={() => {
                         const index = this.state.alertIndex
+                        const newRole = this.state.tableData[index].expectedValue !== null ? this.state.tableData[index].expectedValue : this.state.tableData[index].role
+
                         this.setState({
+                            ...this.state,
                             tableData: update(this.state.tableData, {
                                 [index]: {
-                                    role: { $set: this.state.tableData[index].expectedValue !== null ? this.state.tableData[index].expectedValue : this.state.tableData[index].role },
+                                    role: { $set: newRole },
                                     open: { $set: !this.state.tableData[index].open }
                                 }
                             }),
                             openEditDialog: false
                         })
+
                         const newUserData = this.state.tableData[index]
-                        this.updateUser(newUserData)
+                        this.updateUser(newUserData._id, newRole)
                     }} /> : null}
 
                 {this.state.openDeleteDialog ? <AlertDialog
@@ -222,7 +231,7 @@ class TableList extends React.Component {
                         const index = this.state.alertIndex
                         const deletedUserId = this.state.tableData.splice(index, 1)[0]._id
                         this.setState({
-                            tableData: this.state.tableData,
+                            ...this.state,
                             openDeleteDialog: false
                         })
                         this.deleteUser(deletedUserId)
@@ -236,7 +245,7 @@ class TableList extends React.Component {
             method: 'get',
             url: `${Utils.BASE_URL}/users`,
             headers: {
-                Authorization: Utils.state.token,
+                Authorization: Utils.cookies.get('token'),
                 'Content-Type': 'application/json',
             },
             data: {
@@ -271,16 +280,16 @@ class TableList extends React.Component {
             });
     }
 
-    updateUser(newUserData) {
-        console.log(newUserData)
+    updateUser(userId, newRole) {
         axios({
             method: 'put',
-            url: `${Utils.BASE_URL}/users/${newUserData._id}`,
+            url: `${Utils.BASE_URL}/users/${userId}`,
             headers: {
-                Authorization: Utils.state.token,
+                Authorization: Utils.cookies.get('token'),
+                'Content-type': 'application/json'
             },
             data: {
-                role: newUserData.role,
+                role: newRole,
             }
         })
             .then(response => {
@@ -300,7 +309,7 @@ class TableList extends React.Component {
             method: 'delete',
             url: `${Utils.BASE_URL}/users/${userId}`,
             headers: {
-                Authorization: Utils.state.token
+                Authorization: Utils.cookies.get('token')
             },
         })
             .then(response => {

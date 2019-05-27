@@ -62,7 +62,7 @@ const styles = theme => ({
 
 class AdRequests extends React.Component {
     state = {
-        tableData: [],//[...Utils.adTestData],
+        tableData: [],
         openDeleteDialog: false,
         openAcceptDialog: false,
         alertIndex: null
@@ -184,7 +184,7 @@ class AdRequests extends React.Component {
             method: 'get',
             url: `${Utils.BASE_URL}/ads`,
             headers: {
-                Authorization: Utils.state.token
+                Authorization: Utils.cookies.get('token')
             },
             data: {
                 status: ["pending"],
@@ -222,7 +222,7 @@ class AdRequests extends React.Component {
             method: 'put',
             url: `${Utils.BASE_URL}/ads/${adId}`,
             headers: {
-                Authorization: Utils.state.token
+                Authorization: Utils.cookies.get('token')
             },
             data: {
                 status: status,

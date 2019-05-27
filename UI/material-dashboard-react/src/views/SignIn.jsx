@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Utils from '../Utils';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = theme => ({
     progress: {
@@ -54,10 +55,21 @@ class SignIn extends React.Component {
         email: "",
         password: "",
         loginSuccess: false,
+        alertMsg: "",
+        isAlert: true,
     }
     handleClickLogin = () => {
         if (this.state.email === "" || this.state.password === "") {
+            this.setState({
+                ...this.state,
+                isAlert: true,
+                alertMsg: "Tên đăng nhập hoặc mật khẩu không được trống"
+            })
         } else {
+            this.setState({
+                ...this.state,
+                isAlert: false,
+            })
             const email = this.state.email
             const password = this.state.password
             console.log(`email: ${email}, password: ${password}`)
@@ -71,23 +83,38 @@ class SignIn extends React.Component {
             })
                 .then(response => {
                     if (response.data.success) {
-                        Utils.cookies.set('isLogin', "true", { path: '/' });
-                        Utils.cookies.set('token', response.data.data.token, { path: '/' });
-                        Utils.cookies.set('user', response.data.data.user, { path: '/' });
-                        Utils.state = {
-                            token: response.data.data.token,
-                            user: response.data.data.user,
+                        if(response.data.data.user.role !== "admin"){
+                            this.setState({
+                                ...this.state,
+                                isAlert: true,
+                                alertMsg: "Chỉ cho phép đăng nhập bằng tài khoản của quản trị viên"
+                            })
+                        } else {
+                            Utils.cookies.set('isLogin', "true", { path: '/' });
+                            Utils.cookies.set('token', response.data.data.token, { path: '/' });
+                            Utils.cookies.set('user', {...response.data.data.user,password: password}, { path: '/' });
+                            
+                            this.setState({
+                                ...this.state,
+                                loginSuccess: true,
+                            })
+                            console.log(`login success with msg: ${response.data.message}`);
                         }
+                    } else {
                         this.setState({
                             ...this.state,
-                            loginSuccess: true,
+                            isAlert: true,
+                            alertMsg: "Tên đăng nhập hoặc mật khẩu không đúng"
                         })
-                        console.log(`login success with msg: ${response.data.message}`);
-                    } else {
                         console.log(`login fail with error msg: ${response.data.message}`);
                     }
-                }).catch(function (error) {
+                }).catch(error => {
                     console.log(error);
+                    this.setState({
+                        ...this.state,
+                        isAlert: true,
+                        alertMsg: "Hiện tại server không thể phản hồi yêu cầu đăng nhập. Xin vui lòng thử lại sau ít phút"
+                    })
                 });
         }
     }
@@ -106,8 +133,8 @@ class SignIn extends React.Component {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
-          </Typography>
+                            Đăng nhập
+                        </Typography>
                         <form className={classes.form}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email" style={{ fontSize: 18 }}>Email Address</InputLabel>
@@ -141,6 +168,14 @@ class SignIn extends React.Component {
                                     }}
                                 />
                             </FormControl>
+                            {
+                                this.state.isAlert ?
+                                    <Typography style={{marginTop:20,fontSize: 18 }} color='secondary'>
+                                        {this.state.alertMsg}
+                                    </Typography>
+                                    :
+                            <LinearProgress color="secondary" style={{ borderRadius: 25,marginTop:30,marginBottom:30,height: 10 }} />
+                            }
                             <Button
                                 fullWidth
                                 variant="contained"
@@ -149,8 +184,9 @@ class SignIn extends React.Component {
                                 className={classes.submit}
                                 onClick={this.handleClickLogin}
                             >
-                                {'Sign in '}
+                                Đăng nhập
                             </Button>
+                            
                         </form>
                     </Paper>
                 </main>

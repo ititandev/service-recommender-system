@@ -20,6 +20,8 @@ import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
 import Utils from "../../Utils.jsx";
 import { Avatar } from "@material-ui/core";
+import update from 'react-addons-update';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
   cardCategoryWhite: {
@@ -61,8 +63,9 @@ const styles = theme => ({
 
 class Services extends React.Component {
   state = {
-    tableData: [],//[...Utils.serviceTestData],
+    tableData: [],
     openDeleteDialog: false,
+    openChangeStatusDialog: false,
     alertIndex: null
   }
 
@@ -113,6 +116,16 @@ class Services extends React.Component {
                       <TableCell>{Utils.getFormatStatus(row.status)}</TableCell>
                       <TableCell >
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
+                          <Switch
+                            checked={row.status === "active"}
+                            onClick={() => {
+                              this.setState({
+                                ...this.state,
+                                openChangeStatusDialog: true,
+                                alertIndex: index
+                              })
+                            }}
+                          />
                           <IconButton color='secondary' aria-label="Delete" onClick={() => {
                             this.setState({
                               ...this.state,
@@ -141,12 +154,36 @@ class Services extends React.Component {
             })
           }} handleConfirm={() => {
             const index = this.state.alertIndex
-            const deletedServiceId = this.state.tableData.splice(index, 1)[0]._id
+            const updatedServiceId = this.state.tableData.splice(index, 1)[0]._id
             this.setState({
               tableData: this.state.tableData,
               openDeleteDialog: false
             })
-            this.deleteService(deletedServiceId)
+            this.deleteService(updatedServiceId)
+          }} /> : null}
+
+        {this.state.openChangeStatusDialog ? <AlertDialog
+          title={"Xác nhận thay đổi trạng thái dịch vụ?"}
+          description={"Bạn đang thực hiện thay đổi trạng thái của dịch vụ được chọn trên hệ thống, hãy xác nhận rằng bạn chắc chắn muốn thực hiện thay đổi này."}
+          handleCancel={() => {
+            this.setState({
+              ...this.state,
+              openChangeStatusDialog: false
+            })
+          }} handleConfirm={() => {
+            const index = this.state.alertIndex
+            const updatedServiceId = this.state.tableData[index]._id
+            const newStatus = this.state.tableData[index].status === 'active' ? 'inactive' : 'active'
+            this.setState({
+              ...this.state,
+              tableData: update(this.state.tableData, {
+                [index]: {
+                  status: { $set: newStatus },
+                }
+              }),
+              openChangeStatusDialog: false
+            })
+            this.updateService(updatedServiceId, newStatus)
           }} /> : null}
       </GridContainer>
     );
@@ -157,11 +194,11 @@ class Services extends React.Component {
       method: 'get',
       url: `${Utils.BASE_URL}/services`,
       headers: {
-        Authorization: Utils.state.token,
-        'Content-type':'application/json'
+        Authorization: Utils.cookies.get('token'),
+        'Content-type': 'application/json'
       },
       data: {
-        "status": "active"
+        "status": ["active", 'inactive']
       },
     })
       .then(response => {
@@ -169,7 +206,7 @@ class Services extends React.Component {
         if (response.data.success) {
           const newData = []
           for (let item of response.data.data) {
-            if (item.status === 'active') {
+            if (item.status === 'active' || item.status === 'inactive') {
               newData.push({
                 ...item,
               })
@@ -189,22 +226,46 @@ class Services extends React.Component {
   }
 
   deleteService(serviceId) {
-    axios.delete(`${Utils.BASE_URL}/services/${serviceId}`
-      , {
-        headers: {
-          Authorization: Utils.state.token
-        }
+    axios({
+      method: 'delete',
+      url: `${Utils.BASE_URL}/services/${serviceId}`,
+      headers: {
+        Authorization: Utils.cookies.get('token'),
       }
-    )
+    })
       .then(response => {
         if (response.data.success) {
-          console.log(`successful delete service: ${serviceId}`)
+          console.log(`delete service success with msg: ${response.data.message}`)
         } else {
-          console.log(`fail delete service ${serviceId} with message: ${response.data.message}`)
+          console.log(`delete service fail with msg: ${response.data.message}`)
         }
       })
       .catch(function (error) {
-        console.log(`delete fail with error: ${error}`);
+        console.log(`delete service fail with error: ${error}`);
+      });
+  }
+
+  updateService(serviceId, newStatus) {
+    axios({
+      method: 'put',
+      url: `${Utils.BASE_URL}/services/${serviceId}`,
+      headers: {
+        Authorization: Utils.cookies.get('token'),
+        'Content-type': 'application/json',
+      },
+      data: {
+        "status": newStatus,
+      }
+    })
+      .then(response => {
+        if (response.data.success) {
+          console.log(`update service success with msg: ${response.data.message}`)
+        } else {
+          console.log(`update service fail with msg: ${response.data.message}`)
+        }
+      })
+      .catch(function (error) {
+        console.log(`update service fail with error: ${error}`);
       });
   }
 }

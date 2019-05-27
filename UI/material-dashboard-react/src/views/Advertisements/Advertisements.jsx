@@ -61,7 +61,7 @@ const styles = theme => ({
 
 class Advertisements extends React.Component {
   state = {
-    tableData: [],//[...Utils.adTestData],
+    tableData: [],
     openDeleteDialog: false,
     alertIndex: null
   }
@@ -163,7 +163,7 @@ class Advertisements extends React.Component {
       method: 'get',
       url: `${Utils.BASE_URL}/ads?status=active`,
       headers: {
-        Authorization: Utils.state.token
+        Authorization: Utils.cookies.get('token')
       },
       data: {
         status: ["active", "done"],
@@ -198,7 +198,7 @@ class Advertisements extends React.Component {
       method: 'delete',
       url: `${Utils.BASE_URL}/ads/${adId}`,
       headers: {
-        Authorization: Utils.state.token
+        Authorization: Utils.cookies.get('token')
       },
       data: {
         id: adId,

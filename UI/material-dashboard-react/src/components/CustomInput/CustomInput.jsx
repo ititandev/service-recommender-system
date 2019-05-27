@@ -13,9 +13,6 @@ import Check from "@material-ui/icons/Check";
 import customInputStyle from "assets/jss/material-dashboard-react/components/customInputStyle.jsx";
 
 class CustomInput extends React.Component {
-  state = {
-    value: this.props.value,
-  }
   render() {
     const {
       classes,
@@ -26,6 +23,7 @@ class CustomInput extends React.Component {
       inputProps,
       error,
       success,
+      style,
     } = this.props;
 
     const labelClasses = classNames({
@@ -46,7 +44,7 @@ class CustomInput extends React.Component {
         className={formControlProps.className + " " + classes.formControl}
       >
         {labelText !== undefined ? (
-          <InputLabel
+          <InputLabel style={style}
             className={classes.labelRoot + labelClasses}
             htmlFor={id}
             {...labelProps}
@@ -54,14 +52,7 @@ class CustomInput extends React.Component {
             {labelText}
           </InputLabel>
         ) : null}
-        <Input
-          value={this.state.value}
-          onChange={event => {
-            this.setState({
-              value: event.target.value,
-            })
-            this.props.onChange(event)
-          }}
+        <Input style={style}
           classes={{
             root: marginTop,
             disabled: classes.disabled,
