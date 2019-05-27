@@ -283,6 +283,47 @@ router.get("/services/:id", function(req, res, next) {
     });
 });
 
+router.delete("/servicetypes/:id", (req, res) => {
+  verifyJWTToken(req.header("Authorization"))
+    .then(payload => {
+      if (payload.role != "admin")
+        return res.json({
+          success: false,
+          message: "Only admin can delete servicetype"
+        });
+      ServiceTypeModel.findById(req.params.id, (err, servicetype) => {
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          });
+        if (!servicetype)
+          return res.json({
+            success: false,
+            message: "Servicetype not found"
+          });
+        servicetype.delete(err => {
+          if (err)
+            return res.json({
+              success: false,
+              message: "Some error happen " + err
+            });
+          return res.json({
+            success: true,
+            data: servicetype
+          });
+        });
+      });
+    })
+    .catch(err => {
+      return res.json({
+        success: false,
+        message: "Authentication failed"
+      });
+    });
+});
+
+
 router.delete("/services/:id", function(req, res, next) {
   verifyJWTToken(req.header("Authorization"))
     .then(payload => {
