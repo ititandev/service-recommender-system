@@ -130,12 +130,19 @@ router.post("/services", (req, res) => {
       if (payload.role == "user") model.user_id = payload.uid;
       else if (payload.role == "provider") model.provider_id = payload.uid;
       model.rating = { total: 1, points: 5 };
-      model.status = "inactive";
+      model.status = "pending";
 
       service = new ServiceModel(model);
       service.save(err => {
-        if (err) return res.json("Some error happen " + err);
-        return res.json(service);
+        if (err)
+          return res.json({
+            success: false,
+            message: "Some error happen " + err
+          });
+        return res.json({
+          success: true,
+          data: service
+        });
       });
     })
     .catch(err => {
