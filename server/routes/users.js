@@ -165,6 +165,7 @@ router.put("/users/:id", (req, res) => {
               success: false,
               message: "Some error happen " + err
             });
+          delete user.password;
           return res.json({
             success: true,
             data: user
