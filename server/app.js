@@ -40,9 +40,11 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public/homepage")));
 
-app.use("/", indexRouter);
+app.use("/", (req, res) => {
+  res.sendfile(__dirname + "/public/homepage/index.html");
+});
 app.use("/api/", usersRouter);
 app.use("/api/", servicesRouter);
 app.use("/api/", adsRouter);
@@ -50,7 +52,7 @@ app.use("/api/", requestRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  res.sendfile(__dirname + "/public/index.html");
+  res.sendfile(__dirname + "/public/homepage/index.html");
 });
 
 // error handler
