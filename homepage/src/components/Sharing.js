@@ -111,7 +111,7 @@ export default class Ratings extends React.Component {
                 </Button>
                 <Link onClick={()=>this.setState({open:true})} style={{fontSize: 16}}>Đăng ký dịch vụ</Link></div>
                 :
-                <Link style={{fontSize: 16,color: 'blue'}} onClick={()=>this.props.history.push({pathname:'/SignIn',state:{from:this.props.location}})}>Login to subscribe Service</Link>
+                <Link style={{fontSize: 16,color: 'blue'}} onClick={()=>this.props.history.push({pathname:'/SignIn',state:window.location.pathname+window.location.search})}>Login to subscribe Service</Link>
           }
         </ListItem>
         <Divider />

@@ -294,7 +294,7 @@ class RecipeReviewCard extends React.Component {
           readOnly={Boolean(this.props.login.token)}
           history={this.props.history}
           serviceId={this.props.serviceId}
-          onClick={()=>this.props.history.push({pathname:'/SignIn',state:{from:this.props.location}})}
+          onClick={()=>this.props.history.push({pathname:'/SignIn',state:window.location.pathname+window.location.search})}
           />
       </div>
 

@@ -9,7 +9,7 @@ import { LOGIN,
           SERVICES,
           LOCATIONS,
         } from './index'
-const loginRequest=(user,token)=>{
+export const loginRequest=(user,token)=>{
   return {
     type: LOGIN,
     payload: {
@@ -29,6 +29,7 @@ export const loginAction=(email,password)=>{
         password
       }
       ).then(({data})=>{
+        console.log('response',data)
         if(data.success){
           const {user,token}=data.data;
           dispatch(loginRequest(user,token));
@@ -62,7 +63,6 @@ const adRequest=(ads)=>{
 export const loadAdvertisementAction=()=>{
   const login=store.getState().login;
   if(login.user){
-    console.log(login.user.role)
     if(login.user.role==='admin'||login.user.role==='provider'){
       return dispatch=>{
         dispatch(adRequest([]))

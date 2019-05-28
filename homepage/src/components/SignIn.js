@@ -71,14 +71,17 @@ class  SignIn extends React.Component{
   }
   render(){
     const { classes, login} = this.props;
+    console.log('dm',login.status)
     if(login.status===STATUS.FINISHED&&login.error===''){
+      const cookies=this.props.cookies;
+      cookies.set('email',login.user.email,{path:'/'})
+      cookies.set(login.user.email,login,{path:'/'})
       const {location,history}=this.props;
       const {state}=location;
-
       if(state===undefined)
         history.push("/");
       else
-      history.push(location.state.from.pathname+location.state.from.search)
+      history.push(state)
     }
     return (
       <div style={{backgroundImage: `url(${require('../images/bg.jpg')})`,backgroundSize: 'cover', backgroundPosition: 'center center',height: '100%'}}>

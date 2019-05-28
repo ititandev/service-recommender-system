@@ -1,85 +1,66 @@
 
 // --- Post bootstrap -----
 import React from "react";
-import AdvertisementList from "./modules/views/AdvertisementList";
-
-import AppFooter from "./components/MyFooter";
-import ProductHero from "./modules/views/ProductHero";
-
-import ProductHowItWorks from "./modules/views/ProductHowItWorks";
-import ServiceList from './modules/views/ServiceList'
-
-import AppAppBar from "./components/MyAppBar";
 import "./App.css";
 import {Provider} from 'react-redux';
-
 import store from './redux/store'
-
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
-import { BrowserRouter as Router, Route,Switch } from "react-router-dom";
-import  Profile from './pages/tweeper/Profile'
-import UserProfile from './components/UserProfile'
+import { Route,Switch } from "react-router-dom";
+import HomePage from './HomePage'
 import SearchResult from './components/SearchResult'
+import UserProfile from './components/UserProfile'
 import PageNotFound from './components/PageNotFound'
-const Index=props=>{
-    return(
-      <div>
-        <AppAppBar />
-        <ProductHero />
-        <ProductHowItWorks />
-     <ServiceList />
-        <AdvertisementList />
-        <AppFooter />
-      </div>
-    )
-}
+import {withCookies} from 'react-cookie'
+import {connect} from 'react-redux';
+import Profile from './pages/tweeper/Profile'
+import {loginRequest} from './redux/actions'
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      place: "",
-      service: "",
-      key: ""
-    };
-  }
-  onPlaceChanged(value) {
-    this.setState({
-      ...this.state,
-      place: value
-    });
-  }
-  onServiceChanged(value) {
-    this.setState({
-      ...this.state,
-      service: value
-    });
-  }
-  onKeyChanged(value){
-    this.setState({
-      ...this.state,
-      key: value
-    })
+  componentWillMount(){
+    const {cookies,loginRequest}=this.props;
+    const email=cookies.get('email')
+
+    if(email){
+      const login=cookies.get(email);
+      loginRequest(login.user,login.token);
+    }
   }
   render() {
+    
     return (
-      <Provider store={store}>
-
-        <Router>
-          <Switch>
-          <Route path="/" exact component={Index} />
-          <Route path="/SignIn/" component={SignIn} />
-          <Route path="/SignUp/" component={SignUp} />
-          <Route path="/search/"  component={SearchResult} />
-          <Route path="/services/" component={Profile} />
-          <Route path="/user_profile" component={UserProfile} />
-          <Route component={PageNotFound}/>
-          </Switch>
-        </Router>
-      </Provider>
-
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={()=><HomePage cookies={this.props.cookies} />}
+                />
+              <Route
+                path="/SignIn/"
+                render={()=><SignIn cookies={this.props.cookies} />}
+                />
+              <Route
+                path="/SignUp/"
+                render={()=><SignUp cookies={this.props.cookies}/>}
+                />
+              <Route
+                path="/search/"
+                render={()=><SearchResult cookies={this.props.cookies}/>} />
+              <Route
+                path="/services/"
+                render={()=><Profile cookies={this.props.cookies}/>} />
+              <Route
+                path="/user_profile"
+                render={()=><UserProfile cookies={this.props.cookies} />} />
+              <Route
+                render={()=><PageNotFound cookies={this.props.cookies} />}/>
+            </Switch>
     );
   }
 }
-
-export default App;
+const mapDispatchToProps={loginRequest}
+const mapStateToProps=state=>{
+  return{
+    login:state.login
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(withCookies(App));

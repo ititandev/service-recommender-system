@@ -3,12 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'mdbreact/dist/css/mdb.css';
 import App from './App';
+import {CookiesProvider} from 'react-cookie'
+import store from './redux/store'
+import {Provider} from 'react-redux'
+import {BrowserRouter} from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 const styleLink = document.createElement("link");
 styleLink.rel = "stylesheet";
 styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+
 document.head.appendChild(styleLink);
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <CookiesProvider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </CookiesProvider>
+  , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

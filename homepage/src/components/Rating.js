@@ -53,7 +53,14 @@ class Ratings extends React.Component {
     return (
       <List  subheader={<ListSubheader style={{fontSize: 15, fontWeight: '600'}}>{name}</ListSubheader>}>
         <ListItem>
-          {token===null?(<Link style={{marginLeft: 'auto',marginRight: 'auto',fontSize: 16}} href='/SignIn'>Login to ratings</Link>):
+          {token===null?
+            (<Link
+              style={{marginLeft: 'auto',marginRight: 'auto',fontSize: 16,color: 'blue'}}
+              onClick={()=>this.props.history.push({pathname:'/SignIn',state: window.location.pathname+window.location.search})}
+              >
+              Login to ratings
+            </Link>)
+            :
             (<div style={{display: 'flex',flexDirection: 'row'}}>
               <Button disabled>
               <RateIcon color='primary' />

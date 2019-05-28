@@ -139,6 +139,7 @@ class PrimarySearchAppBar extends React.Component {
       };
   }
   componentWillMount(){
+
     const {loadLocationAction,loadServiceTypeAction}=this.props;
     loadLocationAction();
     loadServiceTypeAction();
@@ -197,6 +198,13 @@ class PrimarySearchAppBar extends React.Component {
     </Select>
       </div>
     )
+  }
+  handleLogout(){
+    const {cookies,logoutAction}=this.props;
+    const email=cookies.get('email');
+    cookies.remove('email',{path:'/'});
+    cookies.remove(email,{path:'/'});
+    window.location.reload()
   }
   renderUserPanel(){
     const { anchorEl } = this.state;
@@ -271,11 +279,11 @@ class PrimarySearchAppBar extends React.Component {
     )
   }
   render() {
+
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes,logoutAction } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    console.log('myappbar',this.props.filter)
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -285,7 +293,7 @@ class PrimarySearchAppBar extends React.Component {
         onClose={this.handleMenuClose}
       >
         <MenuItem onClick={()=>this.props.history.push("/user_profile")} style={{fontSize: 16}}>Profile</MenuItem>
-        <MenuItem onClick={()=>{logoutAction();window.location.reload()}} style={{fontSize:16}}>Log out</MenuItem>
+        <MenuItem onClick={()=>this.handleLogout()} style={{fontSize:16}}>Log out</MenuItem>
       </Menu>
     );
 
@@ -373,7 +381,7 @@ class PrimarySearchAppBar extends React.Component {
 PrimarySearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-const mapStateToProps=state=>{
+const mapStateToProps=(state,ownProps)=>{
   return{
     login: state.login,
     service_types: state.services.types,

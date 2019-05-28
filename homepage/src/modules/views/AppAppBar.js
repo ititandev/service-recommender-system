@@ -72,7 +72,6 @@ class AppAppBar extends React.Component {
     })
   }
   handleSearch(){
-    console.log(this.state.key)
   }
   renderSignInButton(){
     const {login,logoutAction,classes}=this.props;
@@ -100,7 +99,6 @@ class AppAppBar extends React.Component {
   }
   render() {
     const { classes,login } = this.props;
-    console.log('TYPE...........',this.props.service_types)
     return (
       <div>
         <AppBar position="fixed">

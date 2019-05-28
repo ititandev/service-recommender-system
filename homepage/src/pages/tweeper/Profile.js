@@ -60,7 +60,6 @@ class Profile extends React.Component {
     if(!this.props.login.token){
       axios.get(`${root}/services/${values.id}`)
       .then(response=>{
-        console.log('sdgas;gkjsad;lgkj')
         if(response.data.success){
             const {data}=response.data;
             this.setState({
@@ -108,9 +107,9 @@ class Profile extends React.Component {
         <GridItem xs={6} >
           {
             this.props.login.token&&item.ratings.length>0?
-            (<Rating name={name} link={link} location={location} rating={item.ratings[0].points} serviceId={item._id}/>)
+            (<Rating history={this.props.history} name={name} link={link} location={location} rating={item.ratings[0].points} serviceId={item._id}/>)
             :
-            (<Rating name={name} link={link} location={location} serviceId={item._id}/>)
+            (<Rating history={this.props.history} name={name} link={link} location={location} serviceId={item._id}/>)
           }
 
         </GridItem>

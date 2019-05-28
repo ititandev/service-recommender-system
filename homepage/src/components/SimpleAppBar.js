@@ -16,14 +16,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Avatar from '@material-ui/core/Avatar'
-
+import {logoutAction} from '../redux/actions'
 
 
 
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import {connect} from 'react-redux'
-import {loadLocationAction,loadServiceTypeAction,setServiceFilterAction,logoutAction} from '../redux/actions'
+import {withCookies} from 'react-cookie'
 
 import {withRouter} from 'react-router-dom'
 const styles = theme => ({
@@ -131,6 +131,83 @@ const styles = theme => ({
 });
 
 class PrimarySearchAppBar extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      anchorEl:null
+    }
+  }
+  renderUserPanel(){
+    const { anchorEl } = this.state;
+    const { login } = this.props;
+    const isMenuOpen = Boolean(anchorEl);
+    const isLogin=login.token!=null;
+
+    if(!isLogin)
+      return(
+        <div>
+        <Button
+            color="inherit"
+            style={{fontSize: 16}}
+            onClick={()=>this.props.history.push("/SignIn")}
+            >
+          Sign In
+        </Button>
+          <Button
+            color="inherit"
+            style={{fontSize: 16}}
+            onClick={()=>this.props.history.push("/SignUp")}
+            >
+            Sign Up
+          </Button>
+        </div>
+      )
+    return(
+      <div>
+      <IconButton
+        aria-owns={isMenuOpen ? 'material-appbar':undefined }
+        aria-haspopup="true"
+        onClick={this.handleProfileMenuOpen}
+        color="inherit"
+      >
+        <Avatar src={login.user.avatar} style={{height: 45,width:45,marginRight: 10}} />{`${login.user.firstname} ${login.user.lastname}`}
+      </IconButton>
+      </div>
+    )
+  }
+  handleProfileMenuOpen = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+
+  };
+
+  handleLogout(){
+    const {cookies,logoutAction}=this.props;
+    const email=cookies.get('email');
+    cookies.remove('email',{path:'/'});
+    cookies.remove(email,{path:'/'});
+    window.location.reload()
+  }
+  renderMenu = ()=>
+    {
+      const { anchorEl, mobileMoreAnchorEl } = this.state;
+      const { classes,logoutAction } = this.props;
+      const isMenuOpen = Boolean(anchorEl);
+      return (<Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMenuOpen}
+        onClose={this.handleMenuClose}
+      >
+        <MenuItem onClick={()=>this.props.history.push("/user_profile")} style={{fontSize: 16}}>Profile</MenuItem>
+        <MenuItem onClick={()=>this.handleLogout()} style={{fontSize:16}}>Log out</MenuItem>
+      </Menu>)
+    }
+
+
   render() {
     const {classes}=this.props;
     return (
@@ -142,7 +219,12 @@ class PrimarySearchAppBar extends React.Component {
               SERVICY
             </Typography>
             </Button>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              {this.renderUserPanel()}
+            </div>
             </Toolbar>
+            {this.renderMenu()}
           </AppBar>
       </div>
     );
@@ -152,5 +234,9 @@ class PrimarySearchAppBar extends React.Component {
 PrimarySearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-export default withRouter(withStyles(styles)(PrimarySearchAppBar));
+const mapStateToProps=state=>{
+  return{
+    login: state.login
+  }
+}
+export default withCookies(connect(mapStateToProps,{logoutAction})(withRouter(withStyles(styles)(PrimarySearchAppBar))));
