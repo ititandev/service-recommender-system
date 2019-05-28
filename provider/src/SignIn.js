@@ -16,6 +16,7 @@ import axios from 'axios'
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
+
 import Admin from "layouts/Admin.jsx";
 const hist = createBrowserHistory();
 const styles = theme => ({
@@ -136,15 +137,9 @@ class SignIn extends React.Component {
         </main>
       );
     }
-    
+
     return(
-      <Router history={hist}>
-        <Switch>
-          <Route path="/admin" render={(props)=><Admin  {...props} user={this.state.user}/>}  />
-          
-          
-        </Switch>
-      </Router>
+      <Admin  {...this.props} user={this.state.user}/>
     )
   }
 
@@ -156,4 +151,3 @@ SignIn.propTypes = {
 
 
 export default withStyles(styles)(SignIn);
-
