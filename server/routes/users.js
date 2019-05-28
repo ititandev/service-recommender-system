@@ -211,6 +211,7 @@ router.post("/login", function(req, res, next) {
             604800
           );
           res.set("Authorization", token);
+          delete user.password
           return res.json({
             success: true,
             data: { token: token, user: user }
