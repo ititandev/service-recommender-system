@@ -1,0 +1,130 @@
+{ 
+    "_id" : ObjectId("5cd691e6101138183e51f164"), 
+    "user_id" : ObjectId("5cdd5f0a90adbc5d95cd3314"), 
+    "content" : "Yes!", 
+    "date_time" : ISODate("2018-04-30T10:00:00.000+0000")
+}
+{ 
+    "_id" : ObjectId("5cd691e6101138183e51f165"), 
+    "user_id" : ObjectId("5cdd5eaf90adbc5d95cd3312"), 
+    "content" : "No", 
+    "date_time" : ISODate("2018-04-30T10:00:00.000+0000")
+}
+{ 
+    "_id" : ObjectId("5cd6a44d847b973b3f35103c"), 
+    "user_id" : ObjectId("5cdd5f2c90adbc5d95cd3315"), 
+    "content" : "ok!", 
+    "date_time" : ISODate("2019-05-11T10:30:37.212+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cd8326d82505f64458e00b5"), 
+    "user_id" : ObjectId("5cdd5f2c90adbc5d95cd3315"), 
+    "content" : "Bình luận này rất hữu ích", 
+    "date_time" : ISODate("2019-05-12T14:49:17.404+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2a7a7efd245002481ed74"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "date_time" : ISODate("2019-05-20T13:12:07.586+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2a804efd245002481ed75"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "What?", 
+    "date_time" : ISODate("2019-05-20T13:13:40.302+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2a809efd245002481ed76"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "Wow", 
+    "date_time" : ISODate("2019-05-20T13:13:45.784+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3956926f5900024d7fe3a"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "content" : "ok", 
+    "date_time" : ISODate("2019-05-21T06:06:33.158+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3957326f5900024d7fe3b"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "content" : "Haha", 
+    "date_time" : ISODate("2019-05-21T06:06:43.277+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3957526f5900024d7fe3c"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "content" : "Cool!", 
+    "date_time" : ISODate("2019-05-21T06:06:45.925+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3996126f5900024d7fe59"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "Bánh ngon quá", 
+    "date_time" : ISODate("2019-05-21T06:23:29.392+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce83f1d0c69e400248015b8"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "Rat hay", 
+    "date_time" : ISODate("2019-05-24T18:59:41.912+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce83f260c69e400248015b9"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "Rat tot", 
+    "date_time" : ISODate("2019-05-24T18:59:50.457+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce840d90c69e400248015ba"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "Ngon", 
+    "date_time" : ISODate("2019-05-24T19:07:05.496+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce841510c69e400248015bb"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "dc", 
+    "date_time" : ISODate("2019-05-24T19:09:05.929+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce841800c69e400248015bc"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "OK", 
+    "date_time" : ISODate("2019-05-24T19:09:52.310+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce93a607af9bb00240de95e"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "content" : "helu ", 
+    "date_time" : ISODate("2019-05-25T12:51:44.294+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ceaa8e88c2559002462493c"), 
+    "user_id" : ObjectId("5cdd5f0a90adbc5d95cd3314"), 
+    "content" : "À thôi tôi đổi ý rồi ", 
+    "date_time" : ISODate("2019-05-26T14:55:36.402+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ceae36ca7c90d0024ad2184"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "content" : "Học qq", 
+    "date_time" : ISODate("2019-05-26T19:05:16.751+0000"), 
+    "__v" : NumberInt(0)
+}

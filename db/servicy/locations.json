@@ -1,0 +1,256 @@
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f53"), 
+    "name" : "An Giang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f54"), 
+    "name" : "Bà Rịa-Vũng Tàu"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f55"), 
+    "name" : "Bạc Liêu"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f56"), 
+    "name" : "Bắc Kạn"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f57"), 
+    "name" : "Bắc Giang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f58"), 
+    "name" : "Bắc Ninh"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f59"), 
+    "name" : "Bến Tre"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f5a"), 
+    "name" : "Bình Dương"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f5b"), 
+    "name" : "Bình Định"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f5c"), 
+    "name" : "Bình Phước"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f5d"), 
+    "name" : "Bình Thuận"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f5e"), 
+    "name" : "Cà Mau"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f5f"), 
+    "name" : "Cao Bằng"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f60"), 
+    "name" : "Cần Thơ"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f61"), 
+    "name" : "Đà Nẵng"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f62"), 
+    "name" : "Đắk Lắk"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f63"), 
+    "name" : "Đắk Nông"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f64"), 
+    "name" : "Điện Biên"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f65"), 
+    "name" : "Đồng Nai"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f66"), 
+    "name" : "Đồng Tháp"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f67"), 
+    "name" : "Gia Lai"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f68"), 
+    "name" : "Hà Giang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f69"), 
+    "name" : "Hà Nam"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f6a"), 
+    "name" : "Hà Nội"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f6b"), 
+    "name" : "Hà Tây"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f6c"), 
+    "name" : "Hà Tĩnh"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f6d"), 
+    "name" : "Hải Dương"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f6e"), 
+    "name" : "Hải Phòng"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f6f"), 
+    "name" : "Hòa Bình"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f70"), 
+    "name" : "Hồ Chí Minh"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f71"), 
+    "name" : "Hậu Giang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f72"), 
+    "name" : "Hưng Yên"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f73"), 
+    "name" : "Khánh Hòa"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f74"), 
+    "name" : "Kiên Giang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f75"), 
+    "name" : "Kon Tum"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f76"), 
+    "name" : "Lai Châu"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f77"), 
+    "name" : "Lào Cai"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f78"), 
+    "name" : "Lạng Sơn"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f79"), 
+    "name" : "Lâm Đồng"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f7a"), 
+    "name" : "Long An"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f7b"), 
+    "name" : "Nam Định"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f7c"), 
+    "name" : "Nghệ An"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f7d"), 
+    "name" : "Ninh Bình"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f7e"), 
+    "name" : "Ninh Thuận"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f7f"), 
+    "name" : "Phú Thọ"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f80"), 
+    "name" : "Phú Yên"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f81"), 
+    "name" : "Quảng Bình"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f82"), 
+    "name" : "Quảng Nam"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f83"), 
+    "name" : "Quảng Ngãi"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f84"), 
+    "name" : "Quảng Ninh"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f85"), 
+    "name" : "Quảng Trị"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f86"), 
+    "name" : "Sóc Trăng"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f87"), 
+    "name" : "Sơn La"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f88"), 
+    "name" : "Tây Ninh"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f89"), 
+    "name" : "Thái Bình"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f8a"), 
+    "name" : "Thái Nguyên"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f8b"), 
+    "name" : "Thanh Hóa"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f8c"), 
+    "name" : "Thừa Thiên - Huế"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f8d"), 
+    "name" : "Tiền Giang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f8e"), 
+    "name" : "Trà Vinh"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f8f"), 
+    "name" : "Tuyên Quang"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f90"), 
+    "name" : "Vĩnh Long"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f91"), 
+    "name" : "Vĩnh Phúc"
+}
+{ 
+    "_id" : ObjectId("5ce91faf43389b2136891f92"), 
+    "name" : "Yên Bái"
+}

@@ -1,0 +1,308 @@
+{ 
+    "_id" : ObjectId("5ce3407f4fb5f814ac6aa72f"), 
+    "ad_id" : ObjectId("5cdb1302f43ef3611e7ad61f"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T00:04:15.647+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce340a74fb5f814ac6aa730"), 
+    "ad_id" : ObjectId("5cdb1302f43ef3611e7ad61f"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T00:04:55.768+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce340d318f85715b1f2713c"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T00:05:39.479+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce343006655171cf82355e6"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T00:14:56.267+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3430f6655171cf82355e7"), 
+    "ad_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T00:15:11.367+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce38fc326f5900024d7fe13"), 
+    "ad_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T05:42:27.626+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961c26f5900024d7fe48"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:32.424+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961c26f5900024d7fe49"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:32.687+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961c26f5900024d7fe4a"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:32.945+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961d26f5900024d7fe4b"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:33.200+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961d26f5900024d7fe4c"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:33.467+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961d26f5900024d7fe4d"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:33.723+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961d26f5900024d7fe4e"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:33.980+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961e26f5900024d7fe4f"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:34.244+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961e26f5900024d7fe50"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:34.507+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961e26f5900024d7fe51"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:34.780+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961f26f5900024d7fe52"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:35.073+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3961f26f5900024d7fe53"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-21T06:09:35.327+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce7fe0866d59d4aa8e454c5"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-24T14:22:00.279+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce7ff2c8cb71a00242ce232"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-24T14:26:52.838+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce90d4d622f070024d52785"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T09:39:25.051+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91823622f070024d527d2"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T10:25:39.119+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce9418258727b5376c5140a"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T13:22:10.019+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce942b3eaf2280024b83038"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T13:27:15.143+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce942c6eaf2280024b8303d"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T13:27:34.415+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce94411eaf2280024b83062"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T13:33:05.008+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce948786825aa0024c60649"), 
+    "ad_id" : ObjectId("5cdb1302f43ef3611e7ad61f"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T13:51:52.252+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce948936825aa0024c6064a"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T13:52:19.153+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce981489ca25c002427d4c0"), 
+    "ad_id" : ObjectId("5cdb1302f43ef3611e7ad61f"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T17:54:16.452+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce983559ca25c002427d4c7"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-25T18:03:01.721+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea5db4e864ce00242febae"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-26T09:34:44.773+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea5e2ae864ce00242febb2"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-26T09:36:42.802+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea8931857d11002451279b"), 
+    "ad_id" : ObjectId("5ce41d03876519002419e8f8"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-26T12:40:17.003+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ceb58b5a6b07a0024913ede"), 
+    "ad_id" : ObjectId("5cdb1302f43ef3611e7ad61f"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-27T03:25:41.531+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ceb5976a6b07a0024913ee5"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-27T03:28:54.869+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ceb59c0a6b07a0024913eec"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-27T03:30:08.657+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cecabd631e6f900249b7c3e"), 
+    "ad_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-28T03:32:38.959+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cecabdf31e6f900249b7c3f"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-28T03:32:47.949+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cecabe531e6f900249b7c40"), 
+    "ad_id" : ObjectId("5ceb3dd4c8bc6d0024db5592"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-28T03:32:53.847+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ced509b1174bf0024d8adce"), 
+    "ad_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-28T15:15:39.818+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cee790a84a06800241efc66"), 
+    "ad_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-29T12:20:26.568+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cee7c2a84a06800241efc73"), 
+    "ad_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-29T12:33:46.684+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cee7d4b84a06800241efc86"), 
+    "ad_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-29T12:38:35.961+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cee860086cfd000242eea45"), 
+    "ad_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "user_id" : null, 
+    "data_time" : ISODate("2019-05-29T13:15:44.281+0000"), 
+    "__v" : NumberInt(0)
+}

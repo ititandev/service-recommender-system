@@ -1,0 +1,73 @@
+{ 
+    "_id" : ObjectId("5ccd50f8b2839c297af79c31"), 
+    "provider" : ObjectId("5cd69960101138183e51f190"), 
+    "status" : "inactive", 
+    "banner" : "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/WPVG_icon_2016.svg/1024px-WPVG_icon_2016.svg.png", 
+    "url" : "https://www.facebook.com/", 
+    "name" : "ad1", 
+    "datetime" : ISODate("2019-05-03T17:00:00.000+0000"), 
+    "adtype" : ObjectId("5ccd51d524fe4a35cc62258d"), 
+    "views" : NumberInt(0), 
+    "clicks" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ceb3dd4c8bc6d0024db5592"), 
+    "views" : NumberInt(48), 
+    "clicks" : NumberInt(1), 
+    "provider" : ObjectId("5cd69960101138183e51f190"), 
+    "status" : "running", 
+    "banner" : "https://media3.scdn.vn/img2/2018/10_24/kem-danh-rang-colgate-total-advanced-whitening-cua-my-221g-1m4G3-jMRUJl_simg_ab1f47_350x350_maxb.jpg", 
+    "url" : "https://www.colgate.com.vn/products/toothpaste", 
+    "name" : "Kem đánh răng Colgate", 
+    "adtype" : ObjectId("5ccd51d524fe4a35cc62258d"), 
+    "datetime" : ISODate("2019-05-27T01:31:00.396+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ccd53d39c6b54297aad85cd"), 
+    "provider" : ObjectId("5cd69960101138183e51f190"), 
+    "status" : "running", 
+    "banner" : "https://blog.hubspot.com/hs-fs/hubfs/share%20a%20coke%20advertisement.jpg?width=584&name=share%20a%20coke%20advertisement.jpg", 
+    "url" : "https://www.google.com.vn", 
+    "name" : "Coca Cola!", 
+    "adtype" : ObjectId("5ccd522524fe4a35cc62258e"), 
+    "views" : NumberInt(532), 
+    "clicks" : NumberInt(23), 
+    "datetime" : ISODate("2019-05-11T23:27:17.766+0000")
+}
+{ 
+    "_id" : ObjectId("5cdb1302f43ef3611e7ad61f"), 
+    "provider" : ObjectId("5cd69960101138183e51f190"), 
+    "status" : "running", 
+    "banner" : "https://blog.hubspot.com/hs-fs/hubfs/clairol-does-she-or-doesnt-she.png?width=389&name=clairol-does-she-or-doesnt-she.png", 
+    "url" : "http://www.facebook.com", 
+    "name" : "My pham gia re tai day!", 
+    "adtype" : ObjectId("5ccd522524fe4a35cc62258e"), 
+    "views" : NumberInt(536), 
+    "clicks" : NumberInt(5), 
+    "datetime" : ISODate("2019-05-11T23:27:17.766+0000")
+}
+{ 
+    "_id" : ObjectId("5cdb130ef43ef3611e7ad620"), 
+    "provider" : ObjectId("5cd69960101138183e51f190"), 
+    "status" : "running", 
+    "banner" : "https://www.brandsvietnam.com/upload/news/480px/2016/11058_Zalo.jpg", 
+    "url" : "https://zalo.me/pc", 
+    "name" : "Zalo", 
+    "adtype" : ObjectId("5ccd522524fe4a35cc62258e"), 
+    "views" : NumberInt(443), 
+    "clicks" : NumberInt(8), 
+    "datetime" : ISODate("2019-05-11T23:27:17.766+0000")
+}
+{ 
+    "_id" : ObjectId("5cdb1318f43ef3611e7ad621"), 
+    "provider" : ObjectId("5cd69960101138183e51f190"), 
+    "status" : "running", 
+    "banner" : "https://img.zing.vn/vng/skin/vng-2014/image/vng-logo-share-v2.jpg", 
+    "url" : "https://www.vng.com.vn/", 
+    "name" : "VNG", 
+    "adtype" : ObjectId("5ccd522524fe4a35cc62258e"), 
+    "views" : NumberInt(356), 
+    "clicks" : NumberInt(6), 
+    "datetime" : ISODate("2019-05-11T23:27:17.766+0000")
+}

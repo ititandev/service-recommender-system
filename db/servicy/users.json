@@ -1,0 +1,213 @@
+{ 
+    "_id" : ObjectId("5cd642ea14260d55483d7317"), 
+    "email" : "b", 
+    "password" : "$2b$10$h9ZGbfU2z6ZLktDwGNPGkOEQOvqmL0G8Pmljpb1d0wPqpyq3AwDRa", 
+    "firstname" : "ITitan", 
+    "lastname" : "Dev", 
+    "role" : "admin", 
+    "avatar" : "https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.0-1/53832680_1186911068135201_7608774919823818752_n.jpg?_nc_cat=111&_nc_oc=AQmNbGqYWksXJE66tKx1OogVqCeYPl58Aep-5SwscS2wOQ21gzg8rOgXSNj54UMW5jE&_nc_ht=scontent.fsgn3-1.fna&oh=f1a17e46264cc50d60126231af92d141&oe=5D6041FE", 
+    "phone" : "0358628596", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cd69960101138183e51f190"), 
+    "email" : "d", 
+    "password" : "$2b$10$ytYJqanI57m6Ufk/5wDcOu.mlREyqNkeYfNllMqIL8MObBNvMTvgK", 
+    "firstname" : "Zalo", 
+    "lastname" : "Group", 
+    "role" : "provider", 
+    "phone" : "03652353625", 
+    "avatar" : "https://static.ybox.vn/2018/11/4/1541052519046-zalo.jpg"
+}
+{ 
+    "_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "email" : "a", 
+    "password" : "$2b$10$kVoMOkSU.59.p2uRn8Md5OToXsx6UM8guEwfPqbdjlIE.VJ30zS3i", 
+    "firstname" : "Văn", 
+    "lastname" : "Lương", 
+    "role" : "user", 
+    "phone" : "03652353625", 
+    "avatar" : "https://i.pinimg.com/originals/0d/36/e7/0d36e7a476b06333d9fe9960572b66b9.jpg"
+}
+{ 
+    "_id" : ObjectId("5cdd5e8f90adbc5d95cd3311"), 
+    "email" : "caochanhduong@gmail.com", 
+    "password" : "$2b$10$0gwpL5M5u4HdP4o2qz2yyODc0TYhAqYM7b934ZsV5vW5tlE3Jgg9q", 
+    "firstname" : "Cao Chánh", 
+    "lastname" : "Dương", 
+    "role" : "user", 
+    "phone" : "0329681621", 
+    "avatar" : "https://scontent.fsgn4-1.fna.fbcdn.net/v/t1.0-9/60877151_1143167325855984_2363725132410650624_n.jpg?_nc_cat=103&_nc_oc=AQlMj66l2cyrJqkum2_TcnvW72TJ8W7eykJ4xrD3PwKwpaNg1TH1dd4TrtHhJEXJP1s&_nc_ht=scontent.fsgn4-1.fna&oh=925d6eab92b4ceb72d17071d335fc49b&oe=5D62636B"
+}
+{ 
+    "_id" : ObjectId("5cdd5eaf90adbc5d95cd3312"), 
+    "email" : "kietlt@gmail.com", 
+    "password" : "$2b$10$0gwpL5M5u4HdP4o2qz2yyODc0TYhAqYM7b934ZsV5vW5tlE3Jgg9q", 
+    "firstname" : "Lương Tuấn", 
+    "lastname" : "Kiệt", 
+    "role" : "user", 
+    "phone" : "0329681231", 
+    "avatar" : "https://scontent.fsgn8-1.fna.fbcdn.net/v/t1.0-9/51044275_2164270223886883_8085281281954283520_n.jpg?_nc_cat=110&_nc_oc=AQnhEumSB0SwZkBkzUNxfzMXCwSY4lWzJ3HeZinahU9HAS0aSgp5yR9xNMsIR9vU6No&_nc_ht=scontent.fsgn8-1.fna&oh=1529d84d8e5994772f17c242a01fe7a1&oe=5D6190E8"
+}
+{ 
+    "_id" : ObjectId("5cdd5ede90adbc5d95cd3313"), 
+    "email" : "manhld@gmail.com", 
+    "password" : "$2b$10$0gwpL5M5u4HdP4o2qz2yyODc0TYhAqYM7b934ZsV5vW5tlE3Jgg9q", 
+    "firstname" : "Lê Đức", 
+    "lastname" : "Mạnh", 
+    "role" : "provider", 
+    "phone" : "0329381231", 
+    "avatar" : "https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.0-1/53832680_1186911068135201_7608774919823818752_n.jpg?_nc_cat=111&_nc_oc=AQmNbGqYWksXJE66tKx1OogVqCeYPl58Aep-5SwscS2wOQ21gzg8rOgXSNj54UMW5jE&_nc_ht=scontent.fsgn3-1.fna&oh=f1a17e46264cc50d60126231af92d141&oe=5D6041FE"
+}
+{ 
+    "_id" : ObjectId("5cdd5f2c90adbc5d95cd3315"), 
+    "email" : "longhv@gmail.com", 
+    "password" : "$2b$10$0gwpL5M5u4HdP4o2qz2yyODc0TYhAqYM7b934ZsV5vW5tlE3Jgg9q", 
+    "firstname" : "Hồ Văn", 
+    "lastname" : "Long", 
+    "role" : "user", 
+    "phone" : "0329681331", 
+    "avatar" : "https://scontent.fsgn4-1.fna.fbcdn.net/v/t1.0-9/28660525_850812258438570_8112033532879253210_n.jpg?_nc_cat=100&_nc_oc=AQliHrvmC99PWQ0nm6OehxUR8QBA6j6aTp9e7Cac8R8EvadGjOErKQY_OfIqp-jX7Pk&_nc_ht=scontent.fsgn4-1.fna&oh=1328f02eeae99080a5fd8db98dd34dd2&oe=5D5A07AC"
+}
+{ 
+    "_id" : ObjectId("5ce18915b46053002452cbf9"), 
+    "email" : "tuankietpq@gmail.com", 
+    "password" : "$2b$10$tlXvFTOdQKBoEyh7Vy15m./J83PVD5SPgaJBlTv2TDKLw3cVtoHUW", 
+    "firstname" : "", 
+    "lastname" : "Kiet", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "01234580643", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce18ac7b46053002452cbfa"), 
+    "email" : "a@a", 
+    "password" : "$2b$10$zU/Ut60EDcDt.bPW4IQitONzueMFVAdmoRlNzcmfNwD9hSxWQlE4K", 
+    "firstname" : "", 
+    "lastname" : "adlgasdg", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "093u395233", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "email" : "duonguranus@gmail.com", 
+    "password" : "$2b$10$Q/sAOlt/Hiz7k8GefH6dKOCXtT00bW2iK6PypOzEduU/FV5F21JEm", 
+    "firstname" : "", 
+    "lastname" : "Dương", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "0329581621", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce816448cb71a00242ce26c"), 
+    "email" : "tuankiet@gmail.com", 
+    "password" : "$2b$10$mqRIhRjMJROG5R0cEAFnNeWGvx3BCtZQq4iFBAfACkDx6V../WS/a", 
+    "firstname" : "Lương", 
+    "lastname" : "Kiệt", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "01232424", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91d80622f070024d5282d"), 
+    "email" : "tk@gmail.com", 
+    "password" : "$2b$10$fEpu/SJ50HM5qfIBXYI4ROYhy94YPXlWh1W9S.xZuS7Bjj6yrjN1i", 
+    "firstname" : "Kiet", 
+    "lastname" : "Luong", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "102942144", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91d8e622f070024d5282e"), 
+    "email" : "tkk@gmail.com", 
+    "password" : "$2b$10$xVNFX3q4JQAJst2DvNmGeuGrP2.7Xq9xbU8XpcS5TpWK05hqtNtzS", 
+    "firstname" : "Kiet", 
+    "lastname" : "Luong", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "102942144", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91dcf622f070024d5282f"), 
+    "email" : "tk", 
+    "password" : "$2b$10$NaPGzFTL6/dHKyfv4LTGu.ntTDg21XyPC3xbUiZmnm..yW1FyQ7lu", 
+    "firstname" : "a", 
+    "lastname" : "a", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "232895723", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91de9622f070024d52834"), 
+    "email" : "www", 
+    "password" : "$2b$10$jdl6492gU5ASlEkvEhZEyeb7C73eS.DEwleBH4N5BYI71UIclB93S", 
+    "firstname" : "w", 
+    "lastname" : "w", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "03652353625", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91e40622f070024d52835"), 
+    "email" : "wwww", 
+    "password" : "$2b$10$PX3vdg12WvTM7XGBf2EKyeBccsJlybm7fKMmiKsppFJJUE1J4a1pG", 
+    "firstname" : "w", 
+    "lastname" : "w", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "03652353625", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91e80622f070024d52836"), 
+    "email" : "wwwww", 
+    "password" : "$2b$10$ZrFOpZVMsUpf0i/1.j6AeeTOsCB0uYPoJ1F/rZGIMKbX6OmXD6Lbq", 
+    "firstname" : "w", 
+    "lastname" : "w", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "03652353625", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91ebd622f070024d52837"), 
+    "email" : "asdag", 
+    "password" : "$2b$10$KrTA8gYks7Xy3/mXCTDTXug766EVL1A9Nx4yB3IzIC9h2YkCm1AlC", 
+    "firstname" : "a", 
+    "lastname" : "Lương Tuấn Kiệt", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "03652353625", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce91f1c622f070024d52838"), 
+    "email" : "sdgasgsa", 
+    "password" : "$2b$10$EvW8THUNTxYmg9BetE/BYejiRiXTqigmR6n7aHPiE6jecLo523Zjy", 
+    "firstname" : "gsa", 
+    "lastname" : "sdag", 
+    "role" : "user", 
+    "avatar" : "https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png", 
+    "phone" : "03652353625", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cdd5f0a90adbc5d95cd3314"), 
+    "email" : "t", 
+    "password" : "$2b$10$ids3KL7uA6r52iHQYNILcuT8IB8Q9vBysOpshRbbiG70uikx4Fc12", 
+    "firstname" : "Tài", 
+    "lastname" : "Thân Đức", 
+    "role" : "admin", 
+    "phone" : "0965849709", 
+    "avatar" : "http://admin.tinnhanh365.vn/Uploaded/Images/files/nna19x7/GA0GzLKQ.jpg"
+}

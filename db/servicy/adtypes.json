@@ -1,0 +1,20 @@
+{ 
+    "_id" : ObjectId("5ccd51d524fe4a35cc62258d"), 
+    "name" : "Trial", 
+    "max_views" : NumberInt(10)
+}
+{ 
+    "_id" : ObjectId("5ccd522524fe4a35cc62258e"), 
+    "name" : "Advance", 
+    "max_views" : NumberInt(2000)
+}
+{ 
+    "_id" : ObjectId("5cee75d5eab8b83526805b1a"), 
+    "name" : "Normal", 
+    "max_views" : NumberInt(200)
+}
+{ 
+    "_id" : ObjectId("5cee75eaeab8b83526805b1b"), 
+    "name" : "Medium", 
+    "max_views" : NumberInt(1000)
+}

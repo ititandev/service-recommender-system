@@ -1,0 +1,158 @@
+{ 
+    "_id" : ObjectId("5cd82e2716f9365bd2db866f"), 
+    "service_id" : ObjectId("5cdd58678579ba5d951a0282"), 
+    "user_id" : ObjectId("5cdd5e8f90adbc5d95cd3311"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-12T14:31:03.477+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cd82ed216f9365bd2db8670"), 
+    "service_id" : ObjectId("5cdd633a90adbc5d95cd3316"), 
+    "user_id" : ObjectId("5cdd5e8f90adbc5d95cd3311"), 
+    "points" : NumberInt(3), 
+    "date_time" : ISODate("2019-05-12T14:40:55.593+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c4644018a800248cac86"), 
+    "service_id" : ObjectId("5cdd58678579ba5d951a0282"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(0), 
+    "date_time" : ISODate("2019-05-20T15:14:44.857+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c47e4018a800248cac87"), 
+    "service_id" : ObjectId("5cdd640790adbc5d95cd331b"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(3), 
+    "date_time" : ISODate("2019-05-25T14:07:04.979+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c4c84018a800248cac88"), 
+    "service_id" : ObjectId("5cdd638790adbc5d95cd3318"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-20T15:16:24.423+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c4d64018a800248cac89"), 
+    "service_id" : ObjectId("5cdd640490adbc5d95cd331a"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-20T15:16:38.884+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c56c4018a800248cac8a"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-20T15:22:20.275+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c5da4018a800248cac8c"), 
+    "service_id" : ObjectId("5cdd640a90adbc5d95cd331c"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(2), 
+    "date_time" : ISODate("2019-05-25T16:00:12.623+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c6974018a800248cac8f"), 
+    "user_id" : ObjectId("5ce18915b46053002452cbf9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-20T15:26:59.136+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c9124018a800248cac91"), 
+    "service_id" : ObjectId("5cdd640790adbc5d95cd331b"), 
+    "user_id" : ObjectId("5ce18915b46053002452cbf9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-20T15:34:42.484+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c9694018a800248cac92"), 
+    "service_id" : ObjectId("5cdd58678579ba5d951a0282"), 
+    "user_id" : ObjectId("5ce18915b46053002452cbf9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-20T15:36:09.749+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2c9d64018a800248cac93"), 
+    "service_id" : ObjectId("5cdd638790adbc5d95cd3318"), 
+    "user_id" : ObjectId("5ce18915b46053002452cbf9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-20T15:37:58.365+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce3953f26f5900024d7fe37"), 
+    "service_id" : ObjectId("5cdd58678579ba5d951a0282"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-21T06:06:01.160+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce395e326f5900024d7fe43"), 
+    "service_id" : ObjectId("5cdd636890adbc5d95cd3317"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-21T06:08:35.080+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce9188d622f070024d527eb"), 
+    "service_id" : ObjectId("5cdd638790adbc5d95cd3318"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-25T10:27:25.135+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce933c47af9bb00240de902"), 
+    "service_id" : ObjectId("5cdd640490adbc5d95cd331a"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-26T12:11:32.764+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce9345d7af9bb00240de909"), 
+    "service_id" : ObjectId("5cdd640a90adbc5d95cd331c"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-26T12:13:50.605+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce938dd7af9bb00240de951"), 
+    "service_id" : ObjectId("5cdd640790adbc5d95cd331b"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-25T12:45:17.650+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea10a655bb2e00247452f4"), 
+    "service_id" : ObjectId("5cdd633a90adbc5d95cd3316"), 
+    "user_id" : ObjectId("5cda7c4306cb1e63bac920a9"), 
+    "points" : NumberInt(4), 
+    "date_time" : ISODate("2019-05-26T04:05:58.595+0000"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea82cb3cffd00024df4020"), 
+    "service_id" : ObjectId("5cea1eda6fa08924de2dcb31"), 
+    "user_id" : ObjectId("5ce3903226f5900024d7fe18"), 
+    "points" : NumberInt(5), 
+    "date_time" : ISODate("2019-05-26T12:12:59.394+0000"), 
+    "__v" : NumberInt(0)
+}

@@ -1,0 +1,80 @@
+{ 
+    "_id" : ObjectId("5ccd4f2224fe4a35cc622589"), 
+    "name" : "Ăn uống", 
+    "status" : "active"
+}
+{ 
+    "_id" : ObjectId("5ccd4f4324fe4a35cc62258a"), 
+    "name" : "Giáo dục", 
+    "status" : "active"
+}
+{ 
+    "_id" : ObjectId("5ccd4f8724fe4a35cc62258b"), 
+    "name" : "Thời trang", 
+    "status" : "active"
+}
+{ 
+    "_id" : ObjectId("5cd98dcf6c1bed67b05f7229"), 
+    "name" : "Thể thao", 
+    "status" : "active", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cda5279ef6e6d3facd761ff"), 
+    "name" : "Văn hóa", 
+    "status" : "active", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cdd691e90adbc5d95cd331e"), 
+    "name" : "Du lịch", 
+    "status" : "active"
+}
+{ 
+    "_id" : ObjectId("5ce29418187c6c0024a01868"), 
+    "name" : "Con người ", 
+    "status" : "pending", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce29451187c6c0024a01869"), 
+    "name" : "IT", 
+    "status" : "active", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2949e187c6c0024a0186a"), 
+    "name" : "Sinh học", 
+    "status" : "pending", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ce2d3e64018a800248cac94"), 
+    "name" : "abcxyz", 
+    "status" : "inactive", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea4754e864ce00242feb37"), 
+    "name" : "Lau nhà", 
+    "status" : "pending", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5cea4b85e864ce00242feb41"), 
+    "name" : "Bóng đá", 
+    "status" : "inactive", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ced59e980978c00242f7a1f"), 
+    "name" : "a", 
+    "status" : "pending", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5ced5a9180978c00242f7a20"), 
+    "name" : "Ăn uống ", 
+    "status" : "pending", 
+    "__v" : NumberInt(0)
+}
