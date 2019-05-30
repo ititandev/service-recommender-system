@@ -14,7 +14,16 @@ import CardFooter from "./molecules/CardFooter.jsx";
 import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import {root} from '../config'
 import Link from "@material-ui/core/Link";
+import Warning from './Warning'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -37,26 +46,135 @@ const styles = {
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    if (props.login.token) {
       const { user } = props.login;
+      if(user)
       this.state = {
         firstname: user.firstname,
         lastname: user.lastname,
-        disabled: false,
+        disabled: true,
         email: user.email,
         phone: user.phone,
         avatar: user.avatar,
-        role: user.role
-      };
-    } else
-      this.state = {
-        firstname: "",
-        lastname: "",
-        disabled: false,
-        email: "",
-        phone: ""
+        role: user.role,
+        error:'',
+        type_warning:'error',
+        open:false,
+        service_type:'',
+        service:'',
+        password:'',
+        repassword:''
       };
   }
+  handleChange(obj){
+    this.setState({
+      ...obj
+    })
+  }
+  updateUser(){
+    const {email,firstname,lastname,role,phone,avatar,password,repassword}=this.state;
+    if(password!=repassword){
+      this.handleChange({
+        error:'Password not match!',
+        type_warning:'error'
+      })
+    }
+    let data={email,firstname,lastname,phone}
+    if(password)
+      data={email,firstname,lastname,phone,password}
+    axios({
+      method:'PUT',
+      url:`${root}/users/${this.props.login.user._id}`,
+      headers:{
+        Authorization:this.props.login.token,
+      },
+      data
+      })
+      .then(({data})=>{
+        if(data.success){
+          this.setState({
+            error:'Update successfully!',
+            type_warning:'success'
+          })
+          setTimeout(()=>this.setState({error:''}),3000)
+        }
+        else this.setState({
+          error: data.message,
+          type_warning:'error'
+        })
+      })
+      .catch(err=>this.setState({error:"Unexpected error was happend! Please try again!"}))
+  }
+  renderDialog(){
+      return(
+      <Dialog
+            open={this.state.open}
+            onClose={()=>this.handleChange({open:false})}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title" style={{fontSize: 18, fontWeight: '600'}}>Suggest New Service Type</DialogTitle>
+            <DialogContent>
+              <DialogContentText style={{fontSize: 16}}>
+                To suggest new service type to this website, please enter name service type here. We will send
+                updates occasionally.
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Service Type"
+                value={this.state.service_type}
+                onChange={e=>this.handleChange({service_type:e.target.value})}
+                type="text"
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={()=>this.handleChange({open:false})} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={()=>this.addNewServiceType()} color="primary">
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>)
+    }
+      addNewServiceType(){
+        axios({
+          method:'POST',
+          url:`${root}/servicetypes`,
+          headers:{
+            Authorization:this.props.login.token,
+          },
+          data:{
+            name: this.state.service_type
+          }
+          })
+          .then(response=>{
+            this.handleChange({error:response.data.message,type_warning:'info'})
+            setTimeout(()=>this.handleChange({error:''}),6000)
+          })
+          .catch(err=>this.handleChange({error:'Unexpected Error was happend! Please Try Again!',type_warning:'error'}))
+          this.handleChange({open:false})
+      }
+      // addNewService(){
+      //   axios({
+      //     method:'POST',
+      //     url:`${root}/servicetypes`,
+      //     headers:{
+      //       Authorization:this.props.login.token,
+      //     },
+      //     data:{
+      //       user_id: this.props.login.user_id,
+      //
+      //     }
+      //     })
+      //     .then(response=>{
+      //       this.handleChange({error:response.data.message,type_warning:'info'})
+      //       setTimeout(()=>this.handleChange({error:''}),6000)
+      //     })
+      //     .catch(err=>this.handleChange({error:'Unexpected Error was happend! Please Try Again!',type_warning:'error'}))
+      //     this.handleChange({open:false})
+      // }
   render() {
     const { classes } = this.props;
     if (!this.props.login.token) {
@@ -130,6 +248,7 @@ class Profile extends React.Component {
               </GridContainer>
 
               <GridContainer>
+
                 <GridItem xs={12} sm={12} md={5}>
                   <CustomInput
                     value={this.state.email}
@@ -149,10 +268,30 @@ class Profile extends React.Component {
                     }}
                   />
                 </GridItem>
+                <GridItem xs={12} sm={12} md={5}>
+                  <CustomInput
+                    value={this.state.password}
+                    onChange={event => {
+                      this.setState({
+                        ...this.state,
+                        password: event.target.value
+                      });
+                    }}
+                    labelText="New password"
+                    id="new password"
+                    type="password"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: this.state.disabled
+                    }}
+                  />
+                </GridItem>
               </GridContainer>
 
               <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={5}>
                   <CustomInput
                     value={this.state.phone}
                     onChange={event => {
@@ -163,6 +302,26 @@ class Profile extends React.Component {
                     }}
                     labelText="Số điện thoại"
                     id="phone"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: this.state.disabled
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={5}>
+                  <CustomInput
+                    value={this.state.repassword}
+                    onChange={event => {
+                      this.setState({
+                        ...this.state,
+                        repassword: event.target.value
+                      });
+                    }}
+                    labelText="Re-enter new password"
+                    id="re password"
+                    type="password"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -204,10 +363,10 @@ class Profile extends React.Component {
                 </Button>
               ) : (
                 <div>
-                  <Button color="primary" onClick={() => {}}>
+                  <Button disabled={this.state.disabled} color="primary" onClick={() => {this.setState({disabled:true})}}>
                     Hủy
                   </Button>
-                  <Button color="primary" onClick={() => {}}>
+                  <Button color="primary" onClick={() => {this.updateUser();this.setState({disabled:true})}}>
                     Cập nhật
                   </Button>
                 </div>
@@ -217,29 +376,18 @@ class Profile extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
-            <CardAvatar profile>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={this.state.avatar} alt="..." />
-              </a>
-            </CardAvatar>
-
-            <CardBody profile>
-              <p className={classes.description}>what?</p>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img
-                  alt="Log out"
-                  src="http://icons.iconarchive.com/icons/alecive/flatwoken/512/Apps-Dialog-Shutdown-icon.png"
-                  style={{
-                    width: 40,
-                    height: 40
-                  }}
-                  onClick={() => {}}
-                />
-              </a>
-            </CardBody>
+          <img src={this.state.avatar} alt="..." style={{width: 300,height: 300,marginLeft: 'auto',marginRight: 'auto'}} />
+          <CardBody>
+            <Typography style={{textAlign: 'left',fontSize: 15, margin: 5}}>User can suggest new service type or new service for our website. We will consider and update soon your suggest!</Typography>
+            <Button style={{width: '60%'}}  color="primary" onClick={() => this.handleChange({open:true})}>
+              New Service Type
+            </Button>
+          </CardBody>
           </Card>
         </GridItem>
       </GridContainer>
+      <Warning open={this.state.error!==''} type={this.state.type_warning} message={this.state.error}  style={{display: 'flex',marginLeft:'auto',marginRight: 'auto',width:'100%',marginBottom: 20}}/>
+      {this.renderDialog()}
     </div>)
   }
 }

@@ -99,7 +99,7 @@ class Warning extends React.Component {
     super(props);
   }
   render(){
-    const {classes, message, type, open,style} = this.props;
+    const {classes, message, type, open,style,vertical,horizontal} = this.props;
     if(!open)
     return (<div/>)
     return (
@@ -107,6 +107,7 @@ class Warning extends React.Component {
         style={style}
         variant={type?type:"success"}
         message={message?message:"This is a success message!"}
+        anchorOrigin={{ vertical, horizontal}}
       />
     );
   }

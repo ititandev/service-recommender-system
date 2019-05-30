@@ -15,18 +15,43 @@ import {withCookies} from 'react-cookie'
 import {connect} from 'react-redux';
 import Profile from './pages/tweeper/Profile'
 import {loginRequest} from './redux/actions'
+import {root} from './config'
+import axios from 'axios'
 class App extends React.Component {
+  constructor(props){
+    super(props);
+  }
   componentWillMount(){
     const {cookies,loginRequest}=this.props;
-    const email=cookies.get('email')
-
-    if(email){
-      const login=cookies.get(email);
-      loginRequest(login.user,login.token);
+    const token=cookies.get('token')
+    const user_id=cookies.get('user_id')
+    if(token&&user_id){
+      this.setState({
+        routing:false
+      })
+      axios({
+        method:'PUT',
+        url:`${root}/users/${user_id}`,
+        headers:{
+          Authorization:token,
+        },
+        data:{}
+        })
+        .then(({data})=>{
+          if(data.success)
+            loginRequest(data.data,token)
+          this.setState({
+            routing:true
+          })
+        })
+        .catch(err=>this.setState({routing:true}))
     }
+
   }
   render() {
-    
+    if(!this.state.routing){
+      return <div />
+    }
     return (
             <Switch>
               <Route

@@ -71,11 +71,10 @@ class  SignIn extends React.Component{
   }
   render(){
     const { classes, login} = this.props;
-    console.log('dm',login.status)
     if(login.status===STATUS.FINISHED&&login.error===''){
       const cookies=this.props.cookies;
-      cookies.set('email',login.user.email,{path:'/'})
-      cookies.set(login.user.email,login,{path:'/'})
+      cookies.set('token',login.token,{path:'/'})
+      cookies.set('user_id',login.user._id,{path:'/'})
       const {location,history}=this.props;
       const {state}=location;
       if(state===undefined)

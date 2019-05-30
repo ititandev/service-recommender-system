@@ -202,8 +202,8 @@ class PrimarySearchAppBar extends React.Component {
   handleLogout(){
     const {cookies,logoutAction}=this.props;
     const email=cookies.get('email');
-    cookies.remove('email',{path:'/'});
-    cookies.remove(email,{path:'/'});
+    cookies.remove('user_id',{path:'/'});
+    cookies.remove('token',{path:'/'});
     window.location.reload()
   }
   renderUserPanel(){

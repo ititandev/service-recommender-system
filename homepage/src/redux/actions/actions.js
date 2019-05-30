@@ -29,8 +29,7 @@ export const loginAction=(email,password)=>{
         password
       }
       ).then(({data})=>{
-        console.log('response',data)
-        if(data.success){
+       if(data.success){
           const {user,token}=data.data;
           dispatch(loginRequest(user,token));
           dispatch(changeStatusAction({status:STATUS.FINISHED,error:''}))
