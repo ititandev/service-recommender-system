@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 app.get("/", (req, res) => {
-  res.sendfile(__dirname + "/public/index.html");
+  res.sendfile(__dirname + "/public/home/index.html");
 });
 app.use("/api/", usersRouter);
 app.use("/api/", servicesRouter);
@@ -53,7 +53,7 @@ app.use("/api/", requestRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  res.sendfile(__dirname + "/public/index.html");
+  res.sendfile(__dirname + "/public/home/index.html");
 });
 
 // error handler
