@@ -121,6 +121,7 @@ class Notifications extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    console.log("data",this.state.userData)
     return (
       <Card>
         <CardHeader color="primary">
@@ -133,6 +134,7 @@ class Notifications extends React.Component {
                 tableHeaderColor="primary"
                 tableHead={["Customer", "Phone", "Email","Message","Service", "status", "Time"]}
                 tableData={
+                  
                   this.state.userData.map((item,index) => {
                     if (item.status!="new") {
                       return [
@@ -145,8 +147,8 @@ class Notifications extends React.Component {
                       <Button color="success" onClick={()=>this.handelSeen(item._id)}>{item.status}</Button>, item.data_time ]
                     }
                   }).sort(function(a, b) {
-                    var nameA = a[4]//.toUpperCase(); // bỏ qua hoa thường
-                    var nameB = b[4]//.toUpperCase(); // bỏ qua hoa thường
+                    var nameA = a[6]//.toUpperCase(); // bỏ qua hoa thường
+                    var nameB = b[6]//.toUpperCase(); // bỏ qua hoa thường
                     if (nameA < nameB) {
                       return 1;
                     }
