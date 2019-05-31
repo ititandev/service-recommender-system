@@ -1,6 +1,6 @@
 #params: admin, homepage, provider
 declare -A args
-args=(["admin"]=1 ["homepage"]=1 ["provider"]=1)
+args=(["admin"]=1 ["home"]=1 ["provider"]=1)
 name="all"
 function deploy(){
 	rm -rf "server/public/${name}/"
