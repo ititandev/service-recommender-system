@@ -15,8 +15,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import axios from 'axios'
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch, Redirect,withRouter } from "react-router-dom";
 import Admin from "./layouts/Admin.jsx";
+import Link from '@material-ui/core/Link'
 import { withCookies } from 'react-cookie';
 const hist = createBrowserHistory();
 const styles = theme => ({
@@ -84,20 +85,15 @@ class SignIn extends React.Component {
           if (user.user.role=="provider"){
             cookies.set('ptoken',res.data.data.token,{path:'/'})
             cookies.set('puser_id',res.data.data.user._id,{path:'/'})
-            this.setState({ submitted, user })}
+            this.props.history.push('/provider')
         }
-
+      }
       })
+      .catch(err=>console.log(err))
   }
   render() {
     const { classes,cookies } = this.props;
     const { email, password } = this.state;
-    // cookies.remove('ptoken',{path:'/'})
-    // cookies.remove('puser_id',{path:'/'})
-    if(cookies.get('ptoken')){
-      this.props.history.push('/provider/')
-    }
-    if (!this.state.submitted) {
       return (
         <main className={classes.main}>
           <CssBaseline />
@@ -146,8 +142,6 @@ class SignIn extends React.Component {
           </Paper>
         </main>
       );
-    }
-
 
   }
 
@@ -158,4 +152,4 @@ SignIn.propTypes = {
 };
 
 
-export default withCookies(withStyles(styles)(SignIn));
+export default withRouter(withCookies(withStyles(styles)(SignIn)));

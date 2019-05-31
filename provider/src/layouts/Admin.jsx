@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect,withRouter } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -47,8 +47,8 @@ class Dashboard extends React.Component {
           );
         }
       })}
-    </Switch>
-  );
+    </Switch>)
+
     }
   handleImageClick = image => {
     this.setState({ image: image });
@@ -79,42 +79,45 @@ class Dashboard extends React.Component {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
     window.addEventListener("resize", this.resizeFunction);
-    const {cookies}=this.props;
-    const token=cookies.get('ptoken')
-    const user_id=cookies.get('puser_id')
-    if(token){
-      axios({
-        method:'PUT',
-        url:`http://servicy.herokuapp.com/api/users/${user_id}`,
-        headers:{
-          Authorization:token,
-        },
-        data: {}
-        })
-        .then(({data})=>{
-          if(data.success){
-            this.setState({
-              user:{
-                token,
-                user:data.data
-              }
-            })
-          }
 
-        })
-        .catch(err=>console.log(err))
+    }
+    componentWillMount(){
+      const {cookies}=this.props;
+      const token=cookies.get('ptoken')
+      const user_id=cookies.get('puser_id')
+      if(token){
+        axios({
+          method:'PUT',
+          url:`http://servicy.herokuapp.com/api/users/${user_id}`,
+          headers:{
+            Authorization:token,
+          },
+          data: {}
+          })
+          .then(({data})=>{
+            console.log('render lai chu')
+            if(data.success){
+              this.setState({
+                user:{
+                  token,
+                  user:data.data
+                }
+              })
+            }
+
+          })
+          .catch(err=>console.log(err))
     }
 
-
   }
-  componentDidUpdate(e) {
-    if (e.history.location.pathname !== e.location.pathname) {
-      this.refs.mainPanel.scrollTop = 0;
-      if (this.state.mobileOpen) {
-        this.setState({ mobileOpen: false });
-      }
-    }
-  }
+  // componentDidUpdate(e) {
+  //   if (e.history.location.pathname !== e.location.pathname) {
+  //     this.refs.mainPanel.scrollTop = 0;
+  //     if (this.state.mobileOpen) {
+  //       this.setState({ mobileOpen: false });
+  //     }
+  //   }
+  // }
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeFunction);
   }
@@ -123,53 +126,46 @@ class Dashboard extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     const {cookies}=this.props;
-    if(!cookies.get('ptoken')&&this.state.user){
-      this.props.history.push('/provider/login')
+    if(!cookies.get('ptoken')){
+        // this.props.history.push('/provider/login')
+        return <Redirect to='/provider/login'/>
     }
-    if(!this.state.user){
-      return <p>Please wait...</p>
-    }
-    if(this.state.user&&this.props.location.pathname==="/provider/"){
-      this.props.history.push("/provider/dashboard")
-    }
-    return (
-      <div className={classes.wrapper}>
-        <Sidebar
-          routes={routes}
-          logoText={"Service Provider"}
-          logo={logo}
-          image={this.state.image}
-          handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color={this.state.color}
-          {...rest}
-        />
-        <div className={classes.mainPanel} ref="mainPanel">
-          <Navbar
-            routes={routes}
-            handleDrawerToggle={this.handleDrawerToggle}
-            {...rest}
-          />
-          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-          {this.getRoute() ? (
-            <div className={classes.content}>
-              <div className={classes.container}>{this.switchRoutes()}</div>
+    else{
+      if(this.state.user){
+        if(this.props.location.pathname==="/provider/"||this.props.location.pathname==='/provider'){
+          // this.props.history.push("/provider/dashboard")
+          return <Redirect to='/provider/dashboard' />
+        }
+        return (
+          <div className={classes.wrapper}>
+            <Sidebar
+              routes={routes}
+              logoText={"Service Provider"}
+              logo={logo}
+              image={this.state.image}
+              handleDrawerToggle={this.handleDrawerToggle}
+              open={this.state.mobileOpen}
+              color={this.state.color}
+              {...rest}
+            />
+            <div className={classes.mainPanel} ref="mainPanel">
+              <Navbar
+                routes={routes}
+                handleDrawerToggle={this.handleDrawerToggle}
+                {...rest}
+              />
+                <div className={classes.content}>
+                  <div className={classes.container}>{this.state.user?this.switchRoutes():<div />}</div>
+                </div>
+
             </div>
-          ) : (
-            <div className={classes.map}>{this.switchRoutes()}</div>
-          )}
-          {/* {this.getRoute() ? <Footer /> : null} */}
-          {/*<FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            bgColor={this.state["color"]}
-            bgImage={this.state["image"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-          />*/ }
-        </div>
-      </div>
-    );
+          </div>
+        );
+      }
+      else return <p>Please wait...</p>
+
+    }
+
   }
 }
 
@@ -177,4 +173,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withCookies(withStyles(dashboardStyle)(Dashboard));
+export default withRouter(withCookies(withStyles(dashboardStyle)(Dashboard)));

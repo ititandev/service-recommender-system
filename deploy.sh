@@ -11,7 +11,7 @@ function deploy(){
 }
 param="$1"
 echo $param
-if [[ "$param" == "all" ]]; 
+if [[ "$param" -eq "all" ]]; 
 then
 	echo "deploy for all"
 	for key in "${!args[@]}"

@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/admin/static/media/sidebar-2.310509c9.jpg"
   },
   {
-    "revision": "88b6420055e09e2e4b1ffb7f84016c9b",
+    "revision": "847ad339055baf7480e4e0390476324e",
     "url": "/admin/index.html"
   }
 ];

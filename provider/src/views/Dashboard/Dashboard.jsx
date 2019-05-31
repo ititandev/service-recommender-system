@@ -31,7 +31,7 @@ import CardBody from "../../components/Card/CardBody.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
 import axios from "axios";
 import { bugs, website, server } from "../../variables/general.jsx";
-
+import {withCookies} from 'react-cookie'
 import {
   dailySalesChart,
   emailsSubscriptionChart,
@@ -64,6 +64,7 @@ class Dashboard extends React.Component {
     this.setState({ value: index });
   };
   componentDidMount() {
+    const {cookies}=this.props;
     const handleChart=this.handleChart.bind(this)
     axios.get(`https://servicy.herokuapp.com/api/services`)
       .then(res => {
@@ -74,7 +75,7 @@ class Dashboard extends React.Component {
         method:'GET',
         url:`https://servicy.herokuapp.com/api/ads`,
         headers:{
-          Authorization:this.props.user.token,
+          Authorization:cookies.get('ptoken'),
         }
         })
         .then(res=>{
@@ -82,14 +83,15 @@ class Dashboard extends React.Component {
         this.setState({ adsData });
         adsData.map(ads=>{if (ads.status=="running"){this.handleChart(ads)}})
         })
-       
+
   }
   handleChart(ads){
+    const {cookies}=this.props;
     axios({
       method:'GET',
       url:`https://servicy.herokuapp.com/api/views/${ads._id}`,
       headers:{
-        Authorization:this.props.user.token,
+        Authorization:cookies.get('ptoken'),
       }
       })
       .then(res=>{
@@ -114,7 +116,7 @@ class Dashboard extends React.Component {
             prefix: "",
             includeZero: true
           },
-          
+
           data: [{
             type: "line",
             xValueFormatString: "DD MMM YYYY",
@@ -126,13 +128,13 @@ class Dashboard extends React.Component {
         this.setState({
           temp: newTmp
         })
-      })  
-      
+      })
+
       axios({
         method:'GET',
         url:`https://servicy.herokuapp.com/api/clicks/${ads._id}`,
         headers:{
-          Authorization:this.props.user.token,
+          Authorization:cookies.get('ptoken'),
         }
         })
         .then(res=>{
@@ -157,7 +159,7 @@ class Dashboard extends React.Component {
               prefix: "",
               includeZero: true
             },
-            
+
             data: [{
               type: "line",
               xValueFormatString: "DD MMM YYYY",
@@ -169,19 +171,19 @@ class Dashboard extends React.Component {
           this.setState({
             tempcl: newTmp
           })
-        })  
+        })
   }
-  
+
   render() {
     const { classes } = this.props;
-   
-      
-  
-  
+
+
+
+
     return (
       <div>
         <GridContainer>
-         
+
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="success" stats icon>
@@ -251,11 +253,11 @@ class Dashboard extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      
+
 
         {this.state.adsData.map(item=>{
           const dt=this.state.temp.filter(i=>item._id==i.id);
-        
+
           if(dt.length>0 )
           return (
           <div style={{margin:20}}>
@@ -264,24 +266,24 @@ class Dashboard extends React.Component {
         })}
 		{this.state.adsData.map(item=>{
           const dt=this.state.tempcl.filter(i=>item._id==i.id);
-        
+
           if(dt.length>0 )
           return (
           <div style={{margin:20}}>
         <CanvasJSChart options = {dt[0].options}/>
         </div>)
         })}
-		
-		
-      
+
+
+
       </div>
     );
   }
-  
+
 }
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default withCookies(withStyles(dashboardStyle)(Dashboard));
