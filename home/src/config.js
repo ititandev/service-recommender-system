@@ -1,1 +1,1 @@
-export const root='https://servicy.herokuapp.com/api'
+export const root='/api'
