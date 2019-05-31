@@ -135,7 +135,7 @@ class Notifications extends React.Component {
                 tableHead={["Customer", "Phone", "Email","Message","Service", "status", "Time"]}
                 tableData={
                   
-                  this.state.userData.map((item,index) => {
+                  this.state.userData.filter(i=>i.service).map((item,index) => {
                     if (item.status!="new") {
                       return [
                         item.user.firstname + " " + item.user.lastname, item.user.phone ,item.user.email,
