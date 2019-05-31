@@ -1,4 +1,4 @@
-#params: admin, homepage, provider
+#!/bin/bash
 declare -A args
 args=(["admin"]=1 ["home"]=1 ["provider"]=1)
 name="all"
@@ -24,7 +24,7 @@ then
 	name=$param
 	deploy
 else
-	echo "using command: ./deploy.sh admin|provider|homepage|all"
+	echo "using command: ./deploy.sh admin|provider|home|all"
 fi
 
 
