@@ -16,7 +16,7 @@ import axios from 'axios'
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-import Admin from "layouts/Admin.jsx";
+import Admin from "./layouts/Admin.jsx";
 const hist = createBrowserHistory();
 const styles = theme => ({
   progress: {

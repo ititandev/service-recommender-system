@@ -6,8 +6,8 @@
 // import TextField from "@material-ui/core/TextField";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 // import FormControl from "@material-ui/core/FormControl";
-// import GridItem from "components/Grid/GridItem.jsx";
-// import GridContainer from "components/Grid/GridContainer.jsx";
+// import GridItem from "../../components/Grid/GridItem.jsx";
+// import GridContainer from "../../components/Grid/GridContainer.jsx";
 // import {
 //   FormLabel,
 //   InputLabel,
@@ -165,21 +165,21 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import Table from "components/Table/Table.jsx";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
+import Table from "../../components/Table/Table.jsx";
+import Card from "../../components/Card/Card.jsx";
+import CardHeader from "../../components/Card/CardHeader.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/Button";
 import CheckIcon from '@material-ui/icons/Check'
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
+import CustomInput from "../../components/CustomInput/CustomInput.jsx";
+import CardFooter from "../../components/Card/CardFooter.jsx";
 import Fab from '@material-ui/core/Fab'
 import AddAlert from "@material-ui/icons/AddAlert";
-import Snackbar from "components/Snackbar/Snackbar.jsx";
+import Snackbar from "../../components/Snackbar/Snackbar.jsx";
 import axios from 'axios'
 import TextField from "@material-ui/core/TextField";
 import {

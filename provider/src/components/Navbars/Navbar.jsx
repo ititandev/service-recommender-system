@@ -5,17 +5,10 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Hidden from "@material-ui/core/Hidden";
-import Grid from '@material-ui/core/Grid';
-// @material-ui/icons
-import Menu from "@material-ui/icons/Menu";
 // core components
-import AdminNavbarLinks from "./AdminNavbarLinks.jsx";
-import RTLNavbarLinks from "./RTLNavbarLinks.jsx";
-import Button from "components/CustomButtons/Button.jsx";
+import Button from "../../components/CustomButtons/Button.jsx";
 
-import headerStyle from "assets/jss/material-dashboard-react/components/headerStyle.jsx";
+import headerStyle from "../../assets/jss/material-dashboard-react/components/headerStyle.jsx";
 
 function Header({ ...props }) {
   function makeBrand() {
