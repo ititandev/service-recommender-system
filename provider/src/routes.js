@@ -10,7 +10,7 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "./views/Dashboard/Dashboard.jsx";
 import TableList from "./views/TableList/TableList.jsx";
-import ServiceList from 'views/TableList/ServiceList.jsx';
+import ServiceList from './views/TableList/ServiceList.jsx';
 
 import NotificationsPage from "./views/Notifications/Notifications.jsx";
 
