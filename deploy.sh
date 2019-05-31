@@ -14,7 +14,7 @@ echo $param
 if [[ "$param" == "all" ]]; 
 then
 	echo "deploy for all"
-	for key in "{!args[@]}"
+	for key in "${!args[@]}"
 	do
 		name=$key
 		deploy
