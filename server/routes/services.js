@@ -15,26 +15,29 @@ mongoose.connect(
 );
 
 router.get("/services/best", function(req, res, next) {
-  // ServiceModel.find(
-  //   { status: "active" },
-  //   { rating: 1, avatar: 1, description: 1, name: 1 }
-  // )
-  //   .then(services => {
-  //     services = services
-  //       .sort(
-  //         (a, b) =>
-  //           a.rating.points / a.rating.total < b.rating.points / b.rating.total
-  //       )
-  //       .slice(0, 3);
-  //     res.json({
-  //       success: true,
-  //       message: "Find best services",
-  //       data: services
-  //     });
-  //   })
-  //   .catch(err => {
-  //     res.json({ success: false, message: "error" });
-  //   });
+  ServiceModel.find(
+    { status: "active" },
+    { rating: 1, avatar: 1, description: 1, name: 1 }
+  )
+    .then(services => {
+      services = services
+        .sort((a, b) => {
+          ra = a.rating.points / a.rating.total;
+          rb = b.rating.points / b.rating.total;
+          if (ra > rb) return -1;
+          else if (ra < rb) return 1;
+          else return 0;
+        })
+        .slice(0, 3);
+      res.json({
+        success: true,
+        message: "Find best services",
+        data: services
+      });
+    })
+    .catch(err => {
+      res.json({ success: false, message: "error" });
+    });
 });
 
 router.get("/services", (req, res) => {
@@ -322,7 +325,6 @@ router.delete("/servicetypes/:id", (req, res) => {
       });
     });
 });
-
 
 router.delete("/services/:id", function(req, res, next) {
   verifyJWTToken(req.header("Authorization"))
