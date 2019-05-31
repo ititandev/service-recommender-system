@@ -159,7 +159,7 @@ class TableList extends React.Component {
       method: 'get',
       url: `${Utils.BASE_URL}/servicetypes?status=pending`,
       headers: {
-        Authorization: Utils.cookies.get('token')
+        Authorization: Utils.cookies.get('_token')
       },
       data: {
         status: ["pending"],
@@ -197,7 +197,7 @@ class TableList extends React.Component {
     axios({
       method: 'put',
       headers: {
-        Authorization: Utils.cookies.get('token')
+        Authorization: Utils.cookies.get('_token')
       },
       url: `${Utils.BASE_URL}/servicetypes/${requestId}`,
       data: {

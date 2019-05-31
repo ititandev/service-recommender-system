@@ -86,7 +86,7 @@ class Dashboard extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
 
-    return Utils.cookies.get("isLogin") === "false" ?
+    return Utils.cookies.get("_isLogin") === "false" ?
       <Redirect to="/login" />
       : (
         <div className={classes.wrapper}>

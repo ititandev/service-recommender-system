@@ -43,7 +43,7 @@ const styles = {
 class Profile extends React.Component {
   _isMounted = false;
   state = {
-    ...Utils.cookies.get('user'),
+    ...Utils.cookies.get('_user'),
     disabled: true,
     avatarDisabled: true,
     openUpdateDialog: false,
@@ -69,7 +69,7 @@ class Profile extends React.Component {
   render() {
     const { classes } = this.props;
 
-    return (Utils.cookies.get('isLogin') === "false" || this.state.isLogout) ?
+    return (Utils.cookies.get('_isLogin') === "false" || this.state.isLogout) ?
       <Redirect to="/login" />
       :
       (
@@ -209,7 +209,7 @@ class Profile extends React.Component {
                           if (this._isMounted) {
                             this.setState({
                               ...this.state,
-                              ...Utils.cookies.get('user'),
+                              ...Utils.cookies.get('_user'),
                               avatar: this.state.avatar,
                               disabled: true,
                             })
@@ -283,7 +283,7 @@ class Profile extends React.Component {
                               ...this.state,
                               avatarDisabled: true,
                               avatarAlert: false,
-                              avatar: Utils.cookies.get("user").avatar,
+                              avatar: Utils.cookies.get("_user").avatar,
                             })
                           }}>
                             <img src="https://cdn1.iconfinder.com/data/icons/nuove/128x128/actions/button_cancel.png" alt="cancel" />
@@ -553,15 +553,15 @@ class Profile extends React.Component {
       method: 'put',
       url: `${Utils.BASE_URL}/users/${this.state._id}`,
       headers: {
-        Authorization: Utils.cookies.get('token'),
+        Authorization: Utils.cookies.get('_token'),
       },
       data: newUserData
     }).then(response => {
       if (response.data.success) {
         console.log(`update user success with msg: ${response.data.message}`)
-        const newUserCookie = { ...Utils.cookies.get('user'), ...newUserData }
+        const newUserCookie = { ...Utils.cookies.get('_user'), ...newUserData }
 
-        Utils.cookies.set('user', newUserCookie, { path: '/' })
+        Utils.cookies.set('_user', newUserCookie, { path: '/' })
       } else {
         console.log(`update user fail with msg: ${response.data.message}`)
       }
@@ -571,9 +571,9 @@ class Profile extends React.Component {
   }
 
   logout = () => {
-    Utils.cookies.set('isLogin', "false", { path: '/' })
-    Utils.cookies.set('token', "", { path: '/' })
-    Utils.cookies.set('user', {}, { path: '/' })
+    Utils.cookies.set('_isLogin', "false", { path: '/' })
+    Utils.cookies.set('_token', "", { path: '/' })
+    Utils.cookies.set('_user', {}, { path: '/' })
     if (this._isMounted) {
       this.setState({
         ...this.state,

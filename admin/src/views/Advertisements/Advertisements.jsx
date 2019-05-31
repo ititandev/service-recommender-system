@@ -163,7 +163,7 @@ class Advertisements extends React.Component {
       method: 'get',
       url: `${Utils.BASE_URL}/ads?status=active`,
       headers: {
-        Authorization: Utils.cookies.get('token')
+        Authorization: Utils.cookies.get('_token')
       },
       data: {
         status: ["active", "done"],
@@ -198,7 +198,7 @@ class Advertisements extends React.Component {
       method: 'delete',
       url: `${Utils.BASE_URL}/ads/${adId}`,
       headers: {
-        Authorization: Utils.cookies.get('token')
+        Authorization: Utils.cookies.get('_token')
       },
       data: {
         id: adId,

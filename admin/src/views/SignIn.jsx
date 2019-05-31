@@ -90,10 +90,10 @@ class SignIn extends React.Component {
                                 alertMsg: "Chỉ cho phép đăng nhập bằng tài khoản của quản trị viên"
                             })
                         } else {
-                            Utils.cookies.set('isLogin', "true", { path: '/' });
-                            Utils.cookies.set('token', response.data.data.token, { path: '/' });
-                            Utils.cookies.set('user', {...response.data.data.user,password: password}, { path: '/' });
-                            
+                            Utils.cookies.set('_isLogin', "true", { path: '/' });
+                            Utils.cookies.set('_token', response.data.data.token, { path: '/' });
+                            Utils.cookies.set('_user', {...response.data.data.user,password: password}, { path: '/' });
+
                             this.setState({
                                 ...this.state,
                                 loginSuccess: true,
@@ -120,7 +120,7 @@ class SignIn extends React.Component {
     }
     render() {
         const { classes } = this.props;
-        return (Utils.cookies.get('isLogin') === "true" || this.state.loginSuccess) ?
+        return (Utils.cookies.get('_isLogin') === "true" || this.state.loginSuccess) ?
             <Redirect to={{
                 pathname: "/admin/profile",
             }} />
@@ -186,7 +186,7 @@ class SignIn extends React.Component {
                             >
                                 Đăng nhập
                             </Button>
-                            
+
                         </form>
                     </Paper>
                 </main>

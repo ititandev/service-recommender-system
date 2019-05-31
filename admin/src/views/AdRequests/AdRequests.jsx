@@ -184,7 +184,7 @@ class AdRequests extends React.Component {
             method: 'get',
             url: `${Utils.BASE_URL}/ads`,
             headers: {
-                Authorization: Utils.cookies.get('token')
+                Authorization: Utils.cookies.get('_token')
             },
             data: {
                 status: ["pending"],
@@ -222,7 +222,7 @@ class AdRequests extends React.Component {
             method: 'put',
             url: `${Utils.BASE_URL}/ads/${adId}`,
             headers: {
-                Authorization: Utils.cookies.get('token')
+                Authorization: Utils.cookies.get('_token')
             },
             data: {
                 status: status,

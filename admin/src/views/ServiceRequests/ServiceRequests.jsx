@@ -180,7 +180,7 @@ class ServiceRequests extends React.Component {
       method: 'get',
       url: `${Utils.BASE_URL}/services`,
       headers: {
-        Authorization: Utils.cookies.get('token'),
+        Authorization: Utils.cookies.get('_token'),
         'Content-type': 'application/json'
       },
       data: { "status": "pending" },
@@ -217,7 +217,7 @@ class ServiceRequests extends React.Component {
       method: 'put',
       url: `${Utils.BASE_URL}/services/${requestId}`,
       headers: {
-        Authorization: Utils.cookies.get('token'),
+        Authorization: Utils.cookies.get('_token'),
       },
       data: {
         status: status

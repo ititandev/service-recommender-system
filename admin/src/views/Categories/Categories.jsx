@@ -170,7 +170,7 @@ class TableList extends React.Component {
             method: 'get',
             url: `${Utils.BASE_URL}/servicetypes?status=active`,
             headers: {
-                Authorization: Utils.cookies.get('token')
+                Authorization: Utils.cookies.get('_token')
             },
             data: {
                 status: ["active"],
@@ -200,7 +200,7 @@ class TableList extends React.Component {
             method: 'delete',
             url: `${Utils.BASE_URL}/servicetypes/${cateId}`,
             headers: {
-                Authorization: Utils.cookies.get('token')
+                Authorization: Utils.cookies.get('_token')
             },
             data: {
                 status: ["active"],
@@ -223,7 +223,7 @@ class TableList extends React.Component {
             method: 'put',
             url: `${Utils.BASE_URL}/servicetypes/${cateId}`,
             headers: {
-                Authorization: Utils.cookies.get('token'),
+                Authorization: Utils.cookies.get('_token'),
                 'Content-type': 'application/json',
             },
             data: {

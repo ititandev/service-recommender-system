@@ -245,7 +245,7 @@ class TableList extends React.Component {
             method: 'get',
             url: `${Utils.BASE_URL}/users`,
             headers: {
-                Authorization: Utils.cookies.get('token'),
+                Authorization: Utils.cookies.get('_token'),
                 'Content-Type': 'application/json',
             },
             data: {
@@ -285,7 +285,7 @@ class TableList extends React.Component {
             method: 'put',
             url: `${Utils.BASE_URL}/users/${userId}`,
             headers: {
-                Authorization: Utils.cookies.get('token'),
+                Authorization: Utils.cookies.get('_token'),
                 'Content-type': 'application/json'
             },
             data: {
@@ -309,7 +309,7 @@ class TableList extends React.Component {
             method: 'delete',
             url: `${Utils.BASE_URL}/users/${userId}`,
             headers: {
-                Authorization: Utils.cookies.get('token')
+                Authorization: Utils.cookies.get('_token')
             },
         })
             .then(response => {
