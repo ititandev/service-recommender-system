@@ -115,7 +115,6 @@ class Dashboard extends React.Component {
         
       })
       .catch(err=>console.log(err))
-
   }
   render() {
     const { classes, ...rest } = this.props;
@@ -125,6 +124,10 @@ class Dashboard extends React.Component {
     }
     if(!this.state.user){
       return <div />
+    }
+    console.log(this.props.location.pathname)
+    if(this.state.user&&this.props.location.pathname==="/provider/"){
+      this.props.history.push("/provider/dashboard")
     }
     return (
       <div className={classes.wrapper}>

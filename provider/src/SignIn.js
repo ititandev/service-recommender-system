@@ -82,7 +82,6 @@ class SignIn extends React.Component {
         const user = res.data.data;
         if(res.data.success){
           if (user.user.role=="provider"){
-            // console.log('token',res.data.data.token)
             cookies.set('ptoken',res.data.data.token,{path:'/'})
             cookies.set('puser_id',res.data.data.user._id,{path:'/'})
             this.setState({ submitted, user })}
