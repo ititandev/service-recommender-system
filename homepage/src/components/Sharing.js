@@ -72,6 +72,7 @@ export default class Ratings extends React.Component {
     })
     .then(response=>{
       const {data}=response;
+      console.log('response:',data)
       if(data.success){
         this.setState({
           messageWarning:'Subscribe Successfully!',

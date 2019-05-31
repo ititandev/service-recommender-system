@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.3723b413.chunk.css",
-    "main.js": "/static/js/main.3d91d38f.chunk.js",
-    "main.js.map": "/static/js/main.3d91d38f.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/css/2.c44c88da.chunk.css": "/static/css/2.c44c88da.chunk.css",
-    "static/js/2.58545e47.chunk.js": "/static/js/2.58545e47.chunk.js",
-    "static/js/2.58545e47.chunk.js.map": "/static/js/2.58545e47.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.c8f885df53cec5183aee341b7a6f7c11.js": "/precache-manifest.c8f885df53cec5183aee341b7a6f7c11.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.c44c88da.chunk.css.map": "/static/css/2.c44c88da.chunk.css.map",
-    "static/css/main.3723b413.chunk.css.map": "/static/css/main.3723b413.chunk.css.map",
-    "static/media/mdb.css": "/static/media/arrow_right.8ef6a08c.svg",
-    "static/media/bg.jpg": "/static/media/bg.013b0488.jpg"
+    "main.css": "/home/static/css/main.0f36d2a6.chunk.css",
+    "main.js": "/home/static/js/main.aa6e48fe.chunk.js",
+    "main.js.map": "/home/static/js/main.aa6e48fe.chunk.js.map",
+    "runtime~main.js": "/home/static/js/runtime~main.44701174.js",
+    "runtime~main.js.map": "/home/static/js/runtime~main.44701174.js.map",
+    "static/css/2.41374a02.chunk.css": "/home/static/css/2.41374a02.chunk.css",
+    "static/js/2.d19697b2.chunk.js": "/home/static/js/2.d19697b2.chunk.js",
+    "static/js/2.d19697b2.chunk.js.map": "/home/static/js/2.d19697b2.chunk.js.map",
+    "index.html": "/home/index.html",
+    "precache-manifest.51b25c55ffac041dce8075335daa9e98.js": "/home/precache-manifest.51b25c55ffac041dce8075335daa9e98.js",
+    "service-worker.js": "/home/service-worker.js",
+    "static/css/2.41374a02.chunk.css.map": "/home/static/css/2.41374a02.chunk.css.map",
+    "static/css/main.0f36d2a6.chunk.css.map": "/home/static/css/main.0f36d2a6.chunk.css.map",
+    "static/media/mdb.css": "/home/static/media/arrow_right.8ef6a08c.svg",
+    "static/media/bg.jpg": "/home/static/media/bg.013b0488.jpg"
   }
 }

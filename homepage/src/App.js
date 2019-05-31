@@ -20,6 +20,9 @@ import axios from 'axios'
 class App extends React.Component {
   constructor(props){
     super(props);
+    this.state={
+      routing:true
+    }
   }
   componentWillMount(){
     const {cookies,loginRequest}=this.props;
