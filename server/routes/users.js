@@ -201,6 +201,13 @@ router.post("/login", function(req, res, next) {
         });
       }
 
+      if (req.query.role)
+        if (req.query.role != user.role)
+          return res.json({
+            success: false,
+            message: "Please login as provider/admin on your page"
+          });
+
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (result) {
           token = createJWToken(
@@ -211,7 +218,7 @@ router.post("/login", function(req, res, next) {
             604800
           );
           res.set("Authorization", token);
-          delete user.password
+          delete user.password;
           return res.json({
             success: true,
             data: { token: token, user: user }
