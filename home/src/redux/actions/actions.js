@@ -23,7 +23,7 @@ export const loginRequest=(user,token)=>{
 export const loginAction=(email,password)=>{
   return dispatch=>{
       dispatch(changeStatusAction({status:STATUS.SENDING}))
-      axios.post(`${root}/login`,
+      axios.post(`${root}/login?role=user`,
       {
         email,
         password

@@ -17,7 +17,7 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/provider/login" component={SignIn} />
-      <Route path="/provider/" component={Admin}  />    
+      <Route path="/provider/" component={Admin}  />
     </Switch>
   </Router>
   </CookiesProvider>

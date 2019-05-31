@@ -86,7 +86,7 @@ class SignIn extends React.Component {
             cookies.set('puser_id',res.data.data.user._id,{path:'/'})
             this.setState({ submitted, user })}
         }
-        
+
       })
   }
   render() {
@@ -147,8 +147,8 @@ class SignIn extends React.Component {
         </main>
       );
     }
-    
-    
+
+
   }
 
 }
@@ -159,4 +159,3 @@ SignIn.propTypes = {
 
 
 export default withCookies(withStyles(styles)(SignIn));
-

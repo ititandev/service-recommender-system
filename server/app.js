@@ -13,8 +13,8 @@ var requestRouter = require("./routes/requests");
 var app = express();
 
 // // view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "jade");
+ app.set("views", path.join(__dirname, "views"));
+ app.set("view engine", "jade");
 
 app.use(function(req, res, next) {
   // Website you wish to allow to connect

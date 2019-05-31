@@ -82,27 +82,30 @@ class Dashboard extends React.Component {
     const {cookies}=this.props;
     const token=cookies.get('ptoken')
     const user_id=cookies.get('puser_id')
-    axios({
-      method:'PUT',
-      url:`http://servicy.herokuapp.com/api/users/${user_id}`,
-      headers:{
-        Authorization:token,
-      },
-      data: {}
-      })
-      .then(({data})=>{
-        if(data.success){
-          this.setState({
-            user:{
-              token,
-              user:data.data
-            }
-          })
-        }
-        
-      })
-      .catch(err=>console.log(err))
-  
+    if(token){
+      axios({
+        method:'PUT',
+        url:`http://servicy.herokuapp.com/api/users/${user_id}`,
+        headers:{
+          Authorization:token,
+        },
+        data: {}
+        })
+        .then(({data})=>{
+          if(data.success){
+            this.setState({
+              user:{
+                token,
+                user:data.data
+              }
+            })
+          }
+
+        })
+        .catch(err=>console.log(err))
+    }
+
+
   }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
@@ -116,7 +119,7 @@ class Dashboard extends React.Component {
     window.removeEventListener("resize", this.resizeFunction);
   }
 
-    
+
   render() {
     const { classes, ...rest } = this.props;
     const {cookies}=this.props;
@@ -126,7 +129,6 @@ class Dashboard extends React.Component {
     if(!this.state.user){
       return <p>Please wait...</p>
     }
-    console.log(this.props.location.pathname)
     if(this.state.user&&this.props.location.pathname==="/provider/"){
       this.props.history.push("/provider/dashboard")
     }
