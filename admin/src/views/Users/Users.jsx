@@ -2,12 +2,12 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
 import Table from "@material-ui/core/Table";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
+import Card from "../../components/Card/Card.jsx";
+import CardHeader from "../../components/Card/CardHeader.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/Button";
 import Edit from '@material-ui/icons/Edit'
@@ -18,7 +18,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import CustomSelect from 'components/CustomSelect/CustomSelect.jsx'
+import CustomSelect from '../../components/CustomSelect/CustomSelect.jsx'
 import update from 'react-addons-update';
 import { Avatar } from "@material-ui/core";
 

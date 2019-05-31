@@ -1,10 +1,10 @@
 {
-  "name": "material-dashboard-react",
-  "homepage": "https://github.com/creativetimofficial/material-dashboard-react",
+  "name": "Servicy Admin Page",
+  "homepage": "https://servicy.herokuapp.com",
   "authors": [
-    "creative-tim"
+    "tdtai"
   ],
-  "description": "A Badass Material-UI Kit based on Material Design",
+  "description": "Web page for Admin to observe and interact with Servicy system",
   "main": "public/index.html",
   "keywords": [
     "material",

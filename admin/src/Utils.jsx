@@ -17,23 +17,29 @@ class Utils {
             case 'done':
                 return 'Hết hạn'
             default:
-                return "NOT A STATUS"
+                return status
         }
     }
 
-    static getFormatAdtype(status) {
-        switch (status) {
+    static getFormatAdtype(adType) {
+        switch (adType) {
             case 'Enterprise':
                 return 'Doanh nghiệp'
             case 'Normal':
                 return 'Thường'
+            case 'Advance':
+                return 'Cao cấp'
+            case 'Trial':
+                return 'Thử nghiệm'
+            case 'Normal':
+                return 'Trung bình'
             default:
-                return "NOT AN AD TYPE"
+                return adType
         }
     }
 
-    static getFormatRole(status) {
-        switch (status) {
+    static getFormatRole(role) {
+        switch (role) {
             case 'admin':
                 return 'Quản trị viên'
             case 'provider':
@@ -41,7 +47,7 @@ class Utils {
             case 'user':
                 return 'Người dùng thường'
             default:
-                return "NOT A ROLE"
+                return role
         }
     }
 

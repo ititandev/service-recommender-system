@@ -2,12 +2,12 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
 import Table from "@material-ui/core/Table";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
+import Card from "../../components/Card/Card.jsx";
+import CardHeader from "../../components/Card/CardHeader.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/Button";
 
@@ -19,8 +19,6 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios'
 import AlertDialog from "../../components/Dialog/AlertDialog";
 import Utils from "../../Utils";
-import update from 'react-addons-update';
-import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
     cardCategoryWhite: {

@@ -8,10 +8,10 @@ import LibraryAdd from "@material-ui/icons/LibraryAdd";
 import PhotoSizeSelectLarge from "@material-ui/icons/PhotoSizeSelectLarge";
 import AddPhotoAlternate from "@material-ui/icons/AddPhotoAlternate";
 // core components/views for Admin layout
-import Profile from "views/Profile/Profile.jsx";
-import Advertisements from "views/Advertisements/Advertisements.jsx";
-import ServiceRequests from 'views/ServiceRequests/ServiceRequests.jsx';
-import AdRequests from 'views/AdRequests/AdRequests.jsx';
+import Profile from "./views/Profile/Profile.jsx";
+import Advertisements from "./views/Advertisements/Advertisements.jsx";
+import ServiceRequests from './views/ServiceRequests/ServiceRequests.jsx';
+import AdRequests from './views/AdRequests/AdRequests.jsx';
 // core components/views for RTL layout
 import Services from "./views/Services/Services";
 import Categories from "./views/Categories/Categories";

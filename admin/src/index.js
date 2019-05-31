@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
-import Admin from "layouts/Admin.jsx";
+import Admin from "./layouts/Admin.jsx";
 import SignIn from "./views/SignIn";
 
 const hist = createBrowserHistory();
