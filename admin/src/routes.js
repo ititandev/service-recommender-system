@@ -21,64 +21,60 @@ import SignIn from "./views/SignIn";
 
 const dashboardRoutes = [
   {
-    path: "/login",
-    component: SignIn,
-  },
-  {
     path: "/profile",
     name: "Trang cá nhân",
     icon: AccountCircle,
     component: Profile,
-    layout: ""
+    layout: "/admin"
   },
   {
     path: "/users",
     name: "Danh sách người dùng",
     icon: Group,
     component: Users,
-    layout: ""
+    layout: "/admin"
   },
   {
     path: "/services",
     name: "Danh sách dịch vụ",
     icon: Menu,
     component: Services,
-    layout: "",
+    layout: "/admin",
   },
   {
     path: "/service_requests",
     name: "Thêm dịch vụ",
     icon: PlaylistAdd,
     component: ServiceRequests,
-    layout: ""
+    layout: "/admin"
   },
   {
     path: "/categories",
     name: "Danh sách loại dịch vụ",
     icon: LibraryBooks,
     component: Categories,
-    layout: ""
+    layout: "/admin"
   },
   {
     path: "/category_requests",
     name: "Thêm loại dịch vụ",
     icon: LibraryAdd,
     component: CategoryRequests,
-    layout: ""
+    layout: "/admin"
   },
   {
     path: "/advertisements",
     name: "Danh sách quảng cáo",
     icon: PhotoSizeSelectLarge,
     component: Advertisements,
-    layout: ""
+    layout: "/admin"
   },
   {
     path: "/ad_requests",
     name: "Thêm quảng cáo",
     icon: AddPhotoAlternate,
     component: AdRequests,
-    layout: ""
+    layout: "/admin"
   },
 ];
 

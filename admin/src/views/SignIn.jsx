@@ -98,7 +98,7 @@ class SignIn extends React.Component {
                                 ...this.state,
                                 loginSuccess: true,
                             })
-                            console.log(`login success with msg: ${response.data.message}`);
+                            console.log('login success with msg:',response.data);
                         }
                     } else {
                         this.setState({
@@ -120,9 +120,9 @@ class SignIn extends React.Component {
     }
     render() {
         const { classes } = this.props;
-        return (Utils.cookies.get('_isLogin') === "true" || this.state.loginSuccess) ?
+        return (Utils.cookies.get('_isLogin')&&Utils.cookies.get('_isLogin')==='true' || this.state.loginSuccess) ?
             <Redirect to={{
-                pathname: "/admin/profile",
+                pathname: "/admin",
             }} />
             :
             (

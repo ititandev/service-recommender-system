@@ -68,9 +68,8 @@ class Profile extends React.Component {
 
   render() {
     const { classes } = this.props;
-
-    return (Utils.cookies.get('_isLogin') === "false" || this.state.isLogout) ?
-      <Redirect to="/login" />
+    return (!Utils.cookies.get('_isLogin') || this.state.isLogout) ?
+      <Redirect to="/admin/login" />
       :
       (
         <div>

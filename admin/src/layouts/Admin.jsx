@@ -45,6 +45,9 @@ class Dashboard extends React.Component {
       mobileOpen: false
     };
   }
+  componentWillMount(){
+    this.props.history.push("/admin/profile")
+  }
   handleImageClick = image => {
     this.setState({ image: image });
   };
@@ -85,8 +88,8 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    return !Utils.cookies.get("_isLogin")?
-      <Redirect to="/login" />
+    return Utils.cookies.get("_isLogin")&&Utils.cookies.get("_isLogin")==='false'?
+      <Redirect to="/admin/login" />
       : (
         <div className={classes.wrapper}>
           <Sidebar
