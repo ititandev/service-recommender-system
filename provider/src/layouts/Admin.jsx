@@ -79,19 +79,6 @@ class Dashboard extends React.Component {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
     window.addEventListener("resize", this.resizeFunction);
-  }
-  componentDidUpdate(e) {
-    if (e.history.location.pathname !== e.location.pathname) {
-      this.refs.mainPanel.scrollTop = 0;
-      if (this.state.mobileOpen) {
-        this.setState({ mobileOpen: false });
-      }
-    }
-  }
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeFunction);
-  }
-  componentWillMount(){
     const {cookies}=this.props;
     const token=cookies.get('ptoken')
     const user_id=cookies.get('puser_id')
@@ -115,15 +102,29 @@ class Dashboard extends React.Component {
         
       })
       .catch(err=>console.log(err))
+  
   }
+  componentDidUpdate(e) {
+    if (e.history.location.pathname !== e.location.pathname) {
+      this.refs.mainPanel.scrollTop = 0;
+      if (this.state.mobileOpen) {
+        this.setState({ mobileOpen: false });
+      }
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resizeFunction);
+  }
+
+    
   render() {
     const { classes, ...rest } = this.props;
     const {cookies}=this.props;
-    if(!cookies.get('ptoken')){
-      return <Redirect to='/provider/login' />
+    if(!cookies.get('ptoken')&&this.state.user){
+      this.props.history.push('/provider/login')
     }
     if(!this.state.user){
-      return <div />
+      return <p>Please wait...</p>
     }
     console.log(this.props.location.pathname)
     if(this.state.user&&this.props.location.pathname==="/provider/"){

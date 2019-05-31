@@ -94,10 +94,9 @@ class SignIn extends React.Component {
     const { email, password } = this.state;
     // cookies.remove('ptoken',{path:'/'})
     // cookies.remove('puser_id',{path:'/'})
-    if(cookies.get('ptoken'))
-    return(
-      <Redirect to="/" />
-    )
+    if(cookies.get('ptoken')){
+      this.props.history.push('/provider/')
+    }
     if (!this.state.submitted) {
       return (
         <main className={classes.main}>

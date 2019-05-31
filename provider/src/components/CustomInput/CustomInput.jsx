@@ -20,6 +20,8 @@ class CustomInput extends React.Component {
       labelText,
       id,
       labelProps,
+      value,
+      onChange,
       inputProps,
       error,
       success,
@@ -53,6 +55,8 @@ class CustomInput extends React.Component {
           </InputLabel>
         ) : null}
         <Input style={style}
+        value={value}
+        onChange={onChange}
           classes={{
             root: marginTop,
             disabled: classes.disabled,

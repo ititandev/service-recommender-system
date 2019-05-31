@@ -13,7 +13,7 @@ import TableList from "./views/TableList/TableList.jsx";
 import ServiceList from './views/TableList/ServiceList.jsx';
 
 import NotificationsPage from "./views/Notifications/Notifications.jsx";
-
+import Profile from './views/Profile/Profile'
 // core components/views for RTL layout
 //import RTLPage from "./views/RTLPage/RTLPage.jsx";
 
@@ -82,6 +82,14 @@ const dashboardRoutes = [
     rtlName: "إخطارات",
     icon: Notifications,
     component: NotificationsPage,
+    layout: "/provider"
+  },
+  {
+    path: "/profile",
+    name: "User Profile",
+    rtlName: "إخطارات",
+    icon: Notifications,
+    component: Profile,
     layout: "/provider"
   },
   // {
