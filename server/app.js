@@ -42,10 +42,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/admin/*", (req, res) => {
+  res.sendfile(__dirname + "/public/admin/index.html");
+});
+
+app.get("/provider/*", (req, res) => {
+  res.sendfile(__dirname + "/public/provider/index.html");
+});
 
 app.get("/", (req, res) => {
   res.sendfile(__dirname + "/public/home/index.html");
 });
+
 app.use("/api/", usersRouter);
 app.use("/api/", servicesRouter);
 app.use("/api/", adsRouter);
