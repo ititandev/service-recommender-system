@@ -17,6 +17,7 @@
     "prop-types": "15.7.1",
     "react": "16.8.1",
     "react-chartist": "0.13.3",
+    "react-cookie": "^4.0.0",
     "react-dom": "16.8.1",
     "react-final-form": "^5.0.2",
     "react-google-maps": "9.4.5",

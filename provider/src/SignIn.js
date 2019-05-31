@@ -17,6 +17,7 @@ import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import Admin from "./layouts/Admin.jsx";
+import { withCookies } from 'react-cookie';
 const hist = createBrowserHistory();
 const styles = theme => ({
   progress: {
@@ -73,19 +74,31 @@ class SignIn extends React.Component {
   }
   handleSubmit = event => {
     event.preventDefault();
+    const {cookies}=this.props;
     const { email, password } = this.state;
     axios.post(`https://servicy.herokuapp.com/api/login`, { email, password })
       .then(res => {
         const submitted = true;
         const user = res.data.data;
-        console.log("user",user)
-        if (user.user.role=="provider"){
-        this.setState({ submitted, user })}
+        if(res.data.success){
+          if (user.user.role=="provider"){
+            // console.log('token',res.data.data.token)
+            cookies.set('ptoken',res.data.data.token,{path:'/'})
+            cookies.set('puser_id',res.data.data.user._id,{path:'/'})
+            this.setState({ submitted, user })}
+        }
+        
       })
   }
   render() {
-    const { classes } = this.props;
+    const { classes,cookies } = this.props;
     const { email, password } = this.state;
+    // cookies.remove('ptoken',{path:'/'})
+    // cookies.remove('puser_id',{path:'/'})
+    if(cookies.get('ptoken'))
+    return(
+      <Redirect to="/" />
+    )
     if (!this.state.submitted) {
       return (
         <main className={classes.main}>
@@ -137,15 +150,7 @@ class SignIn extends React.Component {
       );
     }
     
-    return(
-      <Router history={hist}>
-        <Switch>
-          <Route path="/" render={(props)=><Admin  {...props} user={this.state.user}/>}  />
-          
-          
-        </Switch>
-      </Router>
-    )
+    
   }
 
 }
@@ -155,5 +160,5 @@ SignIn.propTypes = {
 };
 
 
-export default withStyles(styles)(SignIn);
+export default withCookies(withStyles(styles)(SignIn));
 

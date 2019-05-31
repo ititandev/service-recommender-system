@@ -19,8 +19,8 @@ import dashboardStyle from "../assets/jss/material-dashboard-react/layouts/dashb
 
 import image from "../assets/img/sidebar-2.jpg";
 import logo from "../assets/img/reactlogo.png";
-
-
+import {withCookies} from 'react-cookie'
+import axios from 'axios'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -30,7 +30,8 @@ class Dashboard extends React.Component {
       color: "blue",
       hasImage: true,
       fixedClasses: "dropdown show",
-      mobileOpen: false
+      mobileOpen: false,
+      user:null
     };
   }
    switchRoutes(){
@@ -40,7 +41,7 @@ class Dashboard extends React.Component {
           return (
             <Route
               path={prop.layout + prop.path}
-              render={(props)=><prop.component {...props} user={this.props.user} />}
+              render={(props)=><prop.component {...props} user={this.state.user} />}
               key={key}
             />
           );
@@ -90,9 +91,41 @@ class Dashboard extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeFunction);
   }
+  componentWillMount(){
+    const {cookies}=this.props;
+    const token=cookies.get('ptoken')
+    const user_id=cookies.get('puser_id')
+    axios({
+      method:'PUT',
+      url:`http://servicy.herokuapp.com/api/users/${user_id}`,
+      headers:{
+        Authorization:token,
+      },
+      data: {}
+      })
+      .then(({data})=>{
+        if(data.success){
+          this.setState({
+            user:{
+              token,
+              user:data.data
+            }
+          })
+        }
+        
+      })
+      .catch(err=>console.log(err))
+
+  }
   render() {
     const { classes, ...rest } = this.props;
-
+    const {cookies}=this.props;
+    if(!cookies.get('ptoken')){
+      return <Redirect to='/provider/login' />
+    }
+    if(!this.state.user){
+      return <div />
+    }
     return (
       <div className={classes.wrapper}>
         <Sidebar
@@ -138,4 +171,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default withCookies(withStyles(dashboardStyle)(Dashboard));
