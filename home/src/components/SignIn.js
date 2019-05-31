@@ -70,7 +70,10 @@ class  SignIn extends React.Component{
     loginAction(username,password);
   }
   render(){
-    const { classes, login} = this.props;
+    const { classes, login,cookies} = this.props;
+    if(cookies.get('token')){
+      history.push("/")
+    }
     if(login.status===STATUS.FINISHED&&login.error===''){
       const cookies=this.props.cookies;
       cookies.set('token',login.token,{path:'/'})
