@@ -29,56 +29,56 @@ const dashboardRoutes = [
     name: "Trang cá nhân",
     icon: AccountCircle,
     component: Profile,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/users",
     name: "Danh sách người dùng",
     icon: Group,
     component: Users,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/services",
     name: "Danh sách dịch vụ",
     icon: Menu,
     component: Services,
-    layout: "/admin",
+    layout: "",
   },
   {
     path: "/service_requests",
     name: "Thêm dịch vụ",
     icon: PlaylistAdd,
     component: ServiceRequests,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/categories",
     name: "Danh sách loại dịch vụ",
     icon: LibraryBooks,
     component: Categories,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/category_requests",
     name: "Thêm loại dịch vụ",
     icon: LibraryAdd,
     component: CategoryRequests,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/advertisements",
     name: "Danh sách quảng cáo",
     icon: PhotoSizeSelectLarge,
     component: Advertisements,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/ad_requests",
     name: "Thêm quảng cáo",
     icon: AddPhotoAlternate,
     component: AdRequests,
-    layout: "/admin"
+    layout: ""
   },
 ];
 

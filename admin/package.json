@@ -9,6 +9,7 @@
     "@material-ui/icons": "3.0.2",
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^4.3.3",
+    "axios": "^0.19.0",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "history": "^4.9.0",
@@ -47,7 +48,7 @@
   "bugs": {
     "url": "https://github.com/ititandev/service-recommender-system/issues"
   },
-  "homepage": "https://servicy.herokuapp.com",
+  "homepage": "https://servicy.herokuapp.com/admin",
   "optionalDependencies": {
     "@types/googlemaps": "3.30.16",
     "@types/markerclustererplus": "2.1.33",
