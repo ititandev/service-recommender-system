@@ -33,14 +33,14 @@ class Dashboard extends React.Component {
       mobileOpen: false
     };
   }
-   switchRoutes(){ 
+   switchRoutes(){
      return(   <Switch>
       {routes.map((prop, key) => {
         if (prop.layout === "/provider") {
           return (
             <Route
               path={prop.layout + prop.path}
-              render={(props)=><prop.component {...props} user={this.props.user} />} 
+              render={(props)=><prop.component {...props} user={this.props.user} />}
               key={key}
             />
           );
@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    
+
     return (
       <div className={classes.wrapper}>
         <Sidebar
