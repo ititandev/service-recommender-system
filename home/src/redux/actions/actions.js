@@ -113,6 +113,7 @@ export const loadAllServiceAction=()=>{
     axios.get(`${root}/services?status=active`)
     .then(({data})=>{
       if(data.success){
+        console.log('best sevice',data)
         dispatch(setServiceAllAction(data.data))
       }
     })

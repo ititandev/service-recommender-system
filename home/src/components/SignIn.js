@@ -72,7 +72,7 @@ class  SignIn extends React.Component{
   render(){
     const { classes, login,cookies} = this.props;
     if(cookies.get('token')){
-      history.push("/")
+      this.props.history.push("/")
     }
     if(login.status===STATUS.FINISHED&&login.error===''){
       const cookies=this.props.cookies;
