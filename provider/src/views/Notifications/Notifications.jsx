@@ -144,7 +144,8 @@ class Notifications extends React.Component {
                     else {
                     return [
                       item.user.firstname + " " + item.user.lastname, item.user.phone ,item.user.email,
-                      <Button color="success" onClick={()=>this.handelSeen(item._id)}>{item.status}</Button>, item.data_time ]
+                      item.message,item.service.name ,
+                      <Button color="success" onClick={()=>this.handelSeen(item._id)}>{item.status}</Button>, item.data_time, ]
                     }
                   }).sort(function(a, b) {
                     var nameA = a[6]//.toUpperCase(); // bỏ qua hoa thường
