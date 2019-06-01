@@ -15,7 +15,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {connect} from 'react-redux';
 import {loginAction,STATUS } from '../redux/actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Warning from './Warning'
 import MyFooter from './MyFooter'
 const styles = theme => ({
@@ -147,6 +147,37 @@ class  SignIn extends React.Component{
 
               {'Sign In '}
             </Button>
+
+            <Link to='/provider/login'>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              style={{fontSize: 18, width: "50%",marginLeft: 'auto',marginRight: 'auto',display: 'flex'}}
+              className={classes.submit}
+              disabled={this.props.login.status===STATUS.SENDING}
+              onClick={()=>this.sendLogin()}
+            >
+             {this.props.login.status===STATUS.SENDING?(<CircularProgress className={classes.progress} color="secondary" />):null
+           }
+              Provider Login Page
+            </Button>
+            </Link>
+
+            <Link to='/admin'>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              style={{fontSize: 18, width: "50%",marginLeft: 'auto',marginRight: 'auto',display: 'flex'}}
+              className={classes.submit}
+              disabled={this.props.login.status===STATUS.SENDING}
+            >
+             {this.props.login.status===STATUS.SENDING?(<CircularProgress className={classes.progress} color="secondary" />):null
+           }
+            Admin Login Page
+            </Button>
+            </Link>
           </form>
         </Paper>
       <MyFooter />
