@@ -268,7 +268,7 @@ class SearchResult extends React.Component {
     const values = queryString.parse(this.props.location.search)
     const _filter=services.filter(
       item=>{
-        return item.info.address.indexOf(values.location)>=0
+        return item.info.location_id.name.indexOf(values.location)>=0
         &&
         item.servicetype.name.indexOf(values.type)>=0
         &&
