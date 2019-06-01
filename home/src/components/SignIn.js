@@ -15,7 +15,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {connect} from 'react-redux';
 import {loginAction,STATUS } from '../redux/actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link, withRouter } from "react-router-dom";
+import {  withRouter } from "react-router-dom";
+import Link from '@material-ui/core/Link'
 import Warning from './Warning'
 import MyFooter from './MyFooter'
 const styles = theme => ({
@@ -132,6 +133,7 @@ class  SignIn extends React.Component{
                 onChange={e=> this.setState({...this.state,password: e.target.value})}
                 />
             </div>
+            <div style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
             {this.props.login.error!==''&&this.state.username!==''?<Warning open={true} type="error" message={this.props.login.error} style={{display: 'flex',marginLeft:'auto',marginRight: 'auto',width:'100%'}}/>:<div />}
             <Button
               fullWidth
@@ -147,37 +149,17 @@ class  SignIn extends React.Component{
 
               {'Sign In '}
             </Button>
+            <div style={{display: 'flex',flexDirection: 'column',alignItems: 'flex-start',justifyContent: 'center'}}>
+              <Link href='/provider/' style={{fontSize: 16,margin:10}}>
+                Sign In as Provider
+              </Link>
 
-            <Link to='/provider/login'>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              style={{fontSize: 18, width: "50%",marginLeft: 'auto',marginRight: 'auto',display: 'flex'}}
-              className={classes.submit}
-              disabled={this.props.login.status===STATUS.SENDING}
-              onClick={()=>this.sendLogin()}
-            >
-             {this.props.login.status===STATUS.SENDING?(<CircularProgress className={classes.progress} color="secondary" />):null
-           }
-              Provider Login Page
-            </Button>
-            </Link>
+              <Link href='/admin' style={{fontSize: 16}}>
+                Sign In as Admin
+              </Link>
+            </div>
 
-            <Link to='/admin'>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              style={{fontSize: 18, width: "50%",marginLeft: 'auto',marginRight: 'auto',display: 'flex'}}
-              className={classes.submit}
-              disabled={this.props.login.status===STATUS.SENDING}
-            >
-             {this.props.login.status===STATUS.SENDING?(<CircularProgress className={classes.progress} color="secondary" />):null
-           }
-            Admin Login Page
-            </Button>
-            </Link>
+            </div>
           </form>
         </Paper>
       <MyFooter />
