@@ -108,9 +108,13 @@ router.get("/services", (req, res) => {
           }
         }
         result = result.sort(
-          (a, b) =>
-            a.rating.points / a.rating.total < b.rating.points / b.rating.total
-        );
+          (a, b) =>{
+            ra = a.rating.points / a.rating.total;
+            rb = b.rating.points / b.rating.total;
+            if (ra > rb) return -1;
+            else if (ra < rb) return 1;
+            else return 0;
+        });
 
         if (result.length < 1) {
           res.json({
