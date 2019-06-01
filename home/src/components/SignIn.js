@@ -154,7 +154,7 @@ class  SignIn extends React.Component{
                 Sign In as Provider
               </Link>
 
-              <Link href='/admin' style={{fontSize: 16}}>
+              <Link href='/admin' style={{fontSize: 16, margin:10}}>
                 Sign In as Admin
               </Link>
             </div>
