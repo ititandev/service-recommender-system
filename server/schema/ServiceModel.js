@@ -29,5 +29,14 @@ const ServiceSchema = new Schema({
     ratings: [{ type: Schema.Types.ObjectId, ref: 'ratings' }]
 
 });
+// ServiceSchema.pre('find', function() {
+//     this._startTime = Date.now();
+//   });
+  
+// ServiceSchema.post('find', function() {
+//     if (this._startTime != null) {
+//       console.log('Runtime in MS: ', Date.now() - this._startTime);
+//     }
+//   });
 const ServiceModel = mongoose.model('services', ServiceSchema);
 module.exports = ServiceModel

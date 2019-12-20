@@ -9,7 +9,7 @@ const { verifyJWTToken } = require("../auth.js");
 const as = require("async");
 
 mongoose.connect(
-  "mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy",
+  "mongodb://127.0.0.1:27017/servicy",
   { useNewUrlParser: true }
 );
 

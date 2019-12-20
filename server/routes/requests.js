@@ -6,7 +6,7 @@ const { createJWToken, verifyJWTToken } = require("../auth.js");
 
 const RequestModel = require("../schema/RequestModel");
 mongoose.connect(
-  "mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy",
+  "mongodb://127.0.0.1:27017/servicy",
   { useNewUrlParser: true }
 );
 

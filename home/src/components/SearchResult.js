@@ -11,7 +11,7 @@ import axios from "axios";
 import MyFooter from './MyFooter'
 
 import Avatar from "@material-ui/core/Avatar";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 
@@ -201,6 +201,8 @@ class SearchResult extends React.Component {
     super(props);
     this.state = {
       all_services: props.services,
+      filter_services: [],
+      loading: false
     };
   }
   componentWillMount(){
@@ -209,13 +211,19 @@ class SearchResult extends React.Component {
       .then(response=>{
         const {data}=response.data;
         this.setState({
-          all_services:data
+          all_services:data,
         })
       })
       .catch(err=>console.log(err))
     }
-
-
+    const values = queryString.parse(this.props.location.search)
+    this.search(this.props.location.search)
+    this.unlisten=this.props.history.listen((location,action)=>{
+      this.search(this.props.location.search)
+    })
+  }
+  componentWillUnmount(){
+    this.unlisten()
   }
   renderGridService(_filter){
     const {classes}=this.props;
@@ -259,21 +267,32 @@ class SearchResult extends React.Component {
       </Grid>
     )
   }
+  search(query){
+    this.setState({
+      loading: true
+    })
+      axios.get(`${root}/services${query}`)
+      .then(response=>{
+        console.log(response)
+        const {data}=response.data;
+        this.setState({
+          filter_services:data
+        })
+      })
+      .catch(err=>console.log(err))
+      .finally(()=>{
+        this.setState({
+          loading: false
+        })
+      })
+  }
   render() {
     const { classes } = this.props;
     const services=this.state.all_services;
     if(services.length===0){
       return (<div/ >)
     }
-    const values = queryString.parse(this.props.location.search)
-    const _filter=services.filter(
-      item=>{
-        return item.info.location_id.name.indexOf(values.location)>=0
-        &&
-        item.servicetype.name.indexOf(values.type)>=0
-        &&
-        item.name.toUpperCase().indexOf(values.keyword.toUpperCase())>=0
-      })
+
     return (
       <React.Fragment>
       <MyAppBar />
@@ -296,7 +315,8 @@ class SearchResult extends React.Component {
 
       {
         //render list
-        this.renderGridService(_filter)
+        this.state.loading?<CircularProgress color='secondary' />:
+        this.renderGridService(this.state.filter_services)
       }
       </LayoutBody>
       </section>

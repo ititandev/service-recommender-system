@@ -8,7 +8,7 @@ const { createJWToken, verifyJWTToken } = require("../auth.js");
 const saltRounds = 10;
 
 mongoose.connect(
-  "mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy",
+  "mongodb://127.0.0.1:27017/servicy",
   { useNewUrlParser: true }
 );
 
@@ -182,11 +182,14 @@ router.put("/users/:id", (req, res) => {
 });
 
 router.post("/login", function(req, res, next) {
+  const start=Date.now()
   UserModel.findOne(
     {
       email: req.body.email
     },
     (err, user) => {
+      const end=Date.now()-start
+      console.log("####Login query execution",end)
       if (err) {
         return res.json({
           success: false,

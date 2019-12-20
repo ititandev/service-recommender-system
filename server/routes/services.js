@@ -9,11 +9,11 @@ const { verifyJWTToken } = require("../auth.js");
 const CommentModel = require("../schema/CommentModel");
 const ReplyModel = require("../schema/ReplyModel");
 const RatingModel = require("../schema/RatingModel");
+
 mongoose.connect(
-  "mongodb://servicy:servicy123@ds151416.mlab.com:51416/servicy",
+  "mongodb://127.0.0.1:27017/servicy",
   { useNewUrlParser: true }
 );
-
 router.get("/services/best", function(req, res, next) {
   ServiceModel.find(
     { status: "active" },
@@ -41,7 +41,8 @@ router.get("/services/best", function(req, res, next) {
 });
 
 router.get("/services", (req, res) => {
-  const { locationName, serviceType, filterText, status } = req.query;
+  const { location:locationName, type: serviceType, keyword:filterText, status } = req.query;
+  console.log(locationName,serviceType,filterText,req.query)
   ServiceModel.find({})
     .populate("servicetype")
     .populate("info.location_id")
