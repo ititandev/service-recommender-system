@@ -10,7 +10,7 @@
     "axios": "^0.18.0",
     "clsx": "^1.0.4",
     "final-form": "^4.12.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "material-ui-rating": "^3.1.1",
     "mdbreact": "^4.14.0",
     "query-string": "^6.5.0",
