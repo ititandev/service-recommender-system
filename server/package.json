@@ -7,7 +7,7 @@
     "update": "cd .. && cd homepage && npm run-script build && rm -rf ../server/public/* && cp build/* -rf ../server/public/ && cd ../server"
   },
   "dependencies": {
-    "async": "^3.0.0",
+    "async": "^3.2.2",
     "bcrypt": "^3.0.6",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
